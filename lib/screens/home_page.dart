@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:jogo_das_equacoes/screens/account_page.dart';
 import 'package:jogo_das_equacoes/screens/credits_page.dart';
 import 'package:jogo_das_equacoes/screens/help_page.dart';
+import 'package:jogo_das_equacoes/screens/new_account_page.dart';
 import 'package:jogo_das_equacoes/screens/podium_page.dart';
 import 'package:jogo_das_equacoes/screens/stages_page.dart';
 
@@ -190,7 +190,7 @@ class _MyHomePageState extends State<HomePage> {
                             onPressed: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => AccountPage(),
+                                  builder: (context) => NewAccountPage(),
                                 ),
                               );
                             },

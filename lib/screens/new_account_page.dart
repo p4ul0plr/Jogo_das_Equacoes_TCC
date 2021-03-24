@@ -15,24 +15,25 @@ const List<String> grades = [
   '8º ano',
   '9º ano'
 ];
-
 const List<String> schools = [
   'CEMAS - Colégio Estadual Misael Aguilar Silva',
   'Colégio Estadual Antonilio Da Franca Cardoso',
 ];
+const List<String> gender = ['Masculino', 'Feminino', 'Outro'];
 
-class AccountPage extends StatefulWidget {
+class NewAccountPage extends StatefulWidget {
   @override
-  _AccountPageState createState() => _AccountPageState();
+  _NewAccountPageState createState() => _NewAccountPageState();
 }
 
-class _AccountPageState extends State<AccountPage> {
+class _NewAccountPageState extends State<NewAccountPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   String _selectedSchool;
   String _selectedGrade;
+  String _selectedGender;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +48,7 @@ class _AccountPageState extends State<AccountPage> {
             onPressed: () {
               User user = new User(
                 name: _nameController.text,
+                gender: _selectedGender,
                 email: _emailController.text,
                 password: _passwordController.text,
                 grade: _selectedGrade,
@@ -70,7 +72,7 @@ class _AccountPageState extends State<AccountPage> {
                 padding: const EdgeInsets.only(
                     top: 16.0, left: 16.0, bottom: 16.0, right: 32.0),
                 child: Image.asset(
-                  'assets/images/user.png',
+                  'assets/images/children.png',
                   height: MediaQuery.of(context).size.shortestSide -
                       kToolbarHeight -
                       32,
@@ -80,7 +82,8 @@ class _AccountPageState extends State<AccountPage> {
             Expanded(
               flex: 3,
               child: Container(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(
+                    top: 8.0, left: 8.0, bottom: 8.0, right: 16.0),
                 child: Column(
                   children: [
                     CustomTextField(
@@ -93,11 +96,28 @@ class _AccountPageState extends State<AccountPage> {
                       keyboardType: TextInputType.emailAddress,
                       controlador: _emailController,
                     ),
-                    CustomTextField(
-                      labelText: 'Senha',
-                      obscureText: true,
-                      lengthLimitingTextInputFormatter: 8,
-                      controlador: _passwordController,
+                    Row(
+                      children: [
+                        Flexible(
+                          flex: 2,
+                          child: CustomTextField(
+                            labelText: 'Senha',
+                            obscureText: true,
+                            maxLength: 8,
+                            controlador: _passwordController,
+                          ),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: CustomDropdownButtom(
+                            hint: 'Sexo',
+                            items: gender,
+                            onChanged: (newItemSelected) {
+                              _selectedGender = newItemSelected;
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                     Row(
                       children: [
@@ -108,7 +128,6 @@ class _AccountPageState extends State<AccountPage> {
                             items: grades,
                             onChanged: (newItemSelected) {
                               _selectedGrade = newItemSelected;
-                              print(_selectedGrade);
                             },
                           ),
                         ),
@@ -119,7 +138,6 @@ class _AccountPageState extends State<AccountPage> {
                             items: schools,
                             onChanged: (newItemSelected) {
                               _selectedSchool = newItemSelected;
-                              print(_selectedSchool);
                             },
                           ),
                         ),
