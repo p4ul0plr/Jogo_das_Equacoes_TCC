@@ -27,6 +27,8 @@ class NewAccountPage extends StatefulWidget {
 }
 
 class _NewAccountPageState extends State<NewAccountPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -46,15 +48,18 @@ class _NewAccountPageState extends State<NewAccountPage> {
           IconButton(
             icon: const Icon(Icons.save),
             onPressed: () {
-              User user = new User(
-                name: _nameController.text,
-                gender: _selectedGender,
-                email: _emailController.text,
-                password: _passwordController.text,
-                grade: _selectedGrade,
-                school: _selectedSchool,
-              );
-              print(user);
+              if (_formKey.currentState.validate()) {
+                // Process data.
+                User user = new User(
+                  name: _nameController.text,
+                  gender: _selectedGender,
+                  email: _emailController.text,
+                  password: _passwordController.text,
+                  grade: _selectedGrade,
+                  school: _selectedSchool,
+                );
+                print(user);
+              }
             },
           ),
           IconButton(
@@ -67,7 +72,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
         child: Row(
           children: [
             Expanded(
-              flex: 2,
+              flex: 3,
               child: Padding(
                 padding: const EdgeInsets.only(
                     top: 16.0, left: 16.0, bottom: 16.0, right: 32.0),
@@ -80,8 +85,82 @@ class _NewAccountPageState extends State<NewAccountPage> {
               ),
             ),
             Expanded(
-              flex: 3,
-              child: Container(
+              flex: 5,
+              child: Form(
+                key: _formKey,
+                child: Container(
+                  padding: EdgeInsets.only(
+                      top: 8.0, left: 8.0, bottom: 8.0, right: 16.0),
+                  child: Column(
+                    children: [
+                      CustomTextField(
+                        labelText: 'Nome',
+                        keyboardType: TextInputType.emailAddress,
+                        controlador: _nameController,
+                        validator: _validateName,
+                      ),
+                      CustomTextField(
+                        labelText: 'E-mail',
+                        keyboardType: TextInputType.emailAddress,
+                        controlador: _emailController,
+                        validator: _validateEmail,
+                      ),
+                      Row(
+                        children: [
+                          Flexible(
+                            flex: 3,
+                            child: CustomTextField(
+                              labelText: 'Senha',
+                              obscureText: true,
+                              lengthLimitingTextInputFormatter: 8,
+                              controlador: _passwordController,
+                              validator: _validatePassword,
+                            ),
+                          ),
+                          Flexible(
+                            flex: 3,
+                            child: CustomDropdownButtom(
+                              hint: 'Sexo',
+                              items: gender,
+                              onChanged: (newItemSelected) {
+                                _selectedGender = newItemSelected;
+                              },
+                              validator: _validateIsEmpty,
+                            ),
+                          ),
+                          Flexible(
+                            flex: 3,
+                            child: CustomDropdownButtom(
+                              hint: 'Série',
+                              items: grades,
+                              onChanged: (newItemSelected) {
+                                _selectedGrade = newItemSelected;
+                              },
+                              validator: _validateIsEmpty,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Flexible(
+                            flex: 1,
+                            child: CustomDropdownButtom(
+                              hint: 'Nome da Escola',
+                              items: schools,
+                              onChanged: (newItemSelected) {
+                                _selectedSchool = newItemSelected;
+                              },
+                              validator: _validateIsEmpty,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              /* Container(
                 padding: const EdgeInsets.only(
                     top: 8.0, left: 8.0, bottom: 8.0, right: 16.0),
                 child: Column(
@@ -146,10 +225,49 @@ class _NewAccountPageState extends State<NewAccountPage> {
                   ],
                 ),
               ),
+             */
             ),
           ],
         ),
       ),
     );
+  }
+
+  String _validateName(String value) {
+    String patttern = r'(^[a-zA-Z ]*$)';
+    RegExp regExp = new RegExp(patttern);
+    if (value.length == 0) {
+      return "Informe o nome";
+    } else if (!regExp.hasMatch(value)) {
+      return "O nome deve conter caracteres de a-z ou A-Z";
+    }
+    return null;
+  }
+
+  String _validateEmail(String value) {
+    String pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regExp = new RegExp(pattern);
+    if (value.length == 0) {
+      return "Informe o Email";
+    } else if (!regExp.hasMatch(value)) {
+      return "Email inválido";
+    } else {
+      return null;
+    }
+  }
+
+  String _validatePassword(String value) {
+    if (value == null || value.isEmpty || value.length < 8) {
+      return 'Precisa de 8 dígitos';
+    }
+    return null;
+  }
+
+  String _validateIsEmpty(String value) {
+    if (value == null || value.isEmpty) {
+      return 'Informe o campo';
+    }
+    return null;
   }
 }

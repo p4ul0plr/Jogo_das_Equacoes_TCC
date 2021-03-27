@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/* import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/custom_dropdownbuttom.dart';
 import 'package:jogo_das_equacoes/components/custom_textfild.dart';
 import 'package:jogo_das_equacoes/models/user.dart';
@@ -38,103 +38,98 @@ class _FormAccountPageState extends State<FormAccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Container(
-            padding:
-                EdgeInsets.only(top: 8.0, left: 8.0, bottom: 8.0, right: 16.0),
-            child: Column(
+    return Form(
+      key: _formKey,
+      child: Container(
+        padding: EdgeInsets.only(top: 8.0, left: 8.0, bottom: 8.0, right: 16.0),
+        child: Column(
+          children: [
+            CustomTextField(
+              labelText: 'Nome',
+              keyboardType: TextInputType.emailAddress,
+              controlador: _nameController,
+              validator: _validateName,
+            ),
+            CustomTextField(
+              labelText: 'E-mail',
+              keyboardType: TextInputType.emailAddress,
+              controlador: _emailController,
+              validator: _validateEmail,
+            ),
+            Row(
               children: [
-                CustomTextField(
-                  labelText: 'Nome',
-                  keyboardType: TextInputType.emailAddress,
-                  controlador: _nameController,
-                  validator: _validateName,
+                Flexible(
+                  flex: 3,
+                  child: CustomTextField(
+                    labelText: 'Senha',
+                    obscureText: true,
+                    lengthLimitingTextInputFormatter: 8,
+                    controlador: _passwordController,
+                    validator: _validatePassword,
+                  ),
                 ),
-                CustomTextField(
-                  labelText: 'E-mail',
-                  keyboardType: TextInputType.emailAddress,
-                  controlador: _emailController,
-                  validator: _validateEmail,
-                ),
-                Row(
-                  children: [
-                    Flexible(
-                      flex: 2,
-                      child: CustomTextField(
-                        labelText: 'Senha',
-                        obscureText: true,
-                        lengthLimitingTextInputFormatter: 8,
-                        controlador: _passwordController,
-                        validator: _validateIsEmpty,
-                      ),
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: CustomDropdownButtom(
-                        hint: 'Sexo',
-                        items: gender,
-                        onChanged: (newItemSelected) {
-                          _selectedGender = newItemSelected;
-                        },
-                        validator: _validateIsEmpty,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Flexible(
-                      flex: 1,
-                      child: CustomDropdownButtom(
-                        hint: 'Série',
-                        items: grades,
-                        onChanged: (newItemSelected) {
-                          _selectedGrade = newItemSelected;
-                        },
-                        validator: _validateIsEmpty,
-                      ),
-                    ),
-                    Flexible(
-                      flex: 2,
-                      child: CustomDropdownButtom(
-                        hint: 'Nome da Escola',
-                        items: schools,
-                        onChanged: (newItemSelected) {
-                          _selectedSchool = newItemSelected;
-                        },
-                        validator: _validateIsEmpty,
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Validate will return true if the form is valid, or false if
-                      // the form is invalid.
-                      if (_formKey.currentState.validate()) {
-                        // Process data.
-                        User user = new User(
-                          name: _nameController.text,
-                          gender: _selectedGender,
-                          email: _emailController.text,
-                          password: _passwordController.text,
-                          grade: _selectedGrade,
-                          school: _selectedSchool,
-                        );
-                        print(user);
-                      }
+                Flexible(
+                  flex: 3,
+                  child: CustomDropdownButtom(
+                    hint: 'Sexo',
+                    items: gender,
+                    onChanged: (newItemSelected) {
+                      _selectedGender = newItemSelected;
                     },
-                    child: const Text('Submit'),
+                    validator: _validateIsEmpty,
+                  ),
+                ),
+                Flexible(
+                  flex: 3,
+                  child: CustomDropdownButtom(
+                    hint: 'Série',
+                    items: grades,
+                    onChanged: (newItemSelected) {
+                      _selectedGrade = newItemSelected;
+                    },
+                    validator: _validateIsEmpty,
                   ),
                 ),
               ],
             ),
-          ),
+            Row(
+              children: [
+                Flexible(
+                  flex: 1,
+                  child: CustomDropdownButtom(
+                    hint: 'Nome da Escola',
+                    items: schools,
+                    onChanged: (newItemSelected) {
+                      _selectedSchool = newItemSelected;
+                    },
+                    validator: _validateIsEmpty,
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  // Validate will return true if the form is valid, or false if
+                  // the form is invalid.
+                  if (_formKey.currentState.validate()) {
+                    // Process data.
+                    User user = new User(
+                      name: _nameController.text,
+                      gender: _selectedGender,
+                      email: _emailController.text,
+                      password: _passwordController.text,
+                      grade: _selectedGrade,
+                      school: _selectedSchool,
+                    );
+                    print(user);
+                  }
+                },
+                child: const Text('Submit'),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -170,4 +165,12 @@ class _FormAccountPageState extends State<FormAccountPage> {
     }
     return null;
   }
+
+  String _validatePassword(String value) {
+    if (value == null || value.isEmpty || value.length < 8) {
+      return 'Precisa de 8 dígitos';
+    }
+    return null;
+  }
 }
+ */

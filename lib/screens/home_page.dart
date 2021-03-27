@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jogo_das_equacoes/screens/credits_page.dart';
 import 'package:jogo_das_equacoes/screens/help_page.dart';
-import 'package:jogo_das_equacoes/screens/new_account_page.dart';
+import 'package:jogo_das_equacoes/screens/login_page.dart';
 import 'package:jogo_das_equacoes/screens/podium_page.dart';
 import 'package:jogo_das_equacoes/screens/stages_page.dart';
 
@@ -15,6 +15,7 @@ class _MyHomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -188,10 +189,12 @@ class _MyHomePageState extends State<HomePage> {
                             icon: const Icon(Icons.account_circle_rounded),
                             color: Colors.white,
                             onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => NewAccountPage(),
-                                ),
+                              showDialog(
+                                barrierDismissible: true,
+                                context: context,
+                                builder: (context) {
+                                  return LoginPage();
+                                },
                               );
                             },
                           ),
