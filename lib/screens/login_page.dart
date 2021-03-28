@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/custom_textfild.dart';
-import 'package:jogo_das_equacoes/models/user.dart';
+import 'package:jogo_das_equacoes/models/player.dart';
 import 'package:jogo_das_equacoes/screens/new_account_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
                         // Process data.
-                        User user = new User(
+                        Player user = new Player(
                           email: _emailController.text,
                           password: _passwordController.text,
                         );

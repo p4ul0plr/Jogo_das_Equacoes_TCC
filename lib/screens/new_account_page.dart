@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/custom_dropdownbuttom.dart';
 import 'package:jogo_das_equacoes/components/custom_textfild.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
-import 'package:jogo_das_equacoes/models/user.dart';
+import 'package:jogo_das_equacoes/models/player.dart';
+import 'package:jogo_das_equacoes/models/player_status.dart';
 
 const List<String> grades = [
   '1º ano',
@@ -50,13 +51,14 @@ class _NewAccountPageState extends State<NewAccountPage> {
             onPressed: () {
               if (_formKey.currentState.validate()) {
                 // Process data.
-                User user = new User(
+                Player user = new Player(
                   name: _nameController.text,
                   gender: _selectedGender,
                   email: _emailController.text,
                   password: _passwordController.text,
                   grade: _selectedGrade,
                   school: _selectedSchool,
+                  playerStatus: new PlayerStatus(),
                 );
                 print(user);
               }
