@@ -10,24 +10,34 @@ class Credits extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final itemHeight = (size.shortestSide - kToolbarHeight - 32 * 2);
-    final itemWidth = (size.longestSide - 32 * 5) / 4;
-    print(kToolbarHeight);
+    final itemHeight = (size.shortestSide - kToolbarHeight) / row;
+    final itemWidth = (size.longestSide) / column;
     return Scaffold(
       appBar: AppBar(
         title: CustomTitle(
           title: 'Crétitos',
         ),
       ),
-      body: GridView.count(
-          childAspectRatio: (itemHeight / itemWidth),
-          scrollDirection: Axis.horizontal,
-          padding: EdgeInsets.all(32.0),
-          crossAxisCount: 2,
-          crossAxisSpacing: 32,
-          mainAxisSpacing: 32,
-          shrinkWrap: true,
-          children: _getItens(20)),
+      body: Row(
+        children: [
+          Expanded(
+            flex: 1,
+            child: GridView.count(
+                childAspectRatio: (itemHeight / itemWidth),
+                scrollDirection: Axis.horizontal,
+                padding: EdgeInsets.all(0.0),
+                crossAxisCount: row,
+                crossAxisSpacing: 0,
+                mainAxisSpacing: 0,
+                shrinkWrap: true,
+                children: _getItens(row * column)),
+          ),
+          Expanded(
+            flex: 1,
+            child: Text(''),
+          )
+        ],
+      ),
     );
   }
 }
@@ -44,7 +54,7 @@ List<Widget> _getItens(int quantity) {
                 BoxShadow(color: Colors.grey[200], spreadRadius: 5),
               ], */
         ),
-        child: Center(child: CustomTitle(title: 'Teste ${i + 1}')),
+        child: Center(child: CustomTitle(title: '${i + 1}')),
       ),
     );
   }

@@ -21,7 +21,7 @@ class Quest extends StatelessWidget {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => GamePage(),
+                builder: (context) => GamePage(quest: title),
               ),
             );
           },

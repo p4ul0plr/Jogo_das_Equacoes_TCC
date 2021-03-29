@@ -12,25 +12,35 @@ class CustomTimer extends StatefulWidget {
 }
 
 class _CustomTimerState extends State<CustomTimer> {
+  bool _disposed = false;
   int _counter;
   Timer _timer;
 
   @protected
   @mustCallSuper
-  // ignore: must_call_super
-  void initState() => _startTimer(context);
+  void initState() {
+    _startTimer(context);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 16.0, right: 16.0, bottom: 16.0),
+      padding: EdgeInsets.only(right: 16.0),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: Icon(
               Icons.timer,
-              size: 28.0,
+              size: 32.0,
             ),
           ),
           Text(
@@ -48,14 +58,16 @@ class _CustomTimerState extends State<CustomTimer> {
       _timer.cancel();
     }
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        if (_counter > 0) {
-          _counter--;
-        } else {
-          _timer.cancel();
-          widget.timerStop(true);
-        }
-      });
+      if (!_disposed) {
+        setState(() {
+          if (_counter > 0) {
+            _counter--;
+          } else {
+            _timer.cancel();
+            widget.timerStop(true);
+          }
+        });
+      }
     });
   }
 }

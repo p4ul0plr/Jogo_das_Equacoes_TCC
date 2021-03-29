@@ -29,7 +29,7 @@ class _MyHomePageState extends State<HomePage> {
                 Text(
                   'Jogo das Equações',
                   style: TextStyle(
-                    fontSize: 70,
+                    fontSize: 60,
                     fontFamily: 'Schoolbell',
                   ),
                 ),
@@ -236,7 +236,7 @@ class _MyHomePageState extends State<HomePage> {
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => Credits(),
+                              builder: (context) => Credits(row: 4, column: 7),
                             ),
                           );
                         },
