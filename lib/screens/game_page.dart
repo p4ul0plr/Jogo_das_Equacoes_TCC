@@ -44,7 +44,62 @@ class _GamePageState extends State<GamePage> {
       body: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Center(
+          Expanded(
+            flex: 12,
+            child: Container(
+              margin: EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Theme.of(context).accentColor,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: Container(
+              margin: EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Theme.of(context).accentColor,
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(bottom: 16.0),
+                    child: Text(
+                      'Alternativas',
+                      style:
+                          TextStyle(fontSize: 24.0, fontFamily: 'Schoolbell'),
+                    ),
+                  ),
+                  Spacer(),
+                  ElevatedButton(
+                    style: ButtonStyle(),
+                    child: Text('Alternativa 1'),
+                    onPressed: () {},
+                  ),
+                  Spacer(),
+                  ElevatedButton(
+                    child: Text('Alternativa 2'),
+                    onPressed: () {},
+                  ),
+                  Spacer(),
+                  ElevatedButton(
+                    child: Text('Alternativa 3'),
+                    onPressed: () {},
+                  ),
+                  Spacer(),
+                  ElevatedButton(
+                    child: Text('Alternativa 4'),
+                    onPressed: () {},
+                  ),
+                  Spacer(),
+                ],
+              ),
+            ),
+          )
+          /* Center(
             child: ElevatedButton(
               child: Text('Decrementar vidas'),
               onPressed: () {
@@ -54,7 +109,7 @@ class _GamePageState extends State<GamePage> {
                 });
               },
             ),
-          )
+          ) */
         ],
       ),
     );
