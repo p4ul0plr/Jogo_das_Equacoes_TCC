@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "425722281998",
+    "project_id": "jogo-das-equacoes",
+    "storage_bucket": "jogo-das-equacoes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425722281998:android:0328f73a2c59c1cbe3fc5f",
+        "android_client_info": {
+          "package_name": "com.example.jogo_das_equacoes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "425722281998-nu325earu55lu6amecepmdkbfhngd914.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.jogo_das_equacoes",
+            "certificate_hash": "2fe93a451c2474bcaa354e73249097613457a861"
+          }
+        },
+        {
+          "client_id": "425722281998-40h6rbje8fb034lc08nso8m7ois0m6d1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7fT_XogGrMj3l7jBhVe1TR0N4sV55054"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "425722281998-40h6rbje8fb034lc08nso8m7ois0m6d1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

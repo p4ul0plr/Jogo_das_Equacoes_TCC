@@ -116,7 +116,7 @@ class _GamePageState extends State<GamePage> {
   }
 
   List<Widget> _getNumberOfHearts() {
-    List<Widget> listOfHearts = List();
+    List<Widget> listOfHearts = [];
     int numberOfHearts = gameMath.gameAttempts;
     switch (numberOfHearts) {
       case 3:

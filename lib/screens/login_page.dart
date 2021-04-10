@@ -1,7 +1,9 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/custom_textfild.dart';
 import 'package:jogo_das_equacoes/models/player.dart';
 import 'package:jogo_das_equacoes/screens/new_account_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -58,9 +60,9 @@ class _LoginPageState extends State<LoginPage> {
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child: ElevatedButton(
                     child: Text('Entrar'),
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState.validate()) {
-                        // Process data.
+                        _formKey.currentState.save();
                         Player user = new Player(
                           email: _emailController.text,
                           password: _passwordController.text,
@@ -73,6 +75,18 @@ class _LoginPageState extends State<LoginPage> {
                             );
                           },
                         );
+                        try {
+                          await Firebase.initializeApp();
+                          UserCredential firebaseUser = await FirebaseAuth
+                              .instance
+                              .signInWithEmailAndPassword(
+                            email: _emailController.text,
+                            password: _passwordController.text,
+                          );
+                          print(firebaseUser);
+                        } on Exception catch (e) {
+                          print('Error: $e');
+                        }
                       }
                     },
                   ),

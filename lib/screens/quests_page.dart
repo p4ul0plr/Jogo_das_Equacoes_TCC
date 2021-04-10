@@ -39,9 +39,9 @@ class QuestsPage extends StatelessWidget {
 }
 
 List<Widget> _getQuests(BuildContext context, int rows, int columns) {
-  List listQuests = List<Widget>();
+  List<Widget> listQuests = [];
   for (var row = 0; row < rows; row++) {
-    List rowQuests = new List<Widget>();
+    List<Widget> rowQuests = [];
     for (var column = 0; column < columns; column++) {
       rowQuests.add(
         Quest(

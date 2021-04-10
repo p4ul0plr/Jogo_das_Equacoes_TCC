@@ -43,7 +43,7 @@ class Credits extends StatelessWidget {
 }
 
 List<Widget> _getItens(int quantity) {
-  List listItens = List<Widget>();
+  List<Widget> listItens = [];
   for (var i = 0; i < quantity; i++) {
     listItens.add(
       Container(

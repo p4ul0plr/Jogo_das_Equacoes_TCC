@@ -26,7 +26,7 @@ class StagesPage extends StatelessWidget {
 }
 
 List<Widget> _getStages(BuildContext context, int numberOfStages) {
-  List listStages = List<Widget>();
+  List<Widget> listStages = [];
   for (var i = 0; i < numberOfStages; i++) {
     listStages.add(
       Container(
