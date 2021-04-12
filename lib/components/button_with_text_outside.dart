@@ -28,7 +28,6 @@ class ButtonWithTextOutside extends StatelessWidget {
           children: [
             _CustomTitle(
               title: title,
-              padding: EdgeInsets.only(right: 8.0),
             ),
             _CustomButton(
               icon: icon,
@@ -43,11 +42,11 @@ class ButtonWithTextOutside extends StatelessWidget {
             _CustomButton(
               icon: icon,
               onPressed: onPressed,
-              padding: EdgeInsets.only(right: 16.0),
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
             ),
             _CustomTitle(
               title: title,
-              padding: EdgeInsets.only(right: 16.0),
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
             ),
           ],
         );

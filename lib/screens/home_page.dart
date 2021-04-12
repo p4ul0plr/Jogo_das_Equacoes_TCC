@@ -54,7 +54,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  ButtonWithTextOutside _podiumButton(BuildContext context) {
+  Widget _podiumButton(BuildContext context) {
     return ButtonWithTextOutside(
       textPosition: ButtonWithTextOutsidePosition.left,
       title: 'Pódio',
@@ -69,7 +69,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  ButtonWithTextOutside _playButton(BuildContext context) {
+  Widget _playButton(BuildContext context) {
     return ButtonWithTextOutside(
         textPosition: ButtonWithTextOutsidePosition.right,
         title: 'Jogar',
@@ -101,7 +101,7 @@ Widget _showSecondaryButtons(BuildContext context) {
   );
 }
 
-ButtonWithTextOutside _helpButton(BuildContext context) {
+Widget _helpButton(BuildContext context) {
   return ButtonWithTextOutside(
     textPosition: ButtonWithTextOutsidePosition.bottom,
     title: 'Ajuda',
@@ -116,7 +116,7 @@ ButtonWithTextOutside _helpButton(BuildContext context) {
   );
 }
 
-ButtonWithTextOutside _accountButton(BuildContext context) {
+Widget _accountButton(BuildContext context) {
   return ButtonWithTextOutside(
     textPosition: ButtonWithTextOutsidePosition.bottom,
     title: 'Conta',
@@ -133,7 +133,7 @@ ButtonWithTextOutside _accountButton(BuildContext context) {
   );
 }
 
-ButtonWithTextOutside _exitButton() {
+Widget _exitButton() {
   return ButtonWithTextOutside(
     textPosition: ButtonWithTextOutsidePosition.top,
     title: 'Sair',
@@ -142,7 +142,7 @@ ButtonWithTextOutside _exitButton() {
   );
 }
 
-ButtonWithTextOutside _creditsButton(BuildContext context) {
+Widget _creditsButton(BuildContext context) {
   return ButtonWithTextOutside(
     textPosition: ButtonWithTextOutsidePosition.top,
     title: 'Créditos',

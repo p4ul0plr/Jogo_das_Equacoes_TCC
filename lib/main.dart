@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:jogo_das_equacoes/models/player_status.dart';
 import 'package:jogo_das_equacoes/screens/home_page.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,8 +13,18 @@ void main() {
   //Esconder StatusBar
   //SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
   //Colocar o celular em landscape
-  SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft])
-      .then((value) => runApp(MyApp()));
+  SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]).then(
+    (value) => runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => PlayerStatus(),
+          )
+        ],
+        child: MyApp(),
+      ),
+    ),
+  );
   //Trazer StatusBar de volta
   // SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
   //StatusBar transparente

@@ -139,16 +139,14 @@ class _GamePageState extends State<GamePage> {
         listOfHearts.add(IconsHeartBorder());
         listOfHearts.add(IconsHeartBorder());
         break;
+      default:
+        return null;
     }
     return listOfHearts;
   }
 }
 
 class IconsHeartBorder extends StatelessWidget {
-  const IconsHeartBorder({
-    Key key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Icon(
@@ -159,10 +157,6 @@ class IconsHeartBorder extends StatelessWidget {
 }
 
 class IconHeart extends StatelessWidget {
-  const IconHeart({
-    Key key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Icon(

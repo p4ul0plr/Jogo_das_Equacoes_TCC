@@ -3,7 +3,6 @@ import 'package:jogo_das_equacoes/components/custom_dropdownbuttom.dart';
 import 'package:jogo_das_equacoes/components/custom_textfild.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
 import 'package:jogo_das_equacoes/models/player.dart';
-import 'package:jogo_das_equacoes/models/player_status.dart';
 
 const List<String> grades = [
   '1º ano',
@@ -58,7 +57,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
                   password: _passwordController.text,
                   grade: _selectedGrade,
                   school: _selectedSchool,
-                  playerStatus: new PlayerStatus(),
+                  /* playerStatus: new PlayerStatus(), */
                 );
                 print(user);
               }
