@@ -7,9 +7,6 @@ class PlayerStatusProvider extends ChangeNotifier {
   int _stage;
 
   PlayerStatusProvider() {
-    this._score = 0;
-    this._quest = 1;
-    this._stage = 1;
     _initialState();
   }
 
@@ -18,19 +15,19 @@ class PlayerStatusProvider extends ChangeNotifier {
   }
 
   void incrementScore(int score) {
-    _score += score;
+    this._score += score;
     _updateSharedPrefrencesScore();
     notifyListeners();
   }
 
   void incrementQuest() {
-    if (_quest < 10 * _stage) {
-      _quest++;
+    if (this._quest < 10 * this._stage) {
+      this._quest++;
       _updateSharedPrefrencesQuest();
       notifyListeners();
-    } else if (_stage < 4) {
-      _quest++;
-      _stage++;
+    } else if (this._stage < 4) {
+      this._quest++;
+      this._stage++;
       _updateSharedPrefrencesQuest();
       _updateSharedPrefrencesStage();
       notifyListeners();
@@ -38,45 +35,45 @@ class PlayerStatusProvider extends ChangeNotifier {
   }
 
   int getScore() {
-    return _score;
+    return this._score;
   }
 
   int getQuest() {
-    return _quest;
+    return this._quest;
   }
 
   int getStage() {
-    return _stage;
+    return this._stage;
   }
 
   Future _updateSharedPrefrencesScore() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('score', _score);
+    await prefs.setInt('score', this._score);
   }
 
   Future _updateSharedPrefrencesQuest() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('quest', _quest);
+    await prefs.setInt('quest', this._quest);
   }
 
   Future _updateSharedPrefrencesStage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('stage', _stage);
+    await prefs.setInt('stage', this._stage);
   }
 
   void _syncDataWithProvider() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var reslutScore = prefs.getInt('score');
+    var reslutScore = prefs.getInt('score') ?? 0;
     if (reslutScore != null) {
-      _score = reslutScore;
+      this._score = reslutScore;
     }
-    var reslutQuest = prefs.getInt('quest');
+    var reslutQuest = prefs.getInt('quest') ?? 1;
     if (reslutScore != null) {
-      _quest = reslutQuest;
+      this._quest = reslutQuest;
     }
-    var reslutStage = prefs.getInt('stage');
+    var reslutStage = prefs.getInt('stage') ?? 1;
     if (reslutScore != null) {
-      _stage = reslutStage;
+      this._stage = reslutStage;
     }
     notifyListeners();
   }
