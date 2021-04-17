@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
 import 'package:jogo_das_equacoes/models/player_status.dart';
+import 'package:jogo_das_equacoes/providers/player_status.dart';
 import 'package:jogo_das_equacoes/screens/quests_page.dart';
 import 'package:provider/provider.dart';
 
@@ -42,11 +43,11 @@ List<Widget> _getStages(BuildContext context, int numberOfStages) {
             right: i == (numberOfStages - 1) ? 32.0 : 0,
           ),
           width: (MediaQuery.of(context).size.longestSide - 32 * 5) / 4,
-          child: Consumer<PlayerStatus>(
+          child: Consumer<PlayerStatusProvider>(
             builder: (context, playerStatus, child) {
               return _StageCard(
                 title: i + 1,
-                isEnable: i < playerStatus.stage ? true : false,
+                isEnable: i < playerStatus.getStage() ? true : false,
               );
             },
           )),

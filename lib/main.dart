@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jogo_das_equacoes/models/player_status.dart';
+import 'package:jogo_das_equacoes/providers/player_status.dart';
 import 'package:jogo_das_equacoes/screens/home_page.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +20,10 @@ void main() {
         providers: [
           ChangeNotifierProvider(
             create: (context) => PlayerStatus(),
-          )
+          ),
+          ChangeNotifierProvider(
+            create: (context) => PlayerStatusProvider(),
+          ),
         ],
         child: MyApp(),
       ),

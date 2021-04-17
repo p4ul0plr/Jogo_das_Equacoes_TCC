@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/quest.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
-import 'package:jogo_das_equacoes/models/player_status.dart';
+import 'package:jogo_das_equacoes/providers/player_status.dart';
 import 'package:jogo_das_equacoes/screens/stage_help_page.dart';
 import 'package:provider/provider.dart';
 
@@ -42,7 +42,8 @@ class QuestsPage extends StatelessWidget {
         child: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
-            Provider.of<PlayerStatus>(context, listen: false).increaseQuest();
+            Provider.of<PlayerStatusProvider>(context, listen: false)
+                .incrementQuest();
           },
         ),
       ),
@@ -58,10 +59,10 @@ List<Widget> _getQuests(
     for (var column = 0; column < columns; column++) {
       int title = (columns * row + column + 1) + (stage - 1) * 10;
       rowQuests.add(
-        Consumer<PlayerStatus>(
+        Consumer<PlayerStatusProvider>(
           builder: (context, playerStatus, child) {
             return Quest(
-              isEnable: title <= playerStatus.quest ? true : false,
+              isEnable: title <= playerStatus.getQuest() ? true : false,
               title: '$title',
               width: (MediaQuery.of(context).size.longestSide -
                       32 * (columns + 1)) /
