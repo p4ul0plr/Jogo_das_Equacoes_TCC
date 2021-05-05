@@ -16,7 +16,7 @@ class StagesPage extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         children: _getStages(context, 4),
       ),
-      floatingActionButton: Center(
+      /* floatingActionButton: Center(
         heightFactor: 5,
         widthFactor: 0.5,
         child: FloatingActionButton(
@@ -25,7 +25,7 @@ class StagesPage extends StatelessWidget {
             Provider.of<PlayerStatus>(context, listen: false).increaseStage();
           },
         ),
-      ),
+      ), */
     );
   }
 }
