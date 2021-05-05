@@ -1,8 +1,8 @@
 import 'package:jogo_das_equacoes/models/equarions/equation.dart';
 
 class EquationXpositive extends Equation {
-  String _firstNumber;
-  String _secondNumber;
+  int _firstNumber;
+  int _secondNumber;
 
   EquationXpositive() {
     _firstNumber = generatePositiveRandomNumber(max: 10);
@@ -10,18 +10,18 @@ class EquationXpositive extends Equation {
   }
 
   @override
-  List<String> getEquation() {
+  List getEquation() {
     equation.add('x');
     equation.add('+');
-    equation.add(_firstNumber);
+    equation.add(_firstNumber.toString());
     equation.add('=');
-    equation.add(_secondNumber);
+    equation.add(_secondNumber.toString());
     return equation;
   }
 
   @override
   int getResultOfTheEquation() {
-    resultOfTheEquation = int.parse(_secondNumber) - int.parse(_firstNumber);
+    resultOfTheEquation = _secondNumber - _firstNumber;
     return resultOfTheEquation;
   }
 }

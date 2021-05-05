@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:jogo_das_equacoes/models/equarions/equation.dart';
 import 'package:jogo_das_equacoes/models/equarions/equation_X_negative.dart';
 import 'package:jogo_das_equacoes/models/equarions/equation_X_positive.dart';
+import 'package:jogo_das_equacoes/models/equarions/equation_X_positive_negative.dart';
 
 enum EvenOrOddNumber {
   evenNumber,
@@ -19,9 +19,10 @@ class TestenumerosAleatorios extends StatefulWidget {
 class _TestenumerosAleatoriosState extends State<TestenumerosAleatorios> {
   EquationXpositive _equationXpositive;
   EquationXnegative _equationXnegative;
+  EquationXpositiveNegative _equationXpositiveNegative;
   //List<String> _equationXpositive = [];
   //List<String> _equationXnegative = [];
-  List<String> _equationXpositiveNegative = [];
+  //List<String> _equationXpositiveNegative = [];
   List<String> _equationXmultiplicationPositive = [];
   List<String> _equationXmultiplicationNegative = [];
 
@@ -30,14 +31,13 @@ class _TestenumerosAleatoriosState extends State<TestenumerosAleatorios> {
     super.initState();
     _equationXpositive = EquationXpositive();
     _equationXnegative = EquationXnegative();
+    _equationXpositiveNegative = EquationXpositiveNegative();
     //_equationWithOneUnknownWithPositiveSigns();
     /* _equationWithOneUnknownWithNegativeSigns();
     _equationWithOneUnknownWithPositiveNegativeSigns();
     _equationWithOneUnknownWithMultiplicationPositiveSigns();
     _equationWithOneUnknownWithMultiplicationNegativeSigns(); */
   }
-
-  int solveEquation(List<String> equation) {}
 
 /*   void _equationWithOneUnknownWithPositiveSigns() {
     String firstNumber = _generatePositiveRandomNumber(
@@ -66,7 +66,7 @@ class _TestenumerosAleatoriosState extends State<TestenumerosAleatorios> {
     _equationXnegative.add(_generatePositiveRandomNumber(max: 10));
   } */
 
-  void _equationWithOneUnknownWithPositiveNegativeSigns() {
+/*   void _equationWithOneUnknownWithPositiveNegativeSigns() {
     _equationXpositiveNegative.clear();
     _equationXpositiveNegative.add('x');
     _equationXpositiveNegative
@@ -77,7 +77,7 @@ class _TestenumerosAleatoriosState extends State<TestenumerosAleatorios> {
         .add(_generateMathematicalSign(signalPositive: false));
     _equationXpositiveNegative.add(_generatePositiveRandomNumber(max: 10));
     _equationXpositiveNegative.remove('');
-  }
+  } */
 
   void _equationWithOneUnknownWithMultiplicationPositiveSigns() {
     _equationXmultiplicationPositive.clear();
@@ -106,10 +106,10 @@ class _TestenumerosAleatoriosState extends State<TestenumerosAleatorios> {
   }
 
   String _generateMathematicalSign({@required bool signalPositive}) {
-    int mathematicalSign = Random().nextInt(2);
-    if (mathematicalSign == 1 && signalPositive) {
+    bool mathematicalSign = Random().nextBool();
+    if (mathematicalSign && signalPositive) {
       return '+';
-    } else if (mathematicalSign == 0) {
+    } else if (!mathematicalSign) {
       return '-';
     }
     return '';
@@ -162,7 +162,10 @@ class _TestenumerosAleatoriosState extends State<TestenumerosAleatorios> {
               Text('Equação: ${_equationXpositive.getEquation()}'),
               Text('Resposta: ${_equationXpositive.getResultOfTheEquation()}'),
               Text('Equação: ${_equationXnegative.getEquation()}'),
-              Text('Resposta: ${_equationXnegative.getResultOfTheEquation()}')
+              Text('Resposta: ${_equationXnegative.getResultOfTheEquation()}'),
+              Text('Equação: ${_equationXpositiveNegative.getEquation()}'),
+              Text(
+                  'Resposta: ${_equationXpositiveNegative.getResultOfTheEquation()}')
               /* Text('Equação: $_equationXpositive'),
               Text('Equação: $_equationXnegative'),
               Text('Equação: $_equationXpositiveNegative'),
@@ -177,6 +180,7 @@ class _TestenumerosAleatoriosState extends State<TestenumerosAleatorios> {
           setState(() {
             _equationXpositive = EquationXpositive();
             _equationXnegative = EquationXnegative();
+            _equationXpositiveNegative = EquationXpositiveNegative();
             //_equationWithOneUnknownWithPositiveSigns();
 /*             _equationWithOneUnknownWithNegativeSigns();
             _equationWithOneUnknownWithPositiveNegativeSigns();

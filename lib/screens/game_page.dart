@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/custom_timer.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
+import 'package:jogo_das_equacoes/models/equarions/equation.dart';
+import 'package:jogo_das_equacoes/models/equarions/equation_X_negative.dart';
+import 'package:jogo_das_equacoes/models/equarions/equation_X_positive.dart';
+import 'package:jogo_das_equacoes/models/equarions/equation_X_positive_negative.dart';
 import 'package:jogo_das_equacoes/models/game_match.dart';
+import 'package:jogo_das_equacoes/providers/game_match.dart';
+import 'package:provider/provider.dart';
 
 class GamePage extends StatefulWidget {
   final String quest;
@@ -13,23 +19,22 @@ class GamePage extends StatefulWidget {
 }
 
 class _GamePageState extends State<GamePage> {
-  GameMath gameMath = new GameMath();
+  @override
+  void initState() {
+    Provider.of<GameMatchProvider>(context, listen: false).newGameMath();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    print('Teste');
+    print(Provider.of<GameMatchProvider>(context, listen: false)
+        .getGameAttempts());
+    Equation _equation = getEquationInstance();
     return Scaffold(
       appBar: AppBar(
         title: CustomTitle(title: 'Missão: ${widget.quest}'),
-        //title: Text('Missão: ${widget.quest}'),
         actions: <Widget>[
-          Container(
-            padding: EdgeInsets.only(right: 16.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: _getNumberOfHearts(),
-            ),
-          ),
+          Hearts(),
           CustomTimer(
             counter: 300,
             // ignore: missing_return
@@ -48,10 +53,12 @@ class _GamePageState extends State<GamePage> {
             flex: 12,
             child: Container(
               margin: EdgeInsets.all(8.0),
+              height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Theme.of(context).accentColor,
               ),
+              child: Center(child: Text('${_equation.getEquation()}')),
             ),
           ),
           Expanded(
@@ -76,13 +83,19 @@ class _GamePageState extends State<GamePage> {
                   Spacer(),
                   ElevatedButton(
                     style: ButtonStyle(),
-                    child: Text('Alternativa 1'),
+                    child: Text('${_equation.getResultOfTheEquation()}'),
                     onPressed: () {},
                   ),
                   Spacer(),
                   ElevatedButton(
                     child: Text('Alternativa 2'),
-                    onPressed: () {},
+                    onPressed: () {
+                      Provider.of<GameMatchProvider>(context, listen: false)
+                          .decreaseGameAttempts();
+                      print(
+                          Provider.of<GameMatchProvider>(context, listen: false)
+                              .getGameAttempts());
+                    },
                   ),
                   Spacer(),
                   ElevatedButton(
@@ -115,9 +128,62 @@ class _GamePageState extends State<GamePage> {
     );
   }
 
-  List<Widget> _getNumberOfHearts() {
+  Equation getEquationInstance() {
+    Equation _equation;
+    int _quest = int.parse(widget.quest);
+    if (_quest <= 3) {
+      //1 ... 3 = X+ (ex: x+3=5)
+      _equation = EquationXpositive();
+    } else if (_quest > 3 && _quest <= 6) {
+      //4 ... 6 = X- (ex: x-3=5)
+      _equation = EquationXnegative();
+    } else if (_quest > 6 && _quest <= 10) {
+      //7 ... 10 = X+- (ex: x+3=-5)
+      _equation = EquationXpositiveNegative();
+    } else if (_quest > 10 && _quest <= 15) {
+    } else if (_quest > 15 && _quest <= 20) {
+    } else if (_quest > 20 && _quest <= 30) {}
+    return _equation;
+  }
+}
+
+class IconsHeartBorder extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Icon(
+      Icons.favorite_border,
+      size: 32.0,
+    );
+  }
+}
+
+class IconHeart extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Icon(
+      Icons.favorite,
+      size: 32.0,
+    );
+  }
+}
+
+class Hearts extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<GameMatchProvider>(builder: (context, gameMatch, child) {
+      int numberOfHearts = gameMatch.getGameAttempts();
+      return Container(
+        padding: EdgeInsets.only(right: 16.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: _getNumberOfHearts(context, numberOfHearts),
+        ),
+      );
+    });
+  }
+
+  List<Widget> _getNumberOfHearts(BuildContext context, int numberOfHearts) {
     List<Widget> listOfHearts = [];
-    int numberOfHearts = gameMath.gameAttempts;
     switch (numberOfHearts) {
       case 3:
         listOfHearts.add(IconHeart());
@@ -143,25 +209,5 @@ class _GamePageState extends State<GamePage> {
         return null;
     }
     return listOfHearts;
-  }
-}
-
-class IconsHeartBorder extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Icon(
-      Icons.favorite_border,
-      size: 32.0,
-    );
-  }
-}
-
-class IconHeart extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Icon(
-      Icons.favorite,
-      size: 32.0,
-    );
   }
 }

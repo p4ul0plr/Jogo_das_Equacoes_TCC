@@ -9,18 +9,48 @@ enum EvenOrOddNumber {
 }
 
 abstract class Equation {
-  List<String> equation = [];
+  List equation = [];
   int resultOfTheEquation;
 
-  List<String> getEquation();
+  List getEquation();
 
   int getResultOfTheEquation();
 
-  String generatePositiveRandomNumber({@required int max}) {
-    return '${1 + Random().nextInt(max)}';
+  int generatePositiveRandomNumber({@required int max}) {
+    return 1 + Random().nextInt(max);
   }
 
-  String generateNegativeRandomNumber({@required int max}) {
-    return '${-1 * int.parse(generatePositiveRandomNumber(max: max))}';
+  int generateNegativeRandomNumber({@required int max}) {
+    return -1 * generatePositiveRandomNumber(max: max);
+  }
+
+  String generateMathematicalSign({@required bool signalPositive}) {
+    int mathematicalSign = Random().nextInt(2);
+    if (mathematicalSign == 1 && signalPositive) {
+      return '+';
+    } else if (mathematicalSign == 0) {
+      return '-';
+    }
+    return '';
+  }
+
+  int negativePositiveRandomNumber({@required int max}) {
+    bool sign = Random().nextBool();
+    if (sign) {
+      return 1 + Random().nextInt(max);
+    }
+    return -1 * (1 + Random().nextInt(max));
+  }
+
+  String generateMathematicalSignWithNumber({
+    @required int number,
+    @required bool signalPositive,
+  }) {
+    if (number >= 0 && signalPositive) {
+      return '+';
+    } else if (number < 0) {
+      return '-';
+    }
+    return '';
   }
 }
