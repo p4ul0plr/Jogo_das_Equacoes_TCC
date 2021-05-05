@@ -7,6 +7,10 @@ class PlayerStatusProvider extends ChangeNotifier {
   int _stage;
 
   PlayerStatusProvider() {
+    this._quest = 1;
+    this._score = 0;
+    this._stage = 1;
+    _updateAllSharedPrefrences();
     _initialState();
   }
 
@@ -46,6 +50,12 @@ class PlayerStatusProvider extends ChangeNotifier {
     return this._stage;
   }
 
+  void _updateAllSharedPrefrences() {
+    _updateSharedPrefrencesScore();
+    _updateSharedPrefrencesQuest();
+    _updateSharedPrefrencesStage();
+  }
+
   Future _updateSharedPrefrencesScore() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt('score', this._score);
@@ -67,12 +77,12 @@ class PlayerStatusProvider extends ChangeNotifier {
     if (reslutScore != null) {
       this._score = reslutScore;
     }
-    var reslutQuest = prefs.getInt('quest') ?? 1;
-    if (reslutScore != null) {
+    var reslutQuest = prefs.getInt('quest') ?? 0;
+    if (reslutQuest != null) {
       this._quest = reslutQuest;
     }
-    var reslutStage = prefs.getInt('stage') ?? 1;
-    if (reslutScore != null) {
+    var reslutStage = prefs.getInt('stage') ?? 0;
+    if (reslutStage != null) {
       this._stage = reslutStage;
     }
     notifyListeners();
