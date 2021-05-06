@@ -7,10 +7,6 @@ class PlayerStatusProvider extends ChangeNotifier {
   int _stage;
 
   PlayerStatusProvider() {
-    this._quest = 1;
-    this._score = 0;
-    this._stage = 1;
-    _updateAllSharedPrefrences();
     _initialState();
   }
 
@@ -39,14 +35,23 @@ class PlayerStatusProvider extends ChangeNotifier {
   }
 
   int getScore() {
+    if (this._score == null) {
+      this._score = 0;
+    }
     return this._score;
   }
 
   int getQuest() {
+    if (this._quest == null) {
+      this._quest = 1;
+    }
     return this._quest;
   }
 
   int getStage() {
+    if (this._stage == null) {
+      this._stage = 1;
+    }
     return this._stage;
   }
 
@@ -77,11 +82,11 @@ class PlayerStatusProvider extends ChangeNotifier {
     if (reslutScore != null) {
       this._score = reslutScore;
     }
-    var reslutQuest = prefs.getInt('quest') ?? 0;
+    var reslutQuest = prefs.getInt('quest') ?? 1;
     if (reslutQuest != null) {
       this._quest = reslutQuest;
     }
-    var reslutStage = prefs.getInt('stage') ?? 0;
+    var reslutStage = prefs.getInt('stage') ?? 1;
     if (reslutStage != null) {
       this._stage = reslutStage;
     }

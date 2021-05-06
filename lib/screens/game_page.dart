@@ -5,7 +5,6 @@ import 'package:jogo_das_equacoes/models/equarions/equation.dart';
 import 'package:jogo_das_equacoes/models/equarions/equation_X_negative.dart';
 import 'package:jogo_das_equacoes/models/equarions/equation_X_positive.dart';
 import 'package:jogo_das_equacoes/models/equarions/equation_X_positive_negative.dart';
-import 'package:jogo_das_equacoes/models/game_match.dart';
 import 'package:jogo_das_equacoes/providers/game_match.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +28,9 @@ class _GamePageState extends State<GamePage> {
   Widget build(BuildContext context) {
     print(Provider.of<GameMatchProvider>(context, listen: false)
         .getGameAttempts());
-    Equation _equation = getEquationInstance();
+    Equation _equationInstance = getEquationInstance();
+    List _equation = _equationInstance.getEquation();
+    int _result = _equationInstance.getResultOfTheEquation();
     return Scaffold(
       appBar: AppBar(
         title: CustomTitle(title: 'Missão: ${widget.quest}'),
@@ -58,7 +59,7 @@ class _GamePageState extends State<GamePage> {
                 borderRadius: BorderRadius.circular(10),
                 color: Theme.of(context).accentColor,
               ),
-              child: Center(child: Text('${_equation.getEquation()}')),
+              child: Center(child: Text(_equation.toString())),
             ),
           ),
           Expanded(
@@ -81,11 +82,7 @@ class _GamePageState extends State<GamePage> {
                     ),
                   ),
                   Spacer(),
-                  ElevatedButton(
-                    style: ButtonStyle(),
-                    child: Text('${_equation.getResultOfTheEquation()}'),
-                    onPressed: () {},
-                  ),
+                  AlternativeButton(alternative: _result.toString()),
                   Spacer(),
                   ElevatedButton(
                     child: Text('Alternativa 2'),
@@ -129,21 +126,42 @@ class _GamePageState extends State<GamePage> {
   }
 
   Equation getEquationInstance() {
-    Equation _equation;
+    Equation _equationInstance;
     int _quest = int.parse(widget.quest);
     if (_quest <= 3) {
       //1 ... 3 = X+ (ex: x+3=5)
-      _equation = EquationXpositive();
+      _equationInstance = EquationXpositive();
     } else if (_quest > 3 && _quest <= 6) {
       //4 ... 6 = X- (ex: x-3=5)
-      _equation = EquationXnegative();
+      _equationInstance = EquationXnegative();
     } else if (_quest > 6 && _quest <= 10) {
       //7 ... 10 = X+- (ex: x+3=-5)
-      _equation = EquationXpositiveNegative();
+      _equationInstance = EquationXpositiveNegative();
     } else if (_quest > 10 && _quest <= 15) {
     } else if (_quest > 15 && _quest <= 20) {
     } else if (_quest > 20 && _quest <= 30) {}
-    return _equation;
+    return _equationInstance;
+  }
+}
+
+class AlternativeButton extends StatelessWidget {
+  final String alternative;
+
+  AlternativeButton({this.alternative});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: ElevatedButton(
+        style: ButtonStyle(),
+        child: Text(
+          alternative,
+          style: TextStyle(fontSize: 20.0),
+        ),
+        onPressed: () {},
+      ),
+    );
   }
 }
 

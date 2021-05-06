@@ -81,28 +81,30 @@ class _TestenumerosAleatoriosState extends State<TestenumerosAleatorios> {
 
   void _equationWithOneUnknownWithMultiplicationPositiveSigns() {
     _equationXmultiplicationPositive.clear();
-    _equationXmultiplicationPositive.add(_generatePositiveRandomNumber(max: 3));
+    _equationXmultiplicationPositive
+        .add(_generatePositiveRandomNumber(max: 3, evenOrOddNumber: null));
     _equationXmultiplicationPositive.add('*');
     _equationXmultiplicationPositive.add('x');
     _equationXmultiplicationPositive.add('+');
     _equationXmultiplicationPositive
-        .add(_generatePositiveRandomNumber(max: 10));
+        .add(_generatePositiveRandomNumber(max: 10, evenOrOddNumber: null));
     _equationXmultiplicationPositive.add('=');
     _equationXmultiplicationPositive
-        .add(_generatePositiveRandomNumber(max: 10));
+        .add(_generatePositiveRandomNumber(max: 10, evenOrOddNumber: null));
   }
 
   void _equationWithOneUnknownWithMultiplicationNegativeSigns() {
     _equationXmultiplicationNegative.clear();
-    _equationXmultiplicationNegative.add(_generatePositiveRandomNumber(max: 3));
+    _equationXmultiplicationNegative
+        .add(_generatePositiveRandomNumber(max: 3, evenOrOddNumber: null));
     _equationXmultiplicationNegative.add('*');
     _equationXmultiplicationNegative.add('x');
     _equationXmultiplicationNegative.add('-');
     _equationXmultiplicationNegative
-        .add(_generatePositiveRandomNumber(max: 10));
+        .add(_generatePositiveRandomNumber(max: 10, evenOrOddNumber: null));
     _equationXmultiplicationNegative.add('=');
     _equationXmultiplicationNegative
-        .add(_generatePositiveRandomNumber(max: 10));
+        .add(_generatePositiveRandomNumber(max: 10, evenOrOddNumber: null));
   }
 
   String _generateMathematicalSign({@required bool signalPositive}) {

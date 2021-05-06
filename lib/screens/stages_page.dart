@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
-import 'package:jogo_das_equacoes/models/player_status.dart';
 import 'package:jogo_das_equacoes/providers/player_status.dart';
 import 'package:jogo_das_equacoes/screens/quests_page.dart';
 import 'package:provider/provider.dart';

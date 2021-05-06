@@ -4,7 +4,6 @@ import 'package:jogo_das_equacoes/models/player_status.dart';
 import 'package:jogo_das_equacoes/providers/game_match.dart';
 import 'package:jogo_das_equacoes/providers/player_status.dart';
 import 'package:jogo_das_equacoes/screens/home_page.dart';
-import 'package:jogo_das_equacoes/screens/teste_numeros_aleatorios.dart';
 import 'package:provider/provider.dart';
 
 void main() {
