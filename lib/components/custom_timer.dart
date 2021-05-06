@@ -3,9 +3,10 @@ import 'dart:async';
 
 class CustomTimer extends StatefulWidget {
   final int counter;
-  final String Function(bool) timerStop;
+  final void Function(bool) timerStop;
+  final void Function(int) currentTime;
 
-  const CustomTimer({this.counter, this.timerStop});
+  const CustomTimer({this.counter, this.timerStop, this.currentTime});
 
   @override
   _CustomTimerState createState() => _CustomTimerState();
@@ -62,6 +63,7 @@ class _CustomTimerState extends State<CustomTimer> {
         setState(() {
           if (_counter > 0) {
             _counter--;
+            widget.currentTime(_counter);
           } else {
             _timer.cancel();
             widget.timerStop(true);
