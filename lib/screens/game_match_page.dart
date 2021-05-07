@@ -28,7 +28,7 @@ class GameMatchPage extends StatefulWidget {
   int _result;
 
   GameMatchPage({this.quest}) {
-    _equationInstance = getEquationInstance(quest);
+    _equationInstance = _getEquationInstance(quest);
     _equation = _equationInstance.getEquation();
     _result = _equationInstance.getResultOfTheEquation();
     _currentQuest = int.parse(quest);
@@ -142,7 +142,7 @@ class _GameMatchPageState extends State<GameMatchPage> {
     );
   }
 
-  int negativePositiveRandomNumber({@required int max}) {
+  int _negativePositiveRandomNumber({@required int max}) {
     bool sign = Random().nextBool();
     if (sign) {
       return 1 + Random().nextInt(max);
@@ -158,7 +158,7 @@ class _GameMatchPageState extends State<GameMatchPage> {
     _alternatives.add(result);
     for (var i = 0; i < NUMBER_OF_ALTERNATIVES - 1; i++) {
       do {
-        _randomNumber = negativePositiveRandomNumber(max: _max);
+        _randomNumber = _negativePositiveRandomNumber(max: _max);
       } while (_alternatives.any((element) => element == _randomNumber));
       _alternatives.add(_randomNumber);
     }
@@ -179,7 +179,7 @@ class _GameMatchPageState extends State<GameMatchPage> {
 int _calculateTheScore(BuildContext context) {
   var _gamematchProvider =
       Provider.of<GameMatchProvider>(context, listen: false);
-  int _gameAttempt = _gamematchProvider.getGameAttempts();
+  int _gameAttempt = _gamematchProvider.getMatchAttempts();
   int _calculatedScore;
   int _weightingTime =
       ((MAXIMUM_NUMBER_OF_THE_COUNTER - _currentTime) * WEIGHT_OF_TIME);
@@ -200,7 +200,7 @@ int _calculateTheScore(BuildContext context) {
   return _calculatedScore;
 }
 
-Equation getEquationInstance(String quest) {
+Equation _getEquationInstance(String quest) {
   Equation _equationInstance;
   int _quest = int.parse(quest);
   if (_quest <= 3) {
@@ -247,45 +247,28 @@ class AlternativeButton extends StatelessWidget {
               Provider.of<GameMatchProvider>(context, listen: false);
           if (alternative != result) {
             _wrongAlternative(context);
+            int _matchAttempts = _gameMatchProvider.getMatchAttempts();
+            if (_matchAttempts <= 0) {
+              //Número de tentativas esgotados
+              print('Número de tentativas esgotado');
+              Navigator.of(context).pop();
+              showDialog(
+                barrierDismissible: true,
+                context: context,
+                builder: (context) {
+                  return CustomAlertDialog(quest: _currentQuest);
+                },
+              );
+            }
           } else {
             if (_quest == quest) {
               //Alternativa correta e incrementar a missão
               _playerStatusProvider.incrementQuest();
-              int stage = _playerStatusProvider.getStage();
-              bool _lastQuestOfStage =
-                  (_quest % NUMBER_OF_QUESTS_IN_EACH_STAGE == 0);
-              if (stage <= NUMBER_OF_STAGES && _lastQuestOfStage) {
-                _rightAlternative(context);
-                /* Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return QuestsPage(stage: stage);
-                    },
-                  ),
-                ); */
-              } else {
-                _rightAlternative(context);
-              }
-              /*Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => QuestsPage(stage: stage),
-                ),
-              ); */
+              _rightAlternative(context);
             } else {
               //Alternativa correta sem  incrementar a missão
               _rightAlternative(context);
             }
-          }
-          if (_gameMatchProvider.getGameAttempts() == 0) {
-            //Número de tentativas esgotados
-            Navigator.of(context).pop();
-            showDialog(
-              barrierDismissible: true,
-              context: context,
-              builder: (context) {
-                return CustomAlertDialog();
-              },
-            );
           }
         },
       ),
@@ -314,7 +297,7 @@ class Hearts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<GameMatchProvider>(builder: (context, gameMatch, child) {
-      int numberOfHearts = gameMatch.getGameAttempts();
+      int numberOfHearts = gameMatch.getMatchAttempts();
       return Container(
         padding: EdgeInsets.only(right: 16.0),
         child: Row(

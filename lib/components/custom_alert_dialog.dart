@@ -22,7 +22,7 @@ class CustomAlertDialog extends StatelessWidget {
 
   CustomAlertDialog({
     this.score = 0,
-    this.quest,
+    @required this.quest,
   }) {
     _currentQuest = this.quest;
     _getStatusAlertDialog();
@@ -165,6 +165,7 @@ class CustomRoundButton extends StatelessWidget {
                 ),
               );
             } else {
+              print('teste');
               Navigator.of(context).pop();
             }
           },

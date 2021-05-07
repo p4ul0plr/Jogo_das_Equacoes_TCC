@@ -2,47 +2,52 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GameMatchProvider extends ChangeNotifier {
-  /* Player _player;
-  int _mathScore; */
-  int _gameAttempts;
+  /* Player _player;*/
+  int _mathScore = 0;
+  int _matchAttempts;
 
   GameMatchProvider() {
-    this._gameAttempts = 3;
+    this._matchAttempts = 3;
     _updateSharedPrefrencesGameAttempts();
     _initialState();
   }
 
   void newGameMath() {
-    this._gameAttempts = 3;
+    this._matchAttempts = 3;
     _updateSharedPrefrencesGameAttempts();
   }
 
-  int getGameAttempts() {
-    return this._gameAttempts;
-  }
+  int getMatchAttempts() => this._matchAttempts;
 
-  void _initialState() async {
-    _syncDataWithProvider();
-  }
+  int getMathScore() => this._mathScore;
+
+  void _initialState() async => _syncDataWithProvider();
 
   void decreaseGameAttempts() {
-    if (this._gameAttempts > 0) {
-      this._gameAttempts--;
+    if (this._matchAttempts > 0) {
+      this._matchAttempts--;
       _updateSharedPrefrencesGameAttempts();
+      notifyListeners();
+    }
+  }
+
+  void incrementMathScote(int score) {
+    if (this._mathScore != null) {
+      this._mathScore += score;
       notifyListeners();
     }
   }
 
   Future _updateSharedPrefrencesGameAttempts() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('game_attempts', this._gameAttempts);
+    await prefs.setInt('game_attempts', this._matchAttempts);
   }
 
   void _syncDataWithProvider() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var reslut = prefs.getInt('game_attempts') ?? 0;
     if (reslut != null) {
-      this._gameAttempts = reslut;
+      this._matchAttempts = reslut;
     }
     notifyListeners();
   }

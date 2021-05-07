@@ -71,12 +71,6 @@ class PlayerStatusProvider extends ChangeNotifier {
     return this._stage;
   }
 
-  void _updateAllSharedPrefrences() {
-    _updateSharedPrefrencesScore();
-    _updateSharedPrefrencesQuest();
-    _updateSharedPrefrencesStage();
-  }
-
   Future _updateSharedPrefrencesScore() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt('score', this._score);
