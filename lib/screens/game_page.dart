@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/custom_alert_dialog.dart';
 import 'package:jogo_das_equacoes/components/custom_timer.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
+import 'package:jogo_das_equacoes/models/consts.dart';
 import 'package:jogo_das_equacoes/models/equarions/equation.dart';
 import 'package:jogo_das_equacoes/models/equarions/equation_X_negative.dart';
 import 'package:jogo_das_equacoes/models/equarions/equation_X_positive.dart';
@@ -14,12 +15,17 @@ import 'package:jogo_das_equacoes/providers/player_status.dart';
 import 'package:jogo_das_equacoes/screens/quests_page.dart';
 import 'package:provider/provider.dart';
 
+const int NUMBER_OF_ALTERNATIVES = 4;
+const int MAXIMUM_NUMBER_OF_THE_COUNTER = 60;
+const int WEIGHT_OF_TIME = 10;
+
+int _currentTime;
+
 class GamePage extends StatefulWidget {
   final String quest;
   Equation _equationInstance;
   List _equation;
   int _result;
-  int currentTime;
 
   GamePage({this.quest}) {
     _equationInstance = getEquationInstance(quest);
@@ -46,9 +52,10 @@ class _GamePageState extends State<GamePage> {
         actions: <Widget>[
           Hearts(),
           CustomTimer(
-            counter: 3,
+            counter: MAXIMUM_NUMBER_OF_THE_COUNTER,
             currentTime: (int currentTime) {
-              widget.currentTime = currentTime;
+              _currentTime = currentTime;
+              print(_currentTime);
             },
             timerStop: (bool timerStop) {
               if (timerStop) {
@@ -107,7 +114,7 @@ class _GamePageState extends State<GamePage> {
                         ),
                       ),
                     ] +
-                    getAlternatives(widget._result, widget.quest),
+                    _getAlternatives(widget._result, widget.quest),
               ),
             ),
           )
@@ -122,9 +129,7 @@ class _GamePageState extends State<GamePage> {
       barrierDismissible: true,
       context: context,
       builder: (context) {
-        return CustomAlertDialog(
-          score: 750,
-        );
+        return CustomAlertDialog();
       },
     );
   }
@@ -137,41 +142,54 @@ class _GamePageState extends State<GamePage> {
     return -1 * (1 + Random().nextInt(max));
   }
 
-  List<Widget> getAlternatives(int result, String quest) {
+  List<Widget> _getAlternatives(int result, String quest) {
     int randomNumber;
     int max = 20;
     List<int> _alternatives = [];
+    List<Widget> _alternativeButtons = [];
     _alternatives.add(result);
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < NUMBER_OF_ALTERNATIVES - 1; i++) {
       do {
         randomNumber = negativePositiveRandomNumber(max: max);
       } while (_alternatives.any((element) => element == randomNumber));
       _alternatives.add(randomNumber);
     }
     _alternatives.shuffle();
-    return [
-      AlternativeButton(
-        alternative: _alternatives[0],
-        result: result,
-        quest: int.parse(quest),
-      ),
-      AlternativeButton(
-        alternative: _alternatives[1],
-        result: result,
-        quest: int.parse(quest),
-      ),
-      AlternativeButton(
-        alternative: _alternatives[2],
-        result: result,
-        quest: int.parse(quest),
-      ),
-      AlternativeButton(
-        alternative: _alternatives[3],
-        result: result,
-        quest: int.parse(quest),
-      ),
-    ];
+    for (var i = 0; i < NUMBER_OF_ALTERNATIVES; i++) {
+      _alternativeButtons.add(
+        AlternativeButton(
+          alternative: _alternatives[i],
+          result: result,
+          quest: int.parse(quest),
+        ),
+      );
+    }
+    return _alternativeButtons;
   }
+}
+
+int _calculateTheScore(BuildContext context) {
+  var _gamematchProvider =
+      Provider.of<GameMatchProvider>(context, listen: false);
+  int _gameAttempt = _gamematchProvider.getGameAttempts();
+  int _calculatedScore;
+  int _weightingTime =
+      ((MAXIMUM_NUMBER_OF_THE_COUNTER - _currentTime) * WEIGHT_OF_TIME);
+  switch (_gameAttempt) {
+    case 3:
+      _calculatedScore = MAX_SCORE - _weightingTime;
+      break;
+    case 2:
+      _calculatedScore = (MAX_SCORE * 3 ~/ 4) - _weightingTime;
+      break;
+    case 1:
+      _calculatedScore = (MAX_SCORE * 2 ~/ 4) - _weightingTime;
+      break;
+    case 0:
+      _calculatedScore = 0;
+      break;
+  }
+  return _calculatedScore;
 }
 
 Equation getEquationInstance(String quest) {
@@ -219,23 +237,49 @@ class AlternativeButton extends StatelessWidget {
           var gameMatchProvider =
               Provider.of<GameMatchProvider>(context, listen: false);
           if (alternative != result) {
+            //Alternativa errada
             Provider.of<GameMatchProvider>(context, listen: false)
                 .decreaseGameAttempts();
           } else {
             if (playerStatusProvider.getQuest() == quest) {
+              //Alternativa correta e incrementar a missão
               playerStatusProvider.incrementQuest();
-              int stage = playerStatusProvider.getStage();
+              Navigator.of(context).pop();
+              showDialog(
+                barrierDismissible: true,
+                context: context,
+                builder: (context) {
+                  return CustomAlertDialog(score: _calculateTheScore(context));
+                },
+              );
+              /* int stage = playerStatusProvider.getStage();
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => QuestsPage(stage: stage),
                 ),
-              );
+              ); */
             } else {
+              //Alternativa correta sem  incrementar a missão
               Navigator.of(context).pop();
+              showDialog(
+                barrierDismissible: true,
+                context: context,
+                builder: (context) {
+                  return CustomAlertDialog(score: _calculateTheScore(context));
+                },
+              );
             }
           }
           if (gameMatchProvider.getGameAttempts() == 0) {
+            //Número de tentativas esgotados
             Navigator.of(context).pop();
+            showDialog(
+              barrierDismissible: true,
+              context: context,
+              builder: (context) {
+                return CustomAlertDialog();
+              },
+            );
           }
         },
       ),

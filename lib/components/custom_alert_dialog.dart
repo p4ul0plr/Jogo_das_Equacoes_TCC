@@ -9,6 +9,7 @@ const String LOSERS_SUBTITLE = 'Você está quase lá, Tente novamente!';
 class CustomAlertDialog extends StatelessWidget {
   String _title = '';
   String _subtitle = '';
+  IconData _buttonIcon;
   List<Widget> _stars = [];
   final int score;
 
@@ -66,24 +67,7 @@ class CustomAlertDialog extends StatelessWidget {
                 ),
               ),
             ),
-            ClipOval(
-              child: Material(
-                color: Theme.of(context).primaryColor, // button color
-                child: InkWell(
-                  splashColor: Theme.of(context).accentColor, // inkwell color
-                  child: SizedBox(
-                      width: 40,
-                      height: 40,
-                      child: Icon(
-                        Icons.reply,
-                        color: Colors.white,
-                      )),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ),
-            )
+            CustomRoundButton(icon: _buttonIcon)
           ],
         ),
       ),
@@ -91,25 +75,32 @@ class CustomAlertDialog extends StatelessWidget {
   }
 
   void _getStatusAlertDialog() {
-    if (score <= MAX_SCORE && score >= MAX_SCORE * 3 ~/ 4) {
+    _getStars();
+    _getTitlesSubtitlesAndButtons();
+  }
+
+  void _getTitlesSubtitlesAndButtons() {
+    if (score > 0) {
       _title = WINNERS_TITLE;
       _subtitle = WINNERS_SUBTITLE;
-      _stars = _getThreeStars;
-    } else if (score >= MAX_SCORE * 2 ~/ 4) {
-      _title = WINNERS_TITLE;
-      _subtitle = WINNERS_SUBTITLE;
-      _stars = _getTwoStars;
-    } else if (score >= MAX_SCORE * 1 ~/ 4) {
-      _title = WINNERS_TITLE;
-      _subtitle = WINNERS_SUBTITLE;
-      _stars = _getOneStars;
-    } else if (score > 0) {
-      _title = WINNERS_TITLE;
-      _subtitle = WINNERS_SUBTITLE;
-      _stars = _getZeroStars;
+      _buttonIcon = Icons.redo;
     } else {
       _title = LOSERS_TITLE;
       _subtitle = LOSERS_SUBTITLE;
+      _buttonIcon = Icons.reply;
+    }
+  }
+
+  void _getStars() {
+    if (score <= MAX_SCORE && score >= MAX_SCORE * 3 ~/ 4) {
+      _stars = _getThreeStars;
+    } else if (score >= MAX_SCORE * 2 ~/ 4) {
+      _stars = _getTwoStars;
+    } else if (score >= MAX_SCORE * 1 ~/ 4) {
+      _stars = _getOneStars;
+    } else if (score > 0) {
+      _stars = _getZeroStars;
+    } else {
       _stars = _getZeroStars;
     }
   }
@@ -128,6 +119,34 @@ class CustomAlertDialog extends StatelessWidget {
 
   List<Widget> get _getZeroStars {
     return [IconStarWithBorder(), IconStarWithBorder(), IconStarWithBorder()];
+  }
+}
+
+class CustomRoundButton extends StatelessWidget {
+  final IconData icon;
+
+  CustomRoundButton({@required this.icon});
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipOval(
+      child: Material(
+        color: Theme.of(context).primaryColor, // button color
+        child: InkWell(
+          splashColor: Theme.of(context).accentColor, // inkwell color
+          child: SizedBox(
+              width: 40,
+              height: 40,
+              child: Icon(
+                icon,
+                color: Colors.white,
+              )),
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
+    );
   }
 }
 
