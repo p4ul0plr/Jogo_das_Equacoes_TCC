@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:jogo_das_equacoes/models/equarions/equation.dart';
+import 'package:jogo_das_equacoes/models/equations/equation.dart';
 
 class EquationXpositiveNegative extends Equation {
   int _firstNumber;

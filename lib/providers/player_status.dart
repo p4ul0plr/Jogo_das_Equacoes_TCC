@@ -35,7 +35,7 @@ class PlayerStatusProvider extends ChangeNotifier {
     }
   }
 
-  void decrementQuest() {
+  void decreaseQuest() {
     bool _lastQuestOfStage = (_quest % NUMBER_OF_QUESTS_IN_EACH_STAGE == 0);
     if (_lastQuestOfStage) {
       this._quest--;

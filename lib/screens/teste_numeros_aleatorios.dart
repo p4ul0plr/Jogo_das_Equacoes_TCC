@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:jogo_das_equacoes/models/equarions/equation_X_negative.dart';
-import 'package:jogo_das_equacoes/models/equarions/equation_X_positive.dart';
-import 'package:jogo_das_equacoes/models/equarions/equation_X_positive_negative.dart';
+import 'package:jogo_das_equacoes/models/equations/equation_X_negative.dart';
+import 'package:jogo_das_equacoes/models/equations/equation_X_positive.dart';
+import 'package:jogo_das_equacoes/models/equations/equation_X_positive_negative.dart';
 
 enum EvenOrOddNumber {
   evenNumber,

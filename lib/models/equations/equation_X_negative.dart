@@ -1,10 +1,10 @@
-import 'package:jogo_das_equacoes/models/equarions/equation.dart';
+import 'package:jogo_das_equacoes/models/equations/equation.dart';
 
-class EquationXpositive extends Equation {
+class EquationXnegative extends Equation {
   int _firstNumber;
   int _secondNumber;
 
-  EquationXpositive() {
+  EquationXnegative() {
     _firstNumber = generatePositiveRandomNumber(max: 10);
     _secondNumber = generatePositiveRandomNumber(max: 10);
   }
@@ -12,7 +12,7 @@ class EquationXpositive extends Equation {
   @override
   List getEquation() {
     equation.add('x');
-    equation.add('+');
+    equation.add('-');
     equation.add(_firstNumber.toString());
     equation.add('=');
     equation.add(_secondNumber.toString());
@@ -21,7 +21,7 @@ class EquationXpositive extends Equation {
 
   @override
   int getResultOfTheEquation() {
-    resultOfTheEquation = _secondNumber - _firstNumber;
+    resultOfTheEquation = _firstNumber + _secondNumber;
     return resultOfTheEquation;
   }
 }

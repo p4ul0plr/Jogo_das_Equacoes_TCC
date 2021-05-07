@@ -5,10 +5,10 @@ import 'package:jogo_das_equacoes/components/custom_alert_dialog.dart';
 import 'package:jogo_das_equacoes/components/custom_timer.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
 import 'package:jogo_das_equacoes/models/consts.dart';
-import 'package:jogo_das_equacoes/models/equarions/equation.dart';
-import 'package:jogo_das_equacoes/models/equarions/equation_X_negative.dart';
-import 'package:jogo_das_equacoes/models/equarions/equation_X_positive.dart';
-import 'package:jogo_das_equacoes/models/equarions/equation_X_positive_negative.dart';
+import 'package:jogo_das_equacoes/models/equations/equation.dart';
+import 'package:jogo_das_equacoes/models/equations/equation_X_negative.dart';
+import 'package:jogo_das_equacoes/models/equations/equation_X_positive.dart';
+import 'package:jogo_das_equacoes/models/equations/equation_X_positive_negative.dart';
 import 'package:jogo_das_equacoes/providers/game_match.dart';
 import 'package:jogo_das_equacoes/providers/player_status.dart';
 import 'package:provider/provider.dart';
@@ -168,7 +168,7 @@ class _GameMatchPageState extends State<GameMatchPage> {
         AlternativeButton(
           alternative: _alternatives[i],
           result: result,
-          quest: int.parse(quest),
+          currentQuest: int.parse(quest),
         ),
       );
     }
@@ -221,12 +221,12 @@ Equation _getEquationInstance(String quest) {
 class AlternativeButton extends StatelessWidget {
   final int alternative;
   final int result;
-  final int quest;
+  final int currentQuest;
 
   AlternativeButton({
     @required this.alternative,
     @required this.result,
-    @required this.quest,
+    @required this.currentQuest,
   });
 
   @override
@@ -243,30 +243,13 @@ class AlternativeButton extends StatelessWidget {
           var _playerStatusProvider =
               Provider.of<PlayerStatusProvider>(context, listen: false);
           int _quest = _playerStatusProvider.getQuest();
-          var _gameMatchProvider =
-              Provider.of<GameMatchProvider>(context, listen: false);
           if (alternative != result) {
             _wrongAlternative(context);
-            int _matchAttempts = _gameMatchProvider.getMatchAttempts();
-            if (_matchAttempts <= 0) {
-              //Número de tentativas esgotados
-              print('Número de tentativas esgotado');
-              Navigator.of(context).pop();
-              showDialog(
-                barrierDismissible: true,
-                context: context,
-                builder: (context) {
-                  return CustomAlertDialog(quest: _currentQuest);
-                },
-              );
-            }
           } else {
-            if (_quest == quest) {
-              //Alternativa correta e incrementar a missão
+            if (_quest == currentQuest) {
               _playerStatusProvider.incrementQuest();
               _rightAlternative(context);
             } else {
-              //Alternativa correta sem  incrementar a missão
               _rightAlternative(context);
             }
           }
@@ -288,8 +271,20 @@ class AlternativeButton extends StatelessWidget {
   }
 
   void _wrongAlternative(BuildContext context) {
-    Provider.of<GameMatchProvider>(context, listen: false)
-        .decreaseGameAttempts();
+    GameMatchProvider _gameMatchProvider =
+        Provider.of<GameMatchProvider>(context, listen: false);
+    _gameMatchProvider.decreaseGameAttempts();
+    int _matchAttempts = _gameMatchProvider.getMatchAttempts();
+    if (_matchAttempts == 0) {
+      Navigator.of(context).pop();
+      showDialog(
+        barrierDismissible: true,
+        context: context,
+        builder: (context) {
+          return CustomAlertDialog(quest: _currentQuest);
+        },
+      );
+    }
   }
 }
 
