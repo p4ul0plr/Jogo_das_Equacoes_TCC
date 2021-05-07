@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/quest.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
+import 'package:jogo_das_equacoes/models/consts.dart';
 import 'package:jogo_das_equacoes/providers/player_status.dart';
 import 'package:jogo_das_equacoes/screens/stage_help_page.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,8 @@ class QuestsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int numberOfRows = NUMBER_OF_QUESTS_IN_EACH_STAGE ~/ 5; //2 linhas
+    int numberOfColumns = NUMBER_OF_QUESTS_IN_EACH_STAGE ~/ 2; //5 colunas
     return Scaffold(
       appBar: AppBar(
         title: CustomTitle(title: 'Fase $stage: Missões'),
@@ -33,19 +36,32 @@ class QuestsPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: _getQuests(context, stage, 2, 5),
+          children: _getQuests(context, stage, numberOfRows, numberOfColumns),
         ),
       ),
-      floatingActionButton: Center(
-        heightFactor: 5,
-        widthFactor: 0.5,
-        child: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () {
-            Provider.of<PlayerStatusProvider>(context, listen: false)
-                .incrementQuest();
-          },
-        ),
+      floatingActionButton: Stack(
+        children: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: FloatingActionButton(
+              child: Icon(Icons.add),
+              onPressed: () {
+                Provider.of<PlayerStatusProvider>(context, listen: false)
+                    .incrementQuest();
+              },
+            ),
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: FloatingActionButton(
+              child: Icon(Icons.remove),
+              onPressed: () {
+                Provider.of<PlayerStatusProvider>(context, listen: false)
+                    .decrementQuest();
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

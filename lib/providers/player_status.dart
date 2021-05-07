@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jogo_das_equacoes/models/consts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PlayerStatusProvider extends ChangeNotifier {
@@ -21,15 +22,30 @@ class PlayerStatusProvider extends ChangeNotifier {
   }
 
   void incrementQuest() {
-    if (this._quest < 10 * this._stage) {
+    if (this._quest < NUMBER_OF_QUESTS_IN_EACH_STAGE * this._stage) {
       this._quest++;
       _updateSharedPrefrencesQuest();
       notifyListeners();
-    } else if (this._stage < 4) {
+    } else if (this._stage < NUMBER_OF_STAGES) {
       this._quest++;
       this._stage++;
       _updateSharedPrefrencesQuest();
       _updateSharedPrefrencesStage();
+      notifyListeners();
+    }
+  }
+
+  void decrementQuest() {
+    bool _lastQuestOfStage = (_quest % NUMBER_OF_QUESTS_IN_EACH_STAGE == 0);
+    if (_lastQuestOfStage) {
+      this._quest--;
+      this._stage--;
+      _updateSharedPrefrencesQuest();
+      _updateSharedPrefrencesStage();
+      notifyListeners();
+    } else {
+      this._quest--;
+      _updateSharedPrefrencesQuest();
       notifyListeners();
     }
   }

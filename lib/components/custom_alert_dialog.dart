@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/models/consts.dart';
+import 'package:jogo_das_equacoes/providers/player_status.dart';
+import 'package:jogo_das_equacoes/screens/quests_page.dart';
+import 'package:provider/provider.dart';
 
 const String WINNERS_TITLE = 'Parabéns :)';
 const String WINNERS_SUBTITLE = 'Você venceu!';
 const String LOSERS_TITLE = 'Não foi dessa vez :|';
 const String LOSERS_SUBTITLE = 'Você está quase lá, Tente novamente!';
 
+int _currentQuest;
+
+// ignore: must_be_immutable
 class CustomAlertDialog extends StatelessWidget {
   String _title = '';
   String _subtitle = '';
   IconData _buttonIcon;
   List<Widget> _stars = [];
   final int score;
+  final int quest;
 
   CustomAlertDialog({
     this.score = 0,
+    this.quest,
   }) {
+    _currentQuest = this.quest;
     _getStatusAlertDialog();
   }
 
@@ -124,8 +133,9 @@ class CustomAlertDialog extends StatelessWidget {
 
 class CustomRoundButton extends StatelessWidget {
   final IconData icon;
+  final int quest;
 
-  CustomRoundButton({@required this.icon});
+  CustomRoundButton({@required this.icon, this.quest});
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +152,21 @@ class CustomRoundButton extends StatelessWidget {
                 color: Colors.white,
               )),
           onTap: () {
-            Navigator.of(context).pop();
+            var _playerStatusProvider =
+                Provider.of<PlayerStatusProvider>(context, listen: false);
+            int _stage = _playerStatusProvider.getStage();
+            bool _lastQuestOfStage =
+                (_currentQuest % NUMBER_OF_QUESTS_IN_EACH_STAGE == 0);
+            if (_stage <= NUMBER_OF_STAGES && _lastQuestOfStage) {
+              //O pushReplacement destroi a tela e vai para a pŕoxima
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => QuestsPage(stage: _stage),
+                ),
+              );
+            } else {
+              Navigator.of(context).pop();
+            }
           },
         ),
       ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jogo_das_equacoes/screens/game_page.dart';
+import 'package:jogo_das_equacoes/screens/game_match_page.dart';
 
 class Quest extends StatelessWidget {
   final String title;
@@ -23,7 +23,7 @@ class Quest extends StatelessWidget {
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => GamePage(quest: title),
+                  builder: (context) => GameMatchPage(quest: title),
                 ),
               );
             },
@@ -51,7 +51,7 @@ class Quest extends StatelessWidget {
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => GamePage(quest: title),
+                  builder: (context) => GameMatchPage(quest: title),
                 ),
               );
             },

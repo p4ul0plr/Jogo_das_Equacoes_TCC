@@ -9,10 +9,8 @@ import 'package:jogo_das_equacoes/models/equarions/equation.dart';
 import 'package:jogo_das_equacoes/models/equarions/equation_X_negative.dart';
 import 'package:jogo_das_equacoes/models/equarions/equation_X_positive.dart';
 import 'package:jogo_das_equacoes/models/equarions/equation_X_positive_negative.dart';
-import 'package:jogo_das_equacoes/models/player_status.dart';
 import 'package:jogo_das_equacoes/providers/game_match.dart';
 import 'package:jogo_das_equacoes/providers/player_status.dart';
-import 'package:jogo_das_equacoes/screens/quests_page.dart';
 import 'package:provider/provider.dart';
 
 const int NUMBER_OF_ALTERNATIVES = 4;
@@ -20,24 +18,27 @@ const int MAXIMUM_NUMBER_OF_THE_COUNTER = 60;
 const int WEIGHT_OF_TIME = 10;
 
 int _currentTime;
+int _currentQuest;
 
-class GamePage extends StatefulWidget {
+// ignore: must_be_immutable
+class GameMatchPage extends StatefulWidget {
   final String quest;
   Equation _equationInstance;
   List _equation;
   int _result;
 
-  GamePage({this.quest}) {
+  GameMatchPage({this.quest}) {
     _equationInstance = getEquationInstance(quest);
     _equation = _equationInstance.getEquation();
     _result = _equationInstance.getResultOfTheEquation();
+    _currentQuest = int.parse(quest);
   }
 
   @override
-  _GamePageState createState() => _GamePageState();
+  _GameMatchPageState createState() => _GameMatchPageState();
 }
 
-class _GamePageState extends State<GamePage> {
+class _GameMatchPageState extends State<GameMatchPage> {
   @override
   void initState() {
     Provider.of<GameMatchProvider>(context, listen: false).newGameMath();
@@ -55,7 +56,6 @@ class _GamePageState extends State<GamePage> {
             counter: MAXIMUM_NUMBER_OF_THE_COUNTER,
             currentTime: (int currentTime) {
               _currentTime = currentTime;
-              print(_currentTime);
             },
             timerStop: (bool timerStop) {
               if (timerStop) {
@@ -70,56 +70,64 @@ class _GamePageState extends State<GamePage> {
         children: [
           Expanded(
             flex: 12,
-            child: Container(
-              margin: EdgeInsets.all(8.0),
-              height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Theme.of(context).accentColor,
-              ),
-              child: Center(
-                  child: Text(
-                widget._equation
-                    .toString()
-                    .replaceAll(',', ' ')
-                    .replaceAll('[', '')
-                    .replaceAll(']', ''),
-                style: TextStyle(
-                  fontSize: 80.0,
-                  fontFamily: 'Schoolbell',
-                ),
-              )),
-            ),
+            child: _showMainGameScreen(context),
           ),
           Expanded(
-            flex: 3,
-            child: Container(
-              margin: EdgeInsets.all(8.0),
-              padding: EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Theme.of(context).accentColor,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(bottom: 16.0),
-                        child: Text(
-                          'Alternativas',
-                          style: TextStyle(
-                            fontSize: 24.0,
-                            fontFamily: 'Schoolbell',
-                          ),
-                        ),
-                      ),
-                    ] +
-                    _getAlternatives(widget._result, widget.quest),
-              ),
-            ),
+            flex: 4,
+            child: _showSecondaryGameScreen(context),
           )
         ],
       ),
+    );
+  }
+
+  Container _showSecondaryGameScreen(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Theme.of(context).accentColor,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(bottom: 16.0),
+                child: Text(
+                  'Alternativas',
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    fontFamily: 'Schoolbell',
+                  ),
+                ),
+              ),
+            ] +
+            _getAlternatives(widget._result, widget.quest),
+      ),
+    );
+  }
+
+  Container _showMainGameScreen(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(8.0),
+      height: MediaQuery.of(context).size.height,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Theme.of(context).accentColor,
+      ),
+      child: Center(
+          child: Text(
+        widget._equation
+            .toString()
+            .replaceAll(',', ' ')
+            .replaceAll('[', '')
+            .replaceAll(']', ''),
+        style: TextStyle(
+          fontSize: 80.0,
+          fontFamily: 'Schoolbell',
+        ),
+      )),
     );
   }
 
@@ -129,7 +137,7 @@ class _GamePageState extends State<GamePage> {
       barrierDismissible: true,
       context: context,
       builder: (context) {
-        return CustomAlertDialog();
+        return CustomAlertDialog(quest: _currentQuest);
       },
     );
   }
@@ -143,16 +151,16 @@ class _GamePageState extends State<GamePage> {
   }
 
   List<Widget> _getAlternatives(int result, String quest) {
-    int randomNumber;
-    int max = 20;
+    int _randomNumber;
+    int _max = 20;
     List<int> _alternatives = [];
     List<Widget> _alternativeButtons = [];
     _alternatives.add(result);
     for (var i = 0; i < NUMBER_OF_ALTERNATIVES - 1; i++) {
       do {
-        randomNumber = negativePositiveRandomNumber(max: max);
-      } while (_alternatives.any((element) => element == randomNumber));
-      _alternatives.add(randomNumber);
+        _randomNumber = negativePositiveRandomNumber(max: _max);
+      } while (_alternatives.any((element) => element == _randomNumber));
+      _alternatives.add(_randomNumber);
     }
     _alternatives.shuffle();
     for (var i = 0; i < NUMBER_OF_ALTERNATIVES; i++) {
@@ -232,45 +240,43 @@ class AlternativeButton extends StatelessWidget {
           style: TextStyle(fontSize: 20.0),
         ),
         onPressed: () {
-          var playerStatusProvider =
+          var _playerStatusProvider =
               Provider.of<PlayerStatusProvider>(context, listen: false);
-          var gameMatchProvider =
+          int _quest = _playerStatusProvider.getQuest();
+          var _gameMatchProvider =
               Provider.of<GameMatchProvider>(context, listen: false);
           if (alternative != result) {
-            //Alternativa errada
-            Provider.of<GameMatchProvider>(context, listen: false)
-                .decreaseGameAttempts();
+            _wrongAlternative(context);
           } else {
-            if (playerStatusProvider.getQuest() == quest) {
+            if (_quest == quest) {
               //Alternativa correta e incrementar a missão
-              playerStatusProvider.incrementQuest();
-              Navigator.of(context).pop();
-              showDialog(
-                barrierDismissible: true,
-                context: context,
-                builder: (context) {
-                  return CustomAlertDialog(score: _calculateTheScore(context));
-                },
-              );
-              /* int stage = playerStatusProvider.getStage();
-              Navigator.of(context).push(
+              _playerStatusProvider.incrementQuest();
+              int stage = _playerStatusProvider.getStage();
+              bool _lastQuestOfStage =
+                  (_quest % NUMBER_OF_QUESTS_IN_EACH_STAGE == 0);
+              if (stage <= NUMBER_OF_STAGES && _lastQuestOfStage) {
+                _rightAlternative(context);
+                /* Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return QuestsPage(stage: stage);
+                    },
+                  ),
+                ); */
+              } else {
+                _rightAlternative(context);
+              }
+              /*Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => QuestsPage(stage: stage),
                 ),
               ); */
             } else {
               //Alternativa correta sem  incrementar a missão
-              Navigator.of(context).pop();
-              showDialog(
-                barrierDismissible: true,
-                context: context,
-                builder: (context) {
-                  return CustomAlertDialog(score: _calculateTheScore(context));
-                },
-              );
+              _rightAlternative(context);
             }
           }
-          if (gameMatchProvider.getGameAttempts() == 0) {
+          if (_gameMatchProvider.getGameAttempts() == 0) {
             //Número de tentativas esgotados
             Navigator.of(context).pop();
             showDialog(
@@ -285,27 +291,22 @@ class AlternativeButton extends StatelessWidget {
       ),
     );
   }
-}
 
-class IconHeartWithBorder extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Icon(
-      Icons.favorite_border,
-      size: 32.0,
-      color: Colors.red[200],
+  void _rightAlternative(BuildContext context) {
+    Navigator.of(context).pop();
+    showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (context) {
+        return CustomAlertDialog(
+            score: _calculateTheScore(context), quest: _currentQuest);
+      },
     );
   }
-}
 
-class IconHeart extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Icon(
-      Icons.favorite,
-      size: 32.0,
-      color: Colors.red[200],
-    );
+  void _wrongAlternative(BuildContext context) {
+    Provider.of<GameMatchProvider>(context, listen: false)
+        .decreaseGameAttempts();
   }
 }
 
@@ -351,5 +352,27 @@ class Hearts extends StatelessWidget {
         return null;
     }
     return listOfHearts;
+  }
+}
+
+class IconHeartWithBorder extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Icon(
+      Icons.favorite_border,
+      size: 32.0,
+      color: Colors.red[200],
+    );
+  }
+}
+
+class IconHeart extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Icon(
+      Icons.favorite,
+      size: 32.0,
+      color: Colors.red[200],
+    );
   }
 }

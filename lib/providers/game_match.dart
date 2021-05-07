@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jogo_das_equacoes/models/player.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GameMatchProvider extends ChangeNotifier {
