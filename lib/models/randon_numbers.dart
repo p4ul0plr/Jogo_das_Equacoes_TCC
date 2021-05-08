@@ -2,20 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-enum EvenOrOddNumber {
-  evenNumber,
-  oddNumber,
-  any,
-}
-
-abstract class Equation {
-  List equation = [];
-  int resultOfTheEquation;
-
-  List getEquation();
-
-  int getResultOfTheEquation();
-
+class RandonNumbers {
   int generatePositiveRandomNumber({@required int max}) {
     return 1 + Random().nextInt(max);
   }

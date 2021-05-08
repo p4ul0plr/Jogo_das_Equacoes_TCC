@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/custom_alert_dialog.dart';
 import 'package:jogo_das_equacoes/components/custom_timer.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
+import 'package:jogo_das_equacoes/components/equation_widget.dart';
 import 'package:jogo_das_equacoes/models/consts.dart';
-import 'package:jogo_das_equacoes/models/equations/equation.dart';
+import 'package:jogo_das_equacoes/models/equations/equation_abstract.dart';
 import 'package:jogo_das_equacoes/models/equations/equation_X_negative.dart';
 import 'package:jogo_das_equacoes/models/equations/equation_X_positive.dart';
 import 'package:jogo_das_equacoes/models/equations/equation_X_positive_negative.dart';
@@ -29,7 +30,7 @@ class GameMatchPage extends StatefulWidget {
 
   GameMatchPage({this.quest}) {
     _equationInstance = _getEquationInstance(quest);
-    _equation = _equationInstance.getEquation();
+    _equation = _equationInstance.getEquations();
     _result = _equationInstance.getResultOfTheEquation();
     _currentQuest = int.parse(quest);
   }
@@ -70,7 +71,7 @@ class _GameMatchPageState extends State<GameMatchPage> {
         children: [
           Expanded(
             flex: 12,
-            child: _showMainGameScreen(context),
+            child: _showMainGameScreen(context, widget._equation),
           ),
           Expanded(
             flex: 4,
@@ -108,7 +109,7 @@ class _GameMatchPageState extends State<GameMatchPage> {
     );
   }
 
-  Container _showMainGameScreen(BuildContext context) {
+  Container _showMainGameScreen(BuildContext context, List equation) {
     return Container(
       margin: EdgeInsets.all(8.0),
       height: MediaQuery.of(context).size.height,
@@ -116,18 +117,20 @@ class _GameMatchPageState extends State<GameMatchPage> {
         borderRadius: BorderRadius.circular(10),
         color: Theme.of(context).accentColor,
       ),
-      child: Center(
-          child: Text(
-        widget._equation
-            .toString()
-            .replaceAll(',', ' ')
-            .replaceAll('[', '')
-            .replaceAll(']', ''),
-        style: TextStyle(
-          fontSize: 80.0,
-          fontFamily: 'Schoolbell',
+      child: EquationWidget(equations: equation),
+      /* child: Center(
+        child: Text(
+          widget._equation
+              .toString()
+              .replaceAll(',', ' ')
+              .replaceAll('[', '')
+              .replaceAll(']', ''),
+          style: TextStyle(
+            fontSize: 80.0,
+            fontFamily: 'Schoolbell',
+          ),
         ),
-      )),
+      ), */
     );
   }
 
@@ -213,8 +216,14 @@ Equation _getEquationInstance(String quest) {
     //7 ... 10 = X+- (ex: x+3=-5)
     _equationInstance = EquationXpositiveNegative();
   } else if (_quest > 10 && _quest <= 15) {
+    _equationInstance = EquationXpositive();
   } else if (_quest > 15 && _quest <= 20) {
-  } else if (_quest > 20 && _quest <= 30) {}
+    _equationInstance = EquationXnegative();
+  } else if (_quest > 20 && _quest <= 30) {
+    _equationInstance = EquationXpositiveNegative();
+  } else if (_quest > 30 && _quest <= 40) {
+    _equationInstance = EquationXpositiveNegative();
+  }
   return _equationInstance;
 }
 

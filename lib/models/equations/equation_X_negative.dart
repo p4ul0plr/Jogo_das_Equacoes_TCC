@@ -1,4 +1,4 @@
-import 'package:jogo_das_equacoes/models/equations/equation.dart';
+import 'package:jogo_das_equacoes/models/equations/equation_abstract.dart';
 
 class EquationXnegative extends Equation {
   int _firstNumber;
@@ -10,12 +10,16 @@ class EquationXnegative extends Equation {
   }
 
   @override
-  List getEquation() {
-    equation.add('x');
-    equation.add('-');
-    equation.add(_firstNumber.toString());
-    equation.add('=');
-    equation.add(_secondNumber.toString());
+  List getEquations() {
+    List _equation1 = [];
+    List _equation2 = ['x', '=', '?'];
+    _equation1.add('x');
+    _equation1.add('-');
+    _equation1.add(_firstNumber.toString());
+    _equation1.add('=');
+    _equation1.add(_secondNumber.toString());
+    equation.add(_equation1);
+    equation.add(_equation2);
     return equation;
   }
 

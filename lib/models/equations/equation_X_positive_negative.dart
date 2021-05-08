@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:jogo_das_equacoes/models/equations/equation.dart';
+import 'package:jogo_das_equacoes/models/equations/equation_abstract.dart';
 
 class EquationXpositiveNegative extends Equation {
   int _firstNumber;
@@ -11,20 +11,24 @@ class EquationXpositiveNegative extends Equation {
   }
 
   @override
-  List getEquation() {
-    equation.add('x');
-    equation.add(generateMathematicalSignWithNumber(
+  List getEquations() {
+    List _equation1 = [];
+    List _equation2 = ['x', '=', '?'];
+    _equation1.add('x');
+    _equation1.add(generateMathematicalSignWithNumber(
       number: _firstNumber,
       signalPositive: true,
     ));
-    equation.add(numberModule(number: _firstNumber).toString());
-    equation.add('=');
-    equation.add(generateMathematicalSignWithNumber(
+    _equation1.add(numberModule(number: _firstNumber).toString());
+    _equation1.add('=');
+    _equation1.add(generateMathematicalSignWithNumber(
       number: _secondNumber,
       signalPositive: false,
     ));
-    equation.add(numberModule(number: _secondNumber).toString());
-    equation.remove('');
+    _equation1.add(numberModule(number: _secondNumber).toString());
+    _equation1.remove('');
+    equation.add(_equation1);
+    equation.add(_equation2);
     return equation;
   }
 

@@ -165,7 +165,6 @@ class CustomRoundButton extends StatelessWidget {
                 ),
               );
             } else {
-              print('teste');
               Navigator.of(context).pop();
             }
           },

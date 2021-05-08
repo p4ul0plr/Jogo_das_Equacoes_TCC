@@ -161,11 +161,11 @@ class _TestenumerosAleatoriosState extends State<TestenumerosAleatorios> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Equação: ${_equationXpositive.getEquation()}'),
+              Text('Equação: ${_equationXpositive.getEquations()}'),
               Text('Resposta: ${_equationXpositive.getResultOfTheEquation()}'),
-              Text('Equação: ${_equationXnegative.getEquation()}'),
+              Text('Equação: ${_equationXnegative.getEquations()}'),
               Text('Resposta: ${_equationXnegative.getResultOfTheEquation()}'),
-              Text('Equação: ${_equationXpositiveNegative.getEquation()}'),
+              Text('Equação: ${_equationXpositiveNegative.getEquations()}'),
               Text(
                   'Resposta: ${_equationXpositiveNegative.getResultOfTheEquation()}')
               /* Text('Equação: $_equationXpositive'),
