@@ -24,7 +24,7 @@ class QuestsPage extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: _getQuests(context, stage, numberOfRows, numberOfColumns),
@@ -95,10 +95,10 @@ List<Widget> _getQuests(
               isEnable: title <= playerStatus.getQuest() ? true : false,
               title: '$title',
               width: (MediaQuery.of(context).size.longestSide -
-                      32 * (columns + 1)) /
+                      16 * (columns + 1)) /
                   columns,
               height: (MediaQuery.of(context).size.shortestSide -
-                      32 * (rows + 1) -
+                      16 * (rows + 1) -
                       kToolbarHeight) /
                   rows, //kToolbarHeight é a altura da AppBar 32 é o espaço entre os elementos
             );

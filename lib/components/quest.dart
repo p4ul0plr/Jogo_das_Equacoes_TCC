@@ -13,7 +13,7 @@ class Quest extends StatelessWidget {
   Widget build(BuildContext context) {
     if (isEnable) {
       return Container(
-        margin: EdgeInsets.all(16.0),
+        margin: EdgeInsets.all(8.0),
         width: width,
         height: height,
         child: Material(
@@ -41,7 +41,7 @@ class Quest extends StatelessWidget {
       );
     } else {
       return Container(
-        margin: EdgeInsets.all(16.0),
+        margin: EdgeInsets.all(8.0),
         width: width,
         height: height,
         child: Material(

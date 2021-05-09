@@ -37,17 +37,20 @@ class StagesPage extends StatelessWidget {
 
 List<Widget> _getStages(BuildContext context, int numberOfStages) {
   List<Widget> listStages = [];
+  double _externalPadding = 16.0;
 
   for (var i = 0; i < numberOfStages; i++) {
     listStages.add(
       Container(
           margin: EdgeInsets.only(
-            top: 32.0,
-            left: 32.0,
-            bottom: 32.0,
-            right: i == (numberOfStages - 1) ? 32.0 : 0,
+            top: _externalPadding,
+            left: _externalPadding,
+            bottom: _externalPadding,
+            right: i == (numberOfStages - 1) ? _externalPadding : 0,
           ),
-          width: (MediaQuery.of(context).size.longestSide - 32 * 5) / 4,
+          width:
+              (MediaQuery.of(context).size.longestSide - _externalPadding * 5) /
+                  4,
           child: Consumer<PlayerStatusProvider>(
             builder: (context, playerStatus, child) {
               return _StageCard(
