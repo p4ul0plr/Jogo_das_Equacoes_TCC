@@ -2,26 +2,16 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class RandonNumbers {
-  int generatePositiveRandomNumber({@required int max}) {
+class RandomNumbers {
+  int positiveNumber({@required int max}) {
     return 1 + Random().nextInt(max);
   }
 
-  int generateNegativeRandomNumber({@required int max}) {
-    return -1 * generatePositiveRandomNumber(max: max);
+  int negativeNumber({@required int max}) {
+    return -1 * positiveNumber(max: max);
   }
 
-  String generateMathematicalSign({@required bool signalPositive}) {
-    int mathematicalSign = Random().nextInt(2);
-    if (mathematicalSign == 1 && signalPositive) {
-      return '+';
-    } else if (mathematicalSign == 0) {
-      return '-';
-    }
-    return '';
-  }
-
-  int negativePositiveRandomNumber({@required int max}) {
+  int negativePositiveNumber({@required int max}) {
     bool sign = Random().nextBool();
     if (sign) {
       return 1 + Random().nextInt(max);
@@ -29,7 +19,7 @@ class RandonNumbers {
     return -1 * (1 + Random().nextInt(max));
   }
 
-  String generateMathematicalSignWithNumber({
+  String mathematicalSign({
     @required int number,
     @required bool signalPositive,
   }) {

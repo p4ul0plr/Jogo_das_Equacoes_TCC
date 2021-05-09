@@ -38,11 +38,11 @@ class _TestenumerosAleatoriosState extends State<TestenumerosAleatorios> {
   }
 
 /*   void _equationWithOneUnknownWithPositiveSigns() {
-    String firstNumber = _generatePositiveRandomNumber(
+    String firstNumber = _positiveNumber(
       max: 10,
       evenOrOddNumber: EvenOrOddNumber.any,
     );
-    String secondNumber = _generatePositiveRandomNumber(
+    String secondNumber = _positiveNumber(
       max: 10,
       evenOrOddNumber: EvenOrOddNumber.any,
     );
@@ -59,21 +59,21 @@ class _TestenumerosAleatoriosState extends State<TestenumerosAleatorios> {
     _equationXnegative.clear();
     _equationXnegative.add('x');
     _equationXnegative.add('-');
-    _equationXnegative.add(_generatePositiveRandomNumber(max: 10));
+    _equationXnegative.add(_positiveNumber(max: 10));
     _equationXnegative.add('=');
-    _equationXnegative.add(_generatePositiveRandomNumber(max: 10));
+    _equationXnegative.add(_positiveNumber(max: 10));
   } */
 
 /*   void _equationWithOneUnknownWithPositiveNegativeSigns() {
     _equationXpositiveNegative.clear();
     _equationXpositiveNegative.add('x');
     _equationXpositiveNegative
-        .add(_generateMathematicalSign(signalPositive: true));
-    _equationXpositiveNegative.add(_generatePositiveRandomNumber(max: 10));
+        .add(_mathematicalSign(signalPositive: true));
+    _equationXpositiveNegative.add(_positiveNumber(max: 10));
     _equationXpositiveNegative.add('=');
     _equationXpositiveNegative
-        .add(_generateMathematicalSign(signalPositive: false));
-    _equationXpositiveNegative.add(_generatePositiveRandomNumber(max: 10));
+        .add(_mathematicalSign(signalPositive: false));
+    _equationXpositiveNegative.add(_positiveNumber(max: 10));
     _equationXpositiveNegative.remove('');
   } */
   //2*x+4=6
@@ -86,15 +86,15 @@ class _TestenumerosAleatoriosState extends State<TestenumerosAleatorios> {
     bool _notNullNumerator;
     do {
       _firstNumber = 1 +
-          _generatePositiveRandomNumber(
+          _positiveNumber(
             max: 9,
             evenOrOddNumber: EvenOrOddNumber.any,
           );
-      _secondNumber = _generatePositiveRandomNumber(
+      _secondNumber = _positiveNumber(
         max: 10,
         evenOrOddNumber: EvenOrOddNumber.any,
       );
-      _thirdNumber = _generatePositiveRandomNumber(
+      _thirdNumber = _positiveNumber(
         max: 10,
         evenOrOddNumber: EvenOrOddNumber.any,
       );
@@ -120,15 +120,15 @@ class _TestenumerosAleatoriosState extends State<TestenumerosAleatorios> {
     bool _itIsNotDivisible;
     do {
       _firstNumber = 1 +
-          _generatePositiveRandomNumber(
+          _positiveNumber(
             max: 9,
             evenOrOddNumber: EvenOrOddNumber.any,
           );
-      _secondNumber = _generatePositiveRandomNumber(
+      _secondNumber = _positiveNumber(
         max: 10,
         evenOrOddNumber: EvenOrOddNumber.any,
       );
-      _thirdNumber = _generatePositiveRandomNumber(
+      _thirdNumber = _positiveNumber(
         max: 10,
         evenOrOddNumber: EvenOrOddNumber.any,
       );
@@ -153,16 +153,16 @@ class _TestenumerosAleatoriosState extends State<TestenumerosAleatorios> {
     bool _notNullNumerator;
     do {
       do {
-        _firstNumber = _negativePositiveRandomNumber(
+        _firstNumber = _negativePositiveNumber(
           max: 10,
           evenOrOddNumber: EvenOrOddNumber.any,
         );
       } while (_firstNumber == 1 || _firstNumber == -1);
-      _secondNumber = _negativePositiveRandomNumber(
+      _secondNumber = _negativePositiveNumber(
         max: 10,
         evenOrOddNumber: EvenOrOddNumber.any,
       );
-      _thirdNumber = _negativePositiveRandomNumber(
+      _thirdNumber = _negativePositiveNumber(
         max: 10,
         evenOrOddNumber: EvenOrOddNumber.any,
       );
@@ -170,20 +170,20 @@ class _TestenumerosAleatoriosState extends State<TestenumerosAleatorios> {
           (_thirdNumber + (-1 * _secondNumber)) % _firstNumber != 0;
       _notNullNumerator = _secondNumber == _thirdNumber;
     } while (_itIsNotDivisible || _notNullNumerator);
-    _equation.add(_generateMathematicalSign(
+    _equation.add(_mathematicalSign(
       number: _firstNumber,
       signalPositive: false,
     ));
     _equation.add(_numberModule(number: _firstNumber).toString());
     _equation.add('*');
     _equation.add('x');
-    _equation.add(_generateMathematicalSign(
+    _equation.add(_mathematicalSign(
       number: _secondNumber,
       signalPositive: true,
     ));
     _equation.add(_numberModule(number: _secondNumber).toString());
     _equation.add('=');
-    _equation.add(_generateMathematicalSign(
+    _equation.add(_mathematicalSign(
       number: _thirdNumber,
       signalPositive: false,
     ));
@@ -195,7 +195,7 @@ class _TestenumerosAleatoriosState extends State<TestenumerosAleatorios> {
   int _numberModule({@required int number}) =>
       number < 0 ? number * -1 : number;
 
-  String _generateMathematicalSign({
+  String _mathematicalSign({
     @required int number,
     @required bool signalPositive,
   }) {
@@ -207,7 +207,7 @@ class _TestenumerosAleatoriosState extends State<TestenumerosAleatorios> {
     return '';
   }
 
-/*   String _generateMathematicalSign({@required bool signalPositive}) {
+/*   String _mathematicalSign({@required bool signalPositive}) {
     bool mathematicalSign = Random().nextBool();
     if (mathematicalSign && signalPositive) {
       return '+';
@@ -217,7 +217,7 @@ class _TestenumerosAleatoriosState extends State<TestenumerosAleatorios> {
     return '';
   } */
 
-  int _generatePositiveRandomNumber(
+  int _positiveNumber(
       {@required int max, @required EvenOrOddNumber evenOrOddNumber}) {
     int _result = 1 + Random().nextInt(max);
     switch (evenOrOddNumber) {
@@ -240,7 +240,7 @@ class _TestenumerosAleatoriosState extends State<TestenumerosAleatorios> {
     }
   }
 
-  String _generateNegativeRandomNumber(
+  String _negativeNumber(
       {@required int max, @required EvenOrOddNumber evenOrOddNumber}) {
     int _result = -1 * (1 + Random().nextInt(max));
     switch (evenOrOddNumber) {
@@ -263,7 +263,7 @@ class _TestenumerosAleatoriosState extends State<TestenumerosAleatorios> {
     }
   }
 
-  int _negativePositiveRandomNumber({
+  int _negativePositiveNumber({
     @required int max,
     @required EvenOrOddNumber evenOrOddNumber,
   }) {
@@ -329,55 +329,55 @@ class _TestenumerosAleatoriosState extends State<TestenumerosAleatorios> {
               Text(
                   'Equação (Multiplicação|Positivo-Negativo): ${_equationWithOneUnknownWithMultiplicationPositiveNegativeSigns()}'),
               Text(
-                'Número par positivo: ${_generatePositiveRandomNumber(
+                'Número par positivo: ${_positiveNumber(
                   max: 10,
                   evenOrOddNumber: EvenOrOddNumber.evenNumber,
                 )}',
               ),
               Text(
-                'Número impar positivo: ${_generatePositiveRandomNumber(
+                'Número impar positivo: ${_positiveNumber(
                   max: 10,
                   evenOrOddNumber: EvenOrOddNumber.oddNumber,
                 )}',
               ),
               Text(
-                'Número positivo: ${_generatePositiveRandomNumber(
+                'Número positivo: ${_positiveNumber(
                   max: 10,
                   evenOrOddNumber: EvenOrOddNumber.any,
                 )}',
               ),
               Text(
-                'Número par negativo: ${_generateNegativeRandomNumber(
+                'Número par negativo: ${_negativeNumber(
                   max: 10,
                   evenOrOddNumber: EvenOrOddNumber.evenNumber,
                 )}',
               ),
               Text(
-                'Número impar negativo: ${_generateNegativeRandomNumber(
+                'Número impar negativo: ${_negativeNumber(
                   max: 10,
                   evenOrOddNumber: EvenOrOddNumber.oddNumber,
                 )}',
               ),
               Text(
-                'Número negativo: ${_generateNegativeRandomNumber(
+                'Número negativo: ${_negativeNumber(
                   max: 10,
                   evenOrOddNumber: EvenOrOddNumber.any,
                 )}',
               ),
               Text(
-                'Número positivo ou negativo: ${_negativePositiveRandomNumber(
+                'Número positivo ou negativo: ${_negativePositiveNumber(
                   max: 10,
                   evenOrOddNumber: EvenOrOddNumber.any,
                 )}',
               ),
               Text(
-                'Número positivo ou negativo par: ${_negativePositiveRandomNumber(
+                'Número positivo ou negativo par: ${_negativePositiveNumber(
                   max: 10,
                   evenOrOddNumber: EvenOrOddNumber.evenNumber,
                 )}',
               ),
               Text(
-                'Número positivo ou negativo impar: ${_negativePositiveRandomNumber(
+                'Número positivo ou negativo impar: ${_negativePositiveNumber(
                   max: 10,
                   evenOrOddNumber: EvenOrOddNumber.oddNumber,
                 )}',

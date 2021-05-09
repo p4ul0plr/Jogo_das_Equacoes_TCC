@@ -13,16 +13,16 @@ class EquationXmultiplicationPositiveNegative extends Equation {
     bool _notNullNumerator;
     do {
       do {
-        _firstNumber = negativePositiveRandomNumber(max: 10);
+        _firstNumber = random.negativePositiveNumber(max: 10);
       } while (_firstNumber == 1 || _firstNumber == -1);
-      _secondNumber = negativePositiveRandomNumber(max: 10);
-      _thirdNumber = negativePositiveRandomNumber(max: 10);
+      _secondNumber = random.negativePositiveNumber(max: 10);
+      _thirdNumber = random.negativePositiveNumber(max: 10);
       _itIsNotDivisible =
           (_thirdNumber + (-1 * _secondNumber)) % _firstNumber != 0;
       _notNullNumerator = _secondNumber == _thirdNumber;
     } while (_itIsNotDivisible || _notNullNumerator);
     _equation1.add(
-      generateMathematicalSign(
+      random.mathematicalSign(
         number: _firstNumber,
         signalPositive: false,
       ),
@@ -31,7 +31,7 @@ class EquationXmultiplicationPositiveNegative extends Equation {
     _equation1.add('*');
     _equation1.add('x');
     _equation1.add(
-      generateMathematicalSign(
+      random.mathematicalSign(
         number: _secondNumber,
         signalPositive: true,
       ),
@@ -39,7 +39,7 @@ class EquationXmultiplicationPositiveNegative extends Equation {
     _equation1.add(_secondNumber.abs().toString());
     _equation1.add('=');
     _equation1.add(
-      generateMathematicalSign(
+      random.mathematicalSign(
         number: _thirdNumber,
         signalPositive: false,
       ),

@@ -67,7 +67,7 @@ class EquationWidget extends StatelessWidget {
   }
 
   String _getRandonFruit() {
-    int _number = RandonNumbers().generatePositiveRandomNumber(max: 3);
+    int _number = RandomNumbers().positiveNumber(max: 3);
     switch (_number) {
       case 1:
         return 'assets/images/fruits/maca.png';

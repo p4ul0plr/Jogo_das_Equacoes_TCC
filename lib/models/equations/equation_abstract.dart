@@ -1,6 +1,4 @@
-import 'dart:math';
-
-import 'package:flutter/material.dart';
+import 'package:jogo_das_equacoes/models/randon_numbers.dart';
 
 enum EvenOrOddNumber {
   evenNumber,
@@ -11,30 +9,21 @@ enum EvenOrOddNumber {
 abstract class Equation {
   List equation = [];
   int resultOfTheEquation;
+  RandomNumbers random = RandomNumbers();
 
   List getEquations();
 
   int getResultOfTheEquation();
 
-  int generatePositiveRandomNumber({@required int max}) {
+/*   int positiveNumber({@required int max}) {
     return 1 + Random().nextInt(max);
   }
 
-  int generateNegativeRandomNumber({@required int max}) {
-    return -1 * generatePositiveRandomNumber(max: max);
+  int negativeNumber({@required int max}) {
+    return -1 * positiveNumber(max: max);
   }
 
-/*   String generateMathematicalSign({@required bool signalPositive}) {
-    int mathematicalSign = Random().nextInt(2);
-    if (mathematicalSign == 1 && signalPositive) {
-      return '+';
-    } else if (mathematicalSign == 0) {
-      return '-';
-    }
-    return '';
-  } */
-
-  int negativePositiveRandomNumber({@required int max}) {
+  int negativePositiveNumber({@required int max}) {
     bool sign = Random().nextBool();
     if (sign) {
       return 1 + Random().nextInt(max);
@@ -42,7 +31,7 @@ abstract class Equation {
     return -1 * (1 + Random().nextInt(max));
   }
 
-  String generateMathematicalSign({
+  String mathematicalSign({
     @required int number,
     @required bool signalPositive,
   }) {
@@ -52,5 +41,5 @@ abstract class Equation {
       return '-';
     }
     return '';
-  }
+  } */
 }

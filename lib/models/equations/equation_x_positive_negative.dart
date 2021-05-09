@@ -5,8 +5,8 @@ class EquationXpositiveNegative extends Equation {
   int _secondNumber;
 
   EquationXpositiveNegative() {
-    _firstNumber = negativePositiveRandomNumber(max: 10);
-    _secondNumber = negativePositiveRandomNumber(max: 10);
+    _firstNumber = random.negativePositiveNumber(max: 10);
+    _secondNumber = random.negativePositiveNumber(max: 10);
   }
 
   @override
@@ -14,13 +14,13 @@ class EquationXpositiveNegative extends Equation {
     List _equation1 = [];
     List _equation2 = ['x', '=', '?'];
     _equation1.add('x');
-    _equation1.add(generateMathematicalSign(
+    _equation1.add(random.mathematicalSign(
       number: _firstNumber,
       signalPositive: true,
     ));
     _equation1.add(_firstNumber.abs().toString());
     _equation1.add('=');
-    _equation1.add(generateMathematicalSign(
+    _equation1.add(random.mathematicalSign(
       number: _secondNumber,
       signalPositive: false,
     ));

@@ -5,8 +5,8 @@ class EquationXpositive extends Equation {
   int _secondNumber;
 
   EquationXpositive() {
-    _firstNumber = generatePositiveRandomNumber(max: 10);
-    _secondNumber = generatePositiveRandomNumber(max: 10);
+    _firstNumber = random.positiveNumber(max: 10);
+    _secondNumber = random.positiveNumber(max: 10);
   }
 
   @override

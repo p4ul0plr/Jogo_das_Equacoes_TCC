@@ -12,9 +12,9 @@ class EquationXmultiplicationPositive extends Equation {
     bool _itIsNotDivisible;
     bool _notNullNumerator;
     do {
-      _firstNumber = 1 + generatePositiveRandomNumber(max: 9);
-      _secondNumber = generatePositiveRandomNumber(max: 10);
-      _thirdNumber = generatePositiveRandomNumber(max: 10);
+      _firstNumber = 1 + random.positiveNumber(max: 9);
+      _secondNumber = random.positiveNumber(max: 10);
+      _thirdNumber = random.positiveNumber(max: 10);
       _itIsNotDivisible = (_thirdNumber - _secondNumber) % _firstNumber != 0;
       _notNullNumerator = _secondNumber == _thirdNumber;
     } while (_itIsNotDivisible || _notNullNumerator);

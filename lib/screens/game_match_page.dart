@@ -148,7 +148,7 @@ class _GameMatchPageState extends State<GameMatchPage> {
     );
   }
 
-  int _negativePositiveRandomNumber({@required int max}) {
+  int _negativePositiveNumber({@required int max}) {
     bool sign = Random().nextBool();
     if (sign) {
       return 1 + Random().nextInt(max);
@@ -164,7 +164,7 @@ class _GameMatchPageState extends State<GameMatchPage> {
     _alternatives.add(result);
     for (var i = 0; i < NUMBER_OF_ALTERNATIVES - 1; i++) {
       do {
-        _randomNumber = _negativePositiveRandomNumber(max: _max);
+        _randomNumber = _negativePositiveNumber(max: _max);
       } while (_alternatives.any((element) => element == _randomNumber));
       _alternatives.add(_randomNumber);
     }
