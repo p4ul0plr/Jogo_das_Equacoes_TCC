@@ -180,8 +180,10 @@ class _GameMatchPageState extends State<GameMatchPage> {
 }
 
 int _calculateTheScore(BuildContext context) {
-  var _gamematchProvider =
+  GameMatchProvider _gamematchProvider =
       Provider.of<GameMatchProvider>(context, listen: false);
+  PlayerStatusProvider _playerStatusProvider =
+      Provider.of<PlayerStatusProvider>(context, listen: false);
   int _gameAttempt = _gamematchProvider.getMatchAttempts();
   int _calculatedScore;
   int _weightingTime =
@@ -200,6 +202,8 @@ int _calculateTheScore(BuildContext context) {
       _calculatedScore = 0;
       break;
   }
+  _playerStatusProvider.incrementScore(_calculatedScore);
+  print('Score: ${_playerStatusProvider.getScore()}');
   return _calculatedScore;
 }
 
@@ -269,12 +273,12 @@ class AlternativeButton extends StatelessWidget {
 
   void _rightAlternative(BuildContext context) {
     Navigator.of(context).pop();
+    int _score = _calculateTheScore(context);
     showDialog(
       barrierDismissible: true,
       context: context,
       builder: (context) {
-        return CustomAlertDialog(
-            score: _calculateTheScore(context), quest: _currentQuest);
+        return CustomAlertDialog(score: _score, quest: _currentQuest);
       },
     );
   }

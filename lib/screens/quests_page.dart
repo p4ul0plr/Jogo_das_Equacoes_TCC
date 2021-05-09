@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/quest.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
+import 'package:jogo_das_equacoes/components/score.dart';
 import 'package:jogo_das_equacoes/models/consts.dart';
 import 'package:jogo_das_equacoes/providers/player_status.dart';
 import 'package:jogo_das_equacoes/screens/stage_help_page.dart';
@@ -19,17 +20,7 @@ class QuestsPage extends StatelessWidget {
       appBar: AppBar(
         title: CustomTitle(title: 'Fase $stage: Missões'),
         actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.help),
-            tooltip: 'Show Snackbar',
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => StageHelp(stage: stage),
-                ),
-              );
-            },
-          ),
+          Score(),
         ],
       ),
       body: Padding(
@@ -58,8 +49,29 @@ class QuestsPage extends StatelessWidget {
               heroTag: 'decrease quest',
               child: Icon(Icons.remove),
               onPressed: () {
-                Provider.of<PlayerStatusProvider>(context, listen: false)
-                    .decreaseQuest();
+                PlayerStatusProvider _playerStatusProvider =
+                    Provider.of<PlayerStatusProvider>(context, listen: false);
+                _playerStatusProvider.decreaseQuest();
+                _playerStatusProvider.resetScore();
+              },
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: FloatingActionButton(
+              heroTag: 'help button',
+              backgroundColor: Theme.of(context).primaryColor,
+              child: Icon(
+                Icons.help,
+                size: 40,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => StageHelp(stage: stage),
+                  ),
+                );
               },
             ),
           ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/models/consts.dart';
-import 'package:jogo_das_equacoes/models/equations/equation_abstract.dart';
 import 'package:jogo_das_equacoes/models/randon_numbers.dart';
 
 class EquationWidget extends StatelessWidget {
@@ -20,7 +19,6 @@ class EquationWidget extends StatelessWidget {
   }
 
   List<Widget> _getEquation(List equations) {
-    print('_getEquation');
     double _widgetSize = 70.0;
     List<Widget> _equationsList;
     List<Widget> _rowsEquationList = [];

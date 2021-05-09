@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
+import 'package:jogo_das_equacoes/components/score.dart';
 import 'package:jogo_das_equacoes/models/consts.dart';
 import 'package:jogo_das_equacoes/providers/player_status.dart';
 import 'package:jogo_das_equacoes/screens/quests_page.dart';
@@ -11,11 +12,15 @@ class StagesPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: CustomTitle(title: 'Fases'),
+        actions: [
+          Score(),
+        ],
       ),
       body: ListView(
         scrollDirection: Axis.horizontal,
         children: _getStages(context, NUMBER_OF_STAGES),
       ),
+
       /* floatingActionButton: Center(
         heightFactor: 5,
         widthFactor: 0.5,

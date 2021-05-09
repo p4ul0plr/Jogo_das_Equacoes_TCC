@@ -16,9 +16,11 @@ class PlayerStatusProvider extends ChangeNotifier {
   }
 
   void incrementScore(int score) {
-    this._score += score;
-    _updateSharedPrefrencesScore();
-    notifyListeners();
+    if (this._score != null) {
+      this._score += score;
+      _updateSharedPrefrencesScore();
+      notifyListeners();
+    }
   }
 
   void incrementQuest() {
@@ -69,6 +71,12 @@ class PlayerStatusProvider extends ChangeNotifier {
       this._stage = 1;
     }
     return this._stage;
+  }
+
+  void resetScore() {
+    if (this._score != null) {
+      this._score = 0;
+    }
   }
 
   Future _updateSharedPrefrencesScore() async {
