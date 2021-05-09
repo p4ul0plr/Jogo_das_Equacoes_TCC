@@ -24,7 +24,7 @@ abstract class Equation {
     return -1 * generatePositiveRandomNumber(max: max);
   }
 
-  String generateMathematicalSign({@required bool signalPositive}) {
+/*   String generateMathematicalSign({@required bool signalPositive}) {
     int mathematicalSign = Random().nextInt(2);
     if (mathematicalSign == 1 && signalPositive) {
       return '+';
@@ -32,7 +32,7 @@ abstract class Equation {
       return '-';
     }
     return '';
-  }
+  } */
 
   int negativePositiveRandomNumber({@required int max}) {
     bool sign = Random().nextBool();
@@ -42,7 +42,7 @@ abstract class Equation {
     return -1 * (1 + Random().nextInt(max));
   }
 
-  String generateMathematicalSignWithNumber({
+  String generateMathematicalSign({
     @required int number,
     @required bool signalPositive,
   }) {

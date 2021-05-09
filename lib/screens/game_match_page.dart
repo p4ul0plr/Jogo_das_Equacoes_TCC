@@ -7,9 +7,12 @@ import 'package:jogo_das_equacoes/components/custom_title.dart';
 import 'package:jogo_das_equacoes/components/equation_widget.dart';
 import 'package:jogo_das_equacoes/models/consts.dart';
 import 'package:jogo_das_equacoes/models/equations/equation_abstract.dart';
-import 'package:jogo_das_equacoes/models/equations/equation_X_negative.dart';
-import 'package:jogo_das_equacoes/models/equations/equation_X_positive.dart';
-import 'package:jogo_das_equacoes/models/equations/equation_X_positive_negative.dart';
+import 'package:jogo_das_equacoes/models/equations/equation_x_multiplication_negative.dart';
+import 'package:jogo_das_equacoes/models/equations/equation_x_multiplication_positive.dart';
+import 'package:jogo_das_equacoes/models/equations/equation_x_multiplication_positive_negative.dart';
+import 'package:jogo_das_equacoes/models/equations/equation_x_negative.dart';
+import 'package:jogo_das_equacoes/models/equations/equation_x_positive.dart';
+import 'package:jogo_das_equacoes/models/equations/equation_x_positive_negative.dart';
 import 'package:jogo_das_equacoes/providers/game_match.dart';
 import 'package:jogo_das_equacoes/providers/player_status.dart';
 import 'package:provider/provider.dart';
@@ -220,11 +223,14 @@ Equation _getEquationInstance(String quest) {
     //7 ... 10 = X+- (ex: x+3=-5)
     _equationInstance = EquationXpositiveNegative();
   } else if (_quest > 10 && _quest <= 15) {
-    _equationInstance = EquationXpositive();
+    //11 ... 15 = (ex: 2*x+4=6)
+    _equationInstance = EquationXmultiplicationPositive();
   } else if (_quest > 15 && _quest <= 20) {
-    _equationInstance = EquationXnegative();
+    //16 ... 20 = (ex: 2*x-4=6)
+    _equationInstance = EquationXmultiplicationNegative();
   } else if (_quest > 20 && _quest <= 30) {
-    _equationInstance = EquationXpositiveNegative();
+    //16 ... 20 = (ex: 2*x+4=-6)
+    _equationInstance = EquationXmultiplicationPositiveNegative();
   } else if (_quest > 30 && _quest <= 40) {
     _equationInstance = EquationXpositiveNegative();
   }

@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:jogo_das_equacoes/models/equations/equation_X_negative.dart';
-import 'package:jogo_das_equacoes/models/equations/equation_X_positive.dart';
-import 'package:jogo_das_equacoes/models/equations/equation_X_positive_negative.dart';
+import 'package:jogo_das_equacoes/models/equations/equation_x_negative.dart';
+import 'package:jogo_das_equacoes/models/equations/equation_x_positive.dart';
+import 'package:jogo_das_equacoes/models/equations/equation_x_positive_negative.dart';
 
 enum EvenOrOddNumber {
   evenNumber,
@@ -23,8 +23,6 @@ class _TestenumerosAleatoriosState extends State<TestenumerosAleatorios> {
   //List<String> _equationXpositive = [];
   //List<String> _equationXnegative = [];
   //List<String> _equationXpositiveNegative = [];
-  List<String> _equationXmultiplicationPositive = [];
-  List<String> _equationXmultiplicationNegative = [];
 
   @override
   void initState() {
@@ -78,36 +76,138 @@ class _TestenumerosAleatoriosState extends State<TestenumerosAleatorios> {
     _equationXpositiveNegative.add(_generatePositiveRandomNumber(max: 10));
     _equationXpositiveNegative.remove('');
   } */
-
-  void _equationWithOneUnknownWithMultiplicationPositiveSigns() {
-    _equationXmultiplicationPositive.clear();
-    _equationXmultiplicationPositive
-        .add(_generatePositiveRandomNumber(max: 3, evenOrOddNumber: null));
-    _equationXmultiplicationPositive.add('*');
-    _equationXmultiplicationPositive.add('x');
-    _equationXmultiplicationPositive.add('+');
-    _equationXmultiplicationPositive
-        .add(_generatePositiveRandomNumber(max: 10, evenOrOddNumber: null));
-    _equationXmultiplicationPositive.add('=');
-    _equationXmultiplicationPositive
-        .add(_generatePositiveRandomNumber(max: 10, evenOrOddNumber: null));
+  //2*x+4=6
+  List _equationWithOneUnknownWithMultiplicationPositiveSigns() {
+    List _equation = [];
+    int _firstNumber;
+    int _secondNumber;
+    int _thirdNumber;
+    bool _itIsNotDivisible;
+    bool _notNullNumerator;
+    do {
+      _firstNumber = 1 +
+          _generatePositiveRandomNumber(
+            max: 9,
+            evenOrOddNumber: EvenOrOddNumber.any,
+          );
+      _secondNumber = _generatePositiveRandomNumber(
+        max: 10,
+        evenOrOddNumber: EvenOrOddNumber.any,
+      );
+      _thirdNumber = _generatePositiveRandomNumber(
+        max: 10,
+        evenOrOddNumber: EvenOrOddNumber.any,
+      );
+      _itIsNotDivisible = (_thirdNumber - _secondNumber) % _firstNumber != 0;
+      _notNullNumerator = _secondNumber == _thirdNumber;
+    } while (_itIsNotDivisible || _notNullNumerator);
+    _equation.add(_firstNumber);
+    _equation.add('*');
+    _equation.add('x');
+    _equation.add('+');
+    _equation.add(_secondNumber);
+    _equation.add('=');
+    _equation.add(_thirdNumber);
+    print((_thirdNumber - _secondNumber) ~/ _firstNumber);
+    return _equation;
   }
 
-  void _equationWithOneUnknownWithMultiplicationNegativeSigns() {
-    _equationXmultiplicationNegative.clear();
-    _equationXmultiplicationNegative
-        .add(_generatePositiveRandomNumber(max: 3, evenOrOddNumber: null));
-    _equationXmultiplicationNegative.add('*');
-    _equationXmultiplicationNegative.add('x');
-    _equationXmultiplicationNegative.add('-');
-    _equationXmultiplicationNegative
-        .add(_generatePositiveRandomNumber(max: 10, evenOrOddNumber: null));
-    _equationXmultiplicationNegative.add('=');
-    _equationXmultiplicationNegative
-        .add(_generatePositiveRandomNumber(max: 10, evenOrOddNumber: null));
+  List _equationWithOneUnknownWithMultiplicationNegativeSigns() {
+    List _equation = [];
+    int _firstNumber;
+    int _secondNumber;
+    int _thirdNumber;
+    bool _itIsNotDivisible;
+    do {
+      _firstNumber = 1 +
+          _generatePositiveRandomNumber(
+            max: 9,
+            evenOrOddNumber: EvenOrOddNumber.any,
+          );
+      _secondNumber = _generatePositiveRandomNumber(
+        max: 10,
+        evenOrOddNumber: EvenOrOddNumber.any,
+      );
+      _thirdNumber = _generatePositiveRandomNumber(
+        max: 10,
+        evenOrOddNumber: EvenOrOddNumber.any,
+      );
+      _itIsNotDivisible = (_thirdNumber + _secondNumber) % _firstNumber != 0;
+    } while (_itIsNotDivisible);
+    _equation.add(_firstNumber);
+    _equation.add('*');
+    _equation.add('x');
+    _equation.add('-');
+    _equation.add(_secondNumber);
+    _equation.add('=');
+    _equation.add(_thirdNumber);
+    return _equation;
   }
 
-  String _generateMathematicalSign({@required bool signalPositive}) {
+  List _equationWithOneUnknownWithMultiplicationPositiveNegativeSigns() {
+    List _equation = [];
+    int _firstNumber;
+    int _secondNumber;
+    int _thirdNumber;
+    bool _itIsNotDivisible;
+    bool _notNullNumerator;
+    do {
+      do {
+        _firstNumber = _negativePositiveRandomNumber(
+          max: 10,
+          evenOrOddNumber: EvenOrOddNumber.any,
+        );
+      } while (_firstNumber == 1 || _firstNumber == -1);
+      _secondNumber = _negativePositiveRandomNumber(
+        max: 10,
+        evenOrOddNumber: EvenOrOddNumber.any,
+      );
+      _thirdNumber = _negativePositiveRandomNumber(
+        max: 10,
+        evenOrOddNumber: EvenOrOddNumber.any,
+      );
+      _itIsNotDivisible =
+          (_thirdNumber + (-1 * _secondNumber)) % _firstNumber != 0;
+      _notNullNumerator = _secondNumber == _thirdNumber;
+    } while (_itIsNotDivisible || _notNullNumerator);
+    _equation.add(_generateMathematicalSign(
+      number: _firstNumber,
+      signalPositive: false,
+    ));
+    _equation.add(_numberModule(number: _firstNumber).toString());
+    _equation.add('*');
+    _equation.add('x');
+    _equation.add(_generateMathematicalSign(
+      number: _secondNumber,
+      signalPositive: true,
+    ));
+    _equation.add(_numberModule(number: _secondNumber).toString());
+    _equation.add('=');
+    _equation.add(_generateMathematicalSign(
+      number: _thirdNumber,
+      signalPositive: false,
+    ));
+    _equation.add(_numberModule(number: _thirdNumber).toString());
+    _equation.removeWhere((element) => element == '');
+    return _equation;
+  }
+
+  int _numberModule({@required int number}) =>
+      number < 0 ? number * -1 : number;
+
+  String _generateMathematicalSign({
+    @required int number,
+    @required bool signalPositive,
+  }) {
+    if (number >= 0 && signalPositive) {
+      return '+';
+    } else if (number < 0) {
+      return '-';
+    }
+    return '';
+  }
+
+/*   String _generateMathematicalSign({@required bool signalPositive}) {
     bool mathematicalSign = Random().nextBool();
     if (mathematicalSign && signalPositive) {
       return '+';
@@ -115,39 +215,93 @@ class _TestenumerosAleatoriosState extends State<TestenumerosAleatorios> {
       return '-';
     }
     return '';
-  }
+  } */
 
-  String _generatePositiveRandomNumber(
+  int _generatePositiveRandomNumber(
       {@required int max, @required EvenOrOddNumber evenOrOddNumber}) {
-    int result = 1 + Random().nextInt(max);
+    int _result = 1 + Random().nextInt(max);
     switch (evenOrOddNumber) {
       case EvenOrOddNumber.any:
-        return '$result';
+        return _result;
       case EvenOrOddNumber.evenNumber: //par
-        if (result % 2 == 0) {
-          return '$result';
-        } else if (result < max) {
-          return '${result + 1}';
+        while (_result % 2 != 0) {
+          _result = 1 + Random().nextInt(max);
         }
+        return _result;
         break;
       case EvenOrOddNumber.oddNumber: //impar
-        if (result % 2 != 0) {
-          return '$result';
-        } else if (result < max) {
-          return '${result + 1}';
-        } else {
-          return '${result - 1}';
+        while (_result % 2 == 0) {
+          _result = 1 + Random().nextInt(max);
         }
+        return _result;
         break;
       default:
-        return '';
+        return null;
     }
-    if (result % 2 == 0) {
-    } else {}
   }
 
-  String _negativePositiveRandomNumber({@required int max}) {
-    return '${-1 * (1 + Random().nextInt(max))}';
+  String _generateNegativeRandomNumber(
+      {@required int max, @required EvenOrOddNumber evenOrOddNumber}) {
+    int _result = -1 * (1 + Random().nextInt(max));
+    switch (evenOrOddNumber) {
+      case EvenOrOddNumber.any:
+        return _result.toString();
+      case EvenOrOddNumber.evenNumber: //par
+        while (_result % 2 != 0) {
+          _result = -1 * (1 + Random().nextInt(max));
+        }
+        return _result.toString();
+        break;
+      case EvenOrOddNumber.oddNumber: //impar
+        while (_result % 2 == 0) {
+          _result = -1 * (1 + Random().nextInt(max));
+        }
+        return _result.toString();
+        break;
+      default:
+        return null;
+    }
+  }
+
+  int _negativePositiveRandomNumber({
+    @required int max,
+    @required EvenOrOddNumber evenOrOddNumber,
+  }) {
+    int _result;
+    bool _sign = Random().nextBool();
+    if (_sign) {
+      _result = 1 + Random().nextInt(max);
+    } else {
+      _result = -1 * (1 + Random().nextInt(max));
+    }
+    switch (evenOrOddNumber) {
+      case EvenOrOddNumber.any:
+        return _result;
+      case EvenOrOddNumber.evenNumber: //par
+        while (_result % 2 != 0) {
+          _sign = Random().nextBool();
+          if (_sign) {
+            _result = 1 + Random().nextInt(max);
+          } else {
+            _result = -1 * (1 + Random().nextInt(max));
+          }
+        }
+        return _result;
+        break;
+      case EvenOrOddNumber.oddNumber: //impar
+        while (_result % 2 == 0) {
+          _sign = Random().nextBool();
+          if (_sign) {
+            _result = 1 + Random().nextInt(max);
+          } else {
+            _result = -1 * (1 + Random().nextInt(max));
+          }
+        }
+        return _result;
+        break;
+      default:
+        return null;
+    }
   }
 
   @override
@@ -167,7 +321,67 @@ class _TestenumerosAleatoriosState extends State<TestenumerosAleatorios> {
               Text('Resposta: ${_equationXnegative.getResultOfTheEquation()}'),
               Text('Equação: ${_equationXpositiveNegative.getEquations()}'),
               Text(
-                  'Resposta: ${_equationXpositiveNegative.getResultOfTheEquation()}')
+                  'Resposta: ${_equationXpositiveNegative.getResultOfTheEquation()}'),
+              Text(
+                  'Equação (Multiplicação|Positivo): ${_equationWithOneUnknownWithMultiplicationPositiveSigns()}'),
+              Text(
+                  'Equação (Multiplicação|Negativo): ${_equationWithOneUnknownWithMultiplicationNegativeSigns()}'),
+              Text(
+                  'Equação (Multiplicação|Positivo-Negativo): ${_equationWithOneUnknownWithMultiplicationPositiveNegativeSigns()}'),
+              Text(
+                'Número par positivo: ${_generatePositiveRandomNumber(
+                  max: 10,
+                  evenOrOddNumber: EvenOrOddNumber.evenNumber,
+                )}',
+              ),
+              Text(
+                'Número impar positivo: ${_generatePositiveRandomNumber(
+                  max: 10,
+                  evenOrOddNumber: EvenOrOddNumber.oddNumber,
+                )}',
+              ),
+              Text(
+                'Número positivo: ${_generatePositiveRandomNumber(
+                  max: 10,
+                  evenOrOddNumber: EvenOrOddNumber.any,
+                )}',
+              ),
+              Text(
+                'Número par negativo: ${_generateNegativeRandomNumber(
+                  max: 10,
+                  evenOrOddNumber: EvenOrOddNumber.evenNumber,
+                )}',
+              ),
+              Text(
+                'Número impar negativo: ${_generateNegativeRandomNumber(
+                  max: 10,
+                  evenOrOddNumber: EvenOrOddNumber.oddNumber,
+                )}',
+              ),
+              Text(
+                'Número negativo: ${_generateNegativeRandomNumber(
+                  max: 10,
+                  evenOrOddNumber: EvenOrOddNumber.any,
+                )}',
+              ),
+              Text(
+                'Número positivo ou negativo: ${_negativePositiveRandomNumber(
+                  max: 10,
+                  evenOrOddNumber: EvenOrOddNumber.any,
+                )}',
+              ),
+              Text(
+                'Número positivo ou negativo par: ${_negativePositiveRandomNumber(
+                  max: 10,
+                  evenOrOddNumber: EvenOrOddNumber.evenNumber,
+                )}',
+              ),
+              Text(
+                'Número positivo ou negativo impar: ${_negativePositiveRandomNumber(
+                  max: 10,
+                  evenOrOddNumber: EvenOrOddNumber.oddNumber,
+                )}',
+              ),
               /* Text('Equação: $_equationXpositive'),
               Text('Equação: $_equationXnegative'),
               Text('Equação: $_equationXpositiveNegative'),
