@@ -19,7 +19,7 @@ class EquationXmultiplicationPositive extends Equation {
       _notNullNumerator = _secondNumber == _thirdNumber;
     } while (_itIsNotDivisible || _notNullNumerator);
     _equation1.add(_firstNumber.toString());
-    _equation1.add('*');
+    _equation1.add('.');
     _equation1.add('x');
     _equation1.add('+');
     _equation1.add(_secondNumber.toString());

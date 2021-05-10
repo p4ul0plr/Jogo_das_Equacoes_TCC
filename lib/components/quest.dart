@@ -48,13 +48,7 @@ class Quest extends StatelessWidget {
           color: Colors.grey[300],
           borderRadius: BorderRadius.circular(10),
           child: InkWell(
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => GameMatchPage(quest: title),
-                ),
-              );
-            },
+            onTap: () {},
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
