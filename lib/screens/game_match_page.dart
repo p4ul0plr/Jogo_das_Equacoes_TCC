@@ -7,6 +7,8 @@ import 'package:jogo_das_equacoes/components/custom_title.dart';
 import 'package:jogo_das_equacoes/components/equation_widget.dart';
 import 'package:jogo_das_equacoes/models/consts.dart';
 import 'package:jogo_das_equacoes/models/equations/equation_abstract.dart';
+import 'package:jogo_das_equacoes/models/equations/equation_x_division_negative.dart';
+import 'package:jogo_das_equacoes/models/equations/equation_x_division_positive.dart';
 import 'package:jogo_das_equacoes/models/equations/equation_x_multiplication_negative.dart';
 import 'package:jogo_das_equacoes/models/equations/equation_x_multiplication_positive.dart';
 import 'package:jogo_das_equacoes/models/equations/equation_x_multiplication_positive_negative.dart';
@@ -222,15 +224,21 @@ Equation _getEquationInstance(String quest) {
   } else if (_quest > 6 && _quest <= 10) {
     //7 ... 10 = X+- (ex: x+3=-5)
     _equationInstance = EquationXpositiveNegative();
-  } else if (_quest > 10 && _quest <= 15) {
+  } else if (_quest > 10 && _quest <= 13) {
     //11 ... 15 = (ex: 2*x+4=6)
     _equationInstance = EquationXmultiplicationPositive();
-  } else if (_quest > 15 && _quest <= 20) {
+  } else if (_quest > 13 && _quest <= 16) {
     //16 ... 20 = (ex: 2*x-4=6)
     _equationInstance = EquationXmultiplicationNegative();
-  } else if (_quest > 20 && _quest <= 30) {
+  } else if (_quest > 16 && _quest <= 20) {
     //16 ... 20 = (ex: 2*x+4=-6)
     _equationInstance = EquationXmultiplicationPositiveNegative();
+  } else if (_quest > 20 && _quest <= 23) {
+    //21 ... 23 = (ex: x/2+4=6)
+    _equationInstance = EquationXdivisionPositive();
+  } else if (_quest > 23 && _quest <= 26) {
+    //24 ... 26 = (ex: x/2-4=6)
+    _equationInstance = EquationXdivisionNegative();
   } else if (_quest > 30 && _quest <= 40) {
     _equationInstance = EquationXpositiveNegative();
   }
