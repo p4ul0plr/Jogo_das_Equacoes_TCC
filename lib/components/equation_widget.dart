@@ -22,7 +22,11 @@ class EquationWidget extends StatelessWidget {
     double _widgetSize = 70.0;
     List<Widget> _equationsList;
     List<Widget> _rowsEquationList = [];
-    String _imageFruit = _getRandonFruit();
+    String _imageFruitX = _getRandonFruit();
+    String _imageFruitY;
+    do {
+      _imageFruitY = _getRandonFruit();
+    } while (_imageFruitX == _imageFruitY);
     for (var i = 0; i < equations.length; i++) {
       _equationsList = [];
       for (var j = 0; j < equations[i].length; j++) {
@@ -47,7 +51,7 @@ class EquationWidget extends StatelessWidget {
               flex: 1,
               child: Center(
                 child: Image.asset(
-                  _imageFruit,
+                  equations[i][j] == 'x' ? _imageFruitX : _imageFruitY,
                   height: _widgetSize,
                 ),
               ),
@@ -67,7 +71,7 @@ class EquationWidget extends StatelessWidget {
   }
 
   String _getRandonFruit() {
-    int _number = RandomNumbers().positiveNumber(max: 3);
+    int _number = RandomNumbers().positiveNumber(max: 8);
     switch (_number) {
       case 1:
         return 'assets/images/fruits/maca.png';
@@ -77,6 +81,21 @@ class EquationWidget extends StatelessWidget {
         break;
       case 3:
         return 'assets/images/fruits/banana-1.png';
+        break;
+      case 4:
+        return 'assets/images/fruits/abacaxi.png';
+        break;
+      case 5:
+        return 'assets/images/fruits/manga.png';
+        break;
+      case 6:
+        return 'assets/images/fruits/morango.png';
+        break;
+      case 7:
+        return 'assets/images/fruits/limao.png';
+        break;
+      case 8:
+        return 'assets/images/fruits/melancia.png';
         break;
       default:
         return null;

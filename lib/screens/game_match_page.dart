@@ -16,6 +16,10 @@ import 'package:jogo_das_equacoes/models/equations/equation_x_multiplication_pos
 import 'package:jogo_das_equacoes/models/equations/equation_x_negative.dart';
 import 'package:jogo_das_equacoes/models/equations/equation_x_positive.dart';
 import 'package:jogo_das_equacoes/models/equations/equation_x_positive_negative.dart';
+import 'package:jogo_das_equacoes/models/equations/equation_xy_negative.dart';
+import 'package:jogo_das_equacoes/models/equations/equation_xy_positive.dart';
+import 'package:jogo_das_equacoes/models/equations/equation_xy_positive_negative.dart';
+import 'package:jogo_das_equacoes/models/randon_numbers.dart';
 import 'package:jogo_das_equacoes/providers/game_match.dart';
 import 'package:jogo_das_equacoes/providers/player_status.dart';
 import 'package:provider/provider.dart';
@@ -151,15 +155,8 @@ class _GameMatchPageState extends State<GameMatchPage> {
     );
   }
 
-  int _negativePositiveNumber({@required int max}) {
-    bool sign = Random().nextBool();
-    if (sign) {
-      return 1 + Random().nextInt(max);
-    }
-    return -1 * (1 + Random().nextInt(max));
-  }
-
   List<Widget> _getAlternatives(int result, String quest) {
+    RandomNumbers _random = RandomNumbers();
     int _randomNumber;
     int _max = 20;
     List<int> _alternatives = [];
@@ -167,7 +164,7 @@ class _GameMatchPageState extends State<GameMatchPage> {
     _alternatives.add(result);
     for (var i = 0; i < NUMBER_OF_ALTERNATIVES - 1; i++) {
       do {
-        _randomNumber = _negativePositiveNumber(max: _max);
+        _randomNumber = _random.negativePositiveNumber(max: _max);
       } while (_alternatives.any((element) => element == _randomNumber));
       _alternatives.add(_randomNumber);
     }
@@ -209,7 +206,6 @@ int _calculateTheScore(BuildContext context) {
       break;
   }
   _playerStatusProvider.incrementScore(_calculatedScore);
-  print('Score: ${_playerStatusProvider.getScore()}');
   return _calculatedScore;
 }
 
@@ -242,6 +238,12 @@ Equation _getEquationInstance(String quest) {
     _equationInstance = EquationXdivisionNegative();
   } else if (_quest > 26 && _quest <= 30) {
     _equationInstance = EquationXdivisionPositiveNegative();
+  } else if (_quest > 30 && _quest <= 33) {
+    _equationInstance = EquationXYpositive();
+  } else if (_quest > 33 && _quest <= 36) {
+    _equationInstance = EquationXYnegative();
+  } else if (_quest > 36 && _quest <= 40) {
+    _equationInstance = EquationXYpositiveNegative();
   }
   return _equationInstance;
 }
@@ -275,14 +277,32 @@ class AlternativeButton extends StatelessWidget {
             _wrongAlternative(context);
           } else {
             if (_quest == currentQuest) {
-              _playerStatusProvider.incrementQuest();
-              _rightAlternative(context);
+              bool _lastQuest = currentQuest ==
+                  NUMBER_OF_STAGES * NUMBER_OF_QUESTS_IN_EACH_STAGE;
+              if (_lastQuest) {
+                _finishedTheGame(context);
+              } else {
+                _playerStatusProvider.incrementQuest();
+                _rightAlternative(context);
+              }
             } else {
               _rightAlternative(context);
             }
           }
         },
       ),
+    );
+  }
+
+  void _finishedTheGame(BuildContext context) {
+    Navigator.of(context).pop();
+    int _score = _calculateTheScore(context);
+    showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (context) {
+        return CustomAlertDialog(score: _score, quest: _currentQuest);
+      },
     );
   }
 

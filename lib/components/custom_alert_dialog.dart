@@ -8,6 +8,7 @@ const String WINNERS_TITLE = 'Parabéns :)';
 const String WINNERS_SUBTITLE = 'Você venceu!';
 const String LOSERS_TITLE = 'Não foi dessa vez :|';
 const String LOSERS_SUBTITLE = 'Você está quase lá, Tente novamente!';
+const String FINISHED_THE_GAME_SUBTITLE = 'Você completou o jogo!';
 
 int _currentQuest;
 
@@ -19,12 +20,15 @@ class CustomAlertDialog extends StatelessWidget {
   List<Widget> _stars = [];
   final int score;
   final int quest;
+  bool _lastQuest;
 
   CustomAlertDialog({
     this.score = 0,
     @required this.quest,
   }) {
     _currentQuest = this.quest;
+    _lastQuest =
+        _currentQuest == NUMBER_OF_STAGES * NUMBER_OF_QUESTS_IN_EACH_STAGE;
     _getStatusAlertDialog();
   }
 
@@ -71,7 +75,7 @@ class CustomAlertDialog extends StatelessWidget {
               child: Text(
                 _subtitle,
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 22,
                   fontFamily: 'Schoolbell',
                 ),
               ),
@@ -89,14 +93,20 @@ class CustomAlertDialog extends StatelessWidget {
   }
 
   void _getTitlesSubtitlesAndButtons() {
-    if (score > 0) {
+    if (_lastQuest) {
       _title = WINNERS_TITLE;
-      _subtitle = WINNERS_SUBTITLE;
-      _buttonIcon = Icons.redo;
-    } else {
-      _title = LOSERS_TITLE;
-      _subtitle = LOSERS_SUBTITLE;
+      _subtitle = FINISHED_THE_GAME_SUBTITLE;
       _buttonIcon = Icons.reply;
+    } else {
+      if (score > 0) {
+        _title = WINNERS_TITLE;
+        _subtitle = WINNERS_SUBTITLE;
+        _buttonIcon = Icons.redo;
+      } else {
+        _title = LOSERS_TITLE;
+        _subtitle = LOSERS_SUBTITLE;
+        _buttonIcon = Icons.reply;
+      }
     }
   }
 
@@ -157,7 +167,7 @@ class CustomRoundButton extends StatelessWidget {
             int _stage = _playerStatusProvider.getStage();
             bool _lastQuestOfStage =
                 (_currentQuest % NUMBER_OF_QUESTS_IN_EACH_STAGE == 0);
-            if (_stage <= NUMBER_OF_STAGES && _lastQuestOfStage) {
+            if (_stage < NUMBER_OF_STAGES && _lastQuestOfStage) {
               //O pushReplacement destroi a tela e vai para a pŕoxima
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
