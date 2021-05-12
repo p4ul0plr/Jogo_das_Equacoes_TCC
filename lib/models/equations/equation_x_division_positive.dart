@@ -11,9 +11,9 @@ class EquationXdivisionPositive extends Equation {
     List _equation2 = ['x', '=', '?'];
     bool _notNullNumerator;
     do {
-      _firstNumber = 1 + random.positiveNumber(max: 9);
-      _secondNumber = random.positiveNumber(max: 10);
-      _thirdNumber = random.positiveNumber(max: 10);
+      _firstNumber = 1 + random.positiveNumber(max: 4);
+      _secondNumber = random.positiveNumber(max: 5);
+      _thirdNumber = random.positiveNumber(max: 5);
       _notNullNumerator = _secondNumber == _thirdNumber;
     } while (_notNullNumerator);
     _equation1.add('x');

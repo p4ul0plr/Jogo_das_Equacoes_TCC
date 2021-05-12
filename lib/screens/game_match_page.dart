@@ -9,6 +9,7 @@ import 'package:jogo_das_equacoes/models/consts.dart';
 import 'package:jogo_das_equacoes/models/equations/equation_abstract.dart';
 import 'package:jogo_das_equacoes/models/equations/equation_x_division_negative.dart';
 import 'package:jogo_das_equacoes/models/equations/equation_x_division_positive.dart';
+import 'package:jogo_das_equacoes/models/equations/equation_x_division_positive_negative.dart';
 import 'package:jogo_das_equacoes/models/equations/equation_x_multiplication_negative.dart';
 import 'package:jogo_das_equacoes/models/equations/equation_x_multiplication_positive.dart';
 import 'package:jogo_das_equacoes/models/equations/equation_x_multiplication_positive_negative.dart';
@@ -239,8 +240,8 @@ Equation _getEquationInstance(String quest) {
   } else if (_quest > 23 && _quest <= 26) {
     //24 ... 26 = (ex: x/2-4=6)
     _equationInstance = EquationXdivisionNegative();
-  } else if (_quest > 30 && _quest <= 40) {
-    _equationInstance = EquationXpositiveNegative();
+  } else if (_quest > 26 && _quest <= 30) {
+    _equationInstance = EquationXdivisionPositiveNegative();
   }
   return _equationInstance;
 }
