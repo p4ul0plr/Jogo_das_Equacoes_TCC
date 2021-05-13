@@ -41,9 +41,8 @@ class _NewAccountPageState extends State<NewAccountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: CustomTitle(
-          title: 'Conta',
-        ),
+        title: CustomTitle(title: 'Conta'),
+        centerTitle: true,
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.save),

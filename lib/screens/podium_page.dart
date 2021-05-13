@@ -5,7 +5,10 @@ class PodiumPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: CustomTitle(title: 'Pódio')),
+      appBar: AppBar(
+        title: CustomTitle(title: 'Pódio'),
+        centerTitle: true,
+      ),
     );
   }
 }

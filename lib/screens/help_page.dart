@@ -6,9 +6,8 @@ class HelpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: CustomTitle(
-          title: 'Ajuda',
-        ),
+        title: CustomTitle(title: 'Ajuda'),
+        centerTitle: true,
       ),
     );
   }

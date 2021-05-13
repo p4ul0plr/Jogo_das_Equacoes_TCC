@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
 import 'package:jogo_das_equacoes/components/score.dart';
 import 'package:jogo_das_equacoes/models/consts.dart';
+import 'package:jogo_das_equacoes/models/sounds.dart';
 import 'package:jogo_das_equacoes/providers/player_status.dart';
 import 'package:jogo_das_equacoes/screens/quests_page.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,7 @@ class StagesPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: CustomTitle(title: 'Fases'),
+        centerTitle: true,
         actions: [
           Score(),
         ],
@@ -85,6 +87,7 @@ class _StageCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(10),
       child: InkWell(
         onTap: () {
+          Sounds().clickSound();
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => QuestsPage(stage: title),

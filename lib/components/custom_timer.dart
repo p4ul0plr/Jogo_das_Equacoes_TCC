@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:jogo_das_equacoes/models/sounds.dart';
+
 class CustomTimer extends StatefulWidget {
   final int counter;
   final void Function(bool) timerStop;
@@ -55,11 +57,13 @@ class _CustomTimerState extends State<CustomTimer> {
 
   void _startTimer(BuildContext context) {
     _counter = widget.counter;
+    Sounds _sounds = Sounds();
     if (_timer != null) {
       _timer.cancel();
     }
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (!_disposed) {
+        _sounds.tictacSound();
         setState(() {
           if (_counter > 0) {
             _counter--;
@@ -67,6 +71,7 @@ class _CustomTimerState extends State<CustomTimer> {
           } else {
             _timer.cancel();
             widget.timerStop(true);
+            _sounds.clearCache();
           }
         });
       }

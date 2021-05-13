@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jogo_das_equacoes/models/sounds.dart';
 import 'package:jogo_das_equacoes/screens/game_match_page.dart';
 
 class Quest extends StatelessWidget {
@@ -21,6 +22,7 @@ class Quest extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           child: InkWell(
             onTap: () {
+              Sounds().clickSound();
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => GameMatchPage(quest: title),

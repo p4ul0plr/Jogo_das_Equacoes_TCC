@@ -3,6 +3,7 @@ import 'package:jogo_das_equacoes/components/quest.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
 import 'package:jogo_das_equacoes/components/score.dart';
 import 'package:jogo_das_equacoes/models/consts.dart';
+import 'package:jogo_das_equacoes/models/sounds.dart';
 import 'package:jogo_das_equacoes/providers/player_status.dart';
 import 'package:jogo_das_equacoes/screens/stage_help_page.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +20,7 @@ class QuestsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: CustomTitle(title: 'Fase $stage: Missões'),
+        centerTitle: true,
         actions: <Widget>[
           Score(),
         ],
@@ -67,6 +69,7 @@ class QuestsPage extends StatelessWidget {
                 color: Colors.white,
               ),
               onPressed: () {
+                Sounds().clickSound();
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => StageHelp(stage: stage),

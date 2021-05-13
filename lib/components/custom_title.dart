@@ -7,14 +7,11 @@ class CustomTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        title,
-        style: TextStyle(
-          fontSize: 40,
-          fontFamily: 'Schoolbell',
-        ),
-        textAlign: TextAlign.center,
+    return Text(
+      title,
+      style: TextStyle(
+        fontSize: 40,
+        fontFamily: 'Schoolbell',
       ),
     );
   }

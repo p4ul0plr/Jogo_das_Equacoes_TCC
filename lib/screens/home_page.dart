@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jogo_das_equacoes/components/button_with_text_outside.dart';
+import 'package:jogo_das_equacoes/models/sounds.dart';
 import 'package:jogo_das_equacoes/screens/credits_page.dart';
 import 'package:jogo_das_equacoes/screens/help_page.dart';
 import 'package:jogo_das_equacoes/screens/login_page.dart';
@@ -60,6 +61,7 @@ class HomePage extends StatelessWidget {
       title: 'Pódio',
       icon: Icons.format_list_numbered,
       onPressed: () {
+        Sounds().clickSound();
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => PodiumPage(),
@@ -75,6 +77,7 @@ class HomePage extends StatelessWidget {
         title: 'Jogar',
         icon: Icons.play_arrow_rounded,
         onPressed: () {
+          Sounds().clickSound();
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => StagesPage(),
@@ -107,6 +110,7 @@ Widget _helpButton(BuildContext context) {
     title: 'Ajuda',
     icon: Icons.help,
     onPressed: () {
+      Sounds().clickSound();
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => HelpPage(),
@@ -122,6 +126,7 @@ Widget _accountButton(BuildContext context) {
     title: 'Conta',
     icon: Icons.account_circle_rounded,
     onPressed: () {
+      Sounds().clickSound();
       showDialog(
         barrierDismissible: true,
         context: context,
@@ -138,7 +143,10 @@ Widget _exitButton() {
     textPosition: ButtonWithTextOutsidePosition.top,
     title: 'Sair',
     icon: Icons.exit_to_app_rounded,
-    onPressed: () => SystemNavigator.pop(),
+    onPressed: () {
+      Sounds().clickSound();
+      SystemNavigator.pop();
+    },
   );
 }
 
@@ -148,6 +156,7 @@ Widget _creditsButton(BuildContext context) {
     title: 'Créditos',
     icon: Icons.feedback,
     onPressed: () {
+      Sounds().clickSound();
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => Credits(row: 4, column: 7),

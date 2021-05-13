@@ -11,6 +11,7 @@ class StageHelp extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: CustomTitle(title: 'Fase $stage: Ajuda'),
+        centerTitle: true,
       ),
     );
   }

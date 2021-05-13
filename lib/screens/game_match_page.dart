@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/custom_alert_dialog.dart';
 import 'package:jogo_das_equacoes/components/custom_timer.dart';
@@ -20,6 +18,7 @@ import 'package:jogo_das_equacoes/models/equations/equation_xy_negative.dart';
 import 'package:jogo_das_equacoes/models/equations/equation_xy_positive.dart';
 import 'package:jogo_das_equacoes/models/equations/equation_xy_positive_negative.dart';
 import 'package:jogo_das_equacoes/models/randon_numbers.dart';
+import 'package:jogo_das_equacoes/models/sounds.dart';
 import 'package:jogo_das_equacoes/providers/game_match.dart';
 import 'package:jogo_das_equacoes/providers/player_status.dart';
 import 'package:provider/provider.dart';
@@ -61,6 +60,7 @@ class _GameMatchPageState extends State<GameMatchPage> {
     return Scaffold(
       appBar: AppBar(
         title: CustomTitle(title: 'Missão: ${widget.quest}'),
+        centerTitle: true,
         actions: <Widget>[
           Hearts(),
           CustomTimer(
@@ -94,8 +94,13 @@ class _GameMatchPageState extends State<GameMatchPage> {
 
   Container _showSecondaryGameScreen(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(8.0),
-      padding: EdgeInsets.all(8.0),
+      margin: EdgeInsets.only(
+        right: 16.0,
+        bottom: 16.0,
+        left: 8.0,
+        top: 16.0,
+      ),
+      padding: EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: Theme.of(context).accentColor,
@@ -121,7 +126,12 @@ class _GameMatchPageState extends State<GameMatchPage> {
 
   Container _showMainGameScreen(BuildContext context, List equation) {
     return Container(
-      margin: EdgeInsets.all(8.0),
+      margin: EdgeInsets.only(
+        left: 16.0,
+        bottom: 16.0,
+        right: 8.0,
+        top: 16.0,
+      ),
       height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -146,6 +156,7 @@ class _GameMatchPageState extends State<GameMatchPage> {
 
   void _timeIsOver(BuildContext context) {
     Navigator.of(context).pop();
+    Sounds().failureSound();
     showDialog(
       barrierDismissible: true,
       context: context,
@@ -297,6 +308,7 @@ class AlternativeButton extends StatelessWidget {
   void _finishedTheGame(BuildContext context) {
     Navigator.of(context).pop();
     int _score = _calculateTheScore(context);
+    Sounds().successSound();
     showDialog(
       barrierDismissible: true,
       context: context,
@@ -309,6 +321,7 @@ class AlternativeButton extends StatelessWidget {
   void _rightAlternative(BuildContext context) {
     Navigator.of(context).pop();
     int _score = _calculateTheScore(context);
+    Sounds().successSound();
     showDialog(
       barrierDismissible: true,
       context: context,
@@ -323,6 +336,7 @@ class AlternativeButton extends StatelessWidget {
         Provider.of<GameMatchProvider>(context, listen: false);
     _gameMatchProvider.decreaseGameAttempts();
     int _matchAttempts = _gameMatchProvider.getMatchAttempts();
+    Sounds().failureSound();
     if (_matchAttempts == 0) {
       Navigator.of(context).pop();
       showDialog(

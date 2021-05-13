@@ -14,9 +14,8 @@ class Credits extends StatelessWidget {
     final itemWidth = (size.longestSide) / column;
     return Scaffold(
       appBar: AppBar(
-        title: CustomTitle(
-          title: 'Crétitos',
-        ),
+        title: CustomTitle(title: 'Crétitos'),
+        centerTitle: true,
       ),
       body: Row(
         children: [
