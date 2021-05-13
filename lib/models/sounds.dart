@@ -34,5 +34,6 @@ class Sounds {
       'audio/tictac.wav',
       volume: 0.02,
     );
+    audioCache.clear('audio/tictac.wav');
   }
 }

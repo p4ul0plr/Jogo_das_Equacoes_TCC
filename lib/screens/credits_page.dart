@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
 
+const String mainText =
+    'Trabalho apresentado à Universidade Federal do Vale do São Francisco - UNIVASF, Campus Juazeiro, como requisito para obtenção do título de Bacharel em Engenharia da Computação.';
+const String secondaryText =
+    'Aluno: Paulo Roberto da Silva Nobrega \nOrientador: Prof. Dr. Ricardo Argenton Ramos\n Co-orientadores: Prof. Michel Ferreira Batista e \nKeren Priscila da Silva Nobrega';
+
 class Credits extends StatelessWidget {
   final int row;
   final int column;
@@ -9,53 +14,51 @@ class Credits extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final itemHeight = (size.shortestSide - kToolbarHeight) / row;
-    final itemWidth = (size.longestSide) / column;
     return Scaffold(
       appBar: AppBar(
         title: CustomTitle(title: 'Crétitos'),
         centerTitle: true,
       ),
-      body: Row(
-        children: [
-          Expanded(
-            flex: 1,
-            child: GridView.count(
-                childAspectRatio: (itemHeight / itemWidth),
-                scrollDirection: Axis.horizontal,
-                padding: EdgeInsets.all(0.0),
-                crossAxisCount: row,
-                crossAxisSpacing: 0,
-                mainAxisSpacing: 0,
-                shrinkWrap: true,
-                children: _getItens(row * column)),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/logo_univasf.png',
+                  height: 70,
+                ),
+                SizedBox(height: 25.0),
+                Container(
+                  width: 600,
+                  child: Text(
+                    mainText,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 25.0),
+                Container(
+                  width: 600,
+                  child: Text(
+                    secondaryText,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-          Expanded(
-            flex: 1,
-            child: Text(''),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-List<Widget> _getItens(int quantity) {
-  List<Widget> listItens = [];
-  for (var i = 0; i < quantity; i++) {
-    listItens.add(
-      Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.blue[100],
-          /* boxShadow: [
-                BoxShadow(color: Colors.grey[200], spreadRadius: 5),
-              ], */
         ),
-        child: Center(child: CustomTitle(title: '${i + 1}')),
       ),
     );
   }
-  return listItens;
 }

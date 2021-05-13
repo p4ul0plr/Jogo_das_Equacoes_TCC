@@ -113,7 +113,7 @@ class _GameMatchPageState extends State<GameMatchPage> {
                 child: Text(
                   'Alternativas',
                   style: TextStyle(
-                    fontSize: 24.0,
+                    fontSize: 20.0,
                     fontFamily: 'Schoolbell',
                   ),
                 ),
