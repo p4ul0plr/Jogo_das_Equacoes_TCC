@@ -60,6 +60,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
                   school: _selectedSchool,
                   /* playerStatus: new PlayerStatus(), */
                 );
+                print(user);
               }
             },
           ),

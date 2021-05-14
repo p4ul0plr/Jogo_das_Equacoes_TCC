@@ -39,9 +39,13 @@ class _CustomTimerState extends State<CustomTimer> {
         children: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
-            child: Icon(
+            /* child: Icon(
               Icons.timer,
               size: 32.0,
+            ), */
+            child: Image.asset(
+              'assets/images/clock.png',
+              width: 32.0,
             ),
           ),
           Text(

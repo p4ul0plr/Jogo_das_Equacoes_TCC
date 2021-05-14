@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jogo_das_equacoes/components/custom_boxshadow.dart';
 
 enum ButtonWithTextOutsidePosition {
   top,
@@ -111,8 +110,12 @@ class _CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
       padding: padding,
+      /* decoration: ShapeDecoration(
+        shape: CircleBorder(),
+        shadows: [CustomBoxShadow()],
+      ), */
       child: ClipOval(
         child: Material(
           color: color,
@@ -123,7 +126,7 @@ class _CustomButton extends StatelessWidget {
               height: 50,
               child: Icon(
                 icon,
-                color: Colors.white,
+                color: Colors.white.withOpacity(0.7),
               ),
             ),
             onTap: onPressed,
@@ -166,6 +169,7 @@ class _CustomTitle extends StatelessWidget {
         style: TextStyle(
           fontSize: fontSize,
           fontFamily: 'Schoolbell',
+          color: Colors.white.withOpacity(0.8),
         ),
       ),
     );

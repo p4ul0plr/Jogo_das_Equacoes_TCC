@@ -196,10 +196,17 @@ class CustomRoundButton extends StatelessWidget {
 class IconStarWithBorder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Icon(
+    /* return Icon(
       Icons.star_border,
       size: 60.0,
       color: Colors.yellow,
+    ); */
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Image.asset(
+        'assets/images/star-border.png',
+        width: 60.0,
+      ),
     );
   }
 }
@@ -207,10 +214,17 @@ class IconStarWithBorder extends StatelessWidget {
 class IconStar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Icon(
+    /* return Icon(
       Icons.star,
       size: 60.0,
       color: Colors.yellow,
+    ); */
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Image.asset(
+        'assets/images/star.png',
+        width: 60.0,
+      ),
     );
   }
 }

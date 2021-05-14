@@ -35,7 +35,7 @@ class QuestsPage extends StatelessWidget {
       ),
       floatingActionButton: Stack(
         children: [
-          Align(
+          /*Align(
             alignment: Alignment(1.0, 0.25),
             child: FloatingActionButton(
               heroTag: 'increment quest',
@@ -58,7 +58,7 @@ class QuestsPage extends StatelessWidget {
                 _playerStatusProvider.resetScore();
               },
             ),
-          ),
+          ),*/
           Align(
             alignment: Alignment.bottomRight,
             child: FloatingActionButton(

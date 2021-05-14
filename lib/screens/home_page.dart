@@ -15,11 +15,11 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(32.0),
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/blackboard.png'),
-            fit: BoxFit.contain,
+            image: AssetImage('assets/images/blackboard4.png'),
+            fit: BoxFit.fill,
           ),
         ),
         child: Column(
@@ -44,6 +44,7 @@ class HomePage extends StatelessWidget {
           style: TextStyle(
             fontSize: 60,
             fontFamily: 'Schoolbell',
+            color: Colors.white.withOpacity(0.8),
           ),
         ),
       ],

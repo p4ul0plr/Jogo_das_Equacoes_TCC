@@ -380,7 +380,7 @@ class Hearts extends StatelessWidget {
     return Consumer<GameMatchProvider>(builder: (context, gameMatch, child) {
       int numberOfHearts = gameMatch.getMatchAttempts();
       return Container(
-        padding: EdgeInsets.only(right: 16.0),
+        padding: EdgeInsets.only(right: 32.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: _getNumberOfHearts(context, numberOfHearts),
@@ -422,10 +422,17 @@ class Hearts extends StatelessWidget {
 class IconHeartWithBorder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Icon(
+    /* return Icon(
       Icons.favorite_border,
       size: 32.0,
       color: ThemeColors().pink,
+    ); */
+    return Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: Image.asset(
+        'assets/images/broken-heart2.png',
+        width: 32.0,
+      ),
     );
   }
 }
@@ -433,10 +440,17 @@ class IconHeartWithBorder extends StatelessWidget {
 class IconHeart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Icon(
+    /* return Icon(
       Icons.favorite,
       size: 32.0,
       color: ThemeColors().pink,
+    ); */
+    return Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: Image.asset(
+        'assets/images/heart.png',
+        width: 32.0,
+      ),
     );
   }
 }

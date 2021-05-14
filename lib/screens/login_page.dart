@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/custom_textfild.dart';
-import 'package:jogo_das_equacoes/models/colors.dart';
 import 'package:jogo_das_equacoes/models/player.dart';
 import 'package:jogo_das_equacoes/screens/new_account_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
