@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jogo_das_equacoes/components/custom_boxshadow.dart';
 import 'package:jogo_das_equacoes/models/sounds.dart';
 import 'package:jogo_das_equacoes/screens/game_match_page.dart';
 
@@ -7,8 +8,15 @@ class Quest extends StatelessWidget {
   final double width;
   final double height;
   final bool isEnable;
+  final int currentStage;
 
-  Quest({this.title, this.width, this.height, this.isEnable});
+  Quest({
+    this.title,
+    this.width,
+    this.height,
+    this.isEnable,
+    this.currentStage,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +25,11 @@ class Quest extends StatelessWidget {
         margin: EdgeInsets.all(8.0),
         width: width,
         height: height,
+        decoration: BoxDecoration(
+          boxShadow: [
+            CustomBoxShadow(),
+          ],
+        ),
         child: Material(
           color: Theme.of(context).accentColor,
           borderRadius: BorderRadius.circular(10),
@@ -25,7 +38,10 @@ class Quest extends StatelessWidget {
               Sounds().clickSound();
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => GameMatchPage(quest: title),
+                  builder: (context) => GameMatchPage(
+                    quest: title,
+                    currentStage: currentStage,
+                  ),
                 ),
               );
             },
@@ -46,6 +62,11 @@ class Quest extends StatelessWidget {
         margin: EdgeInsets.all(8.0),
         width: width,
         height: height,
+        decoration: BoxDecoration(
+          boxShadow: [
+            CustomBoxShadow(),
+          ],
+        ),
         child: Material(
           color: Colors.grey[300],
           borderRadius: BorderRadius.circular(10),

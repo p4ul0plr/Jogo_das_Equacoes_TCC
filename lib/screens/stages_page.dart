@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jogo_das_equacoes/components/custom_boxshadow.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
 import 'package:jogo_das_equacoes/components/score.dart';
 import 'package:jogo_das_equacoes/models/consts.dart';
@@ -44,6 +45,11 @@ List<Widget> _getStages(BuildContext context, int numberOfStages) {
   for (var i = 0; i < numberOfStages; i++) {
     listStages.add(
       Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              CustomBoxShadow(),
+            ],
+          ),
           margin: EdgeInsets.only(
             top: _externalPadding,
             left: _externalPadding,

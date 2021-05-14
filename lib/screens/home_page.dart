@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jogo_das_equacoes/components/button_with_text_outside.dart';
+import 'package:jogo_das_equacoes/models/colors.dart';
 import 'package:jogo_das_equacoes/models/sounds.dart';
 import 'package:jogo_das_equacoes/screens/credits_page.dart';
 import 'package:jogo_das_equacoes/screens/help_page.dart';
@@ -13,16 +14,20 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Padding(
+      body: Container(
         padding: const EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/blackboard.png'),
+            fit: BoxFit.contain,
+          ),
+        ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             _showTheApplicationTitle(),
-            Spacer(),
             _showMainButtons(context),
-            Spacer(),
             _showSecondaryButtons(context),
           ],
         ),
@@ -60,6 +65,7 @@ class HomePage extends StatelessWidget {
       textPosition: ButtonWithTextOutsidePosition.left,
       title: 'Pódio',
       icon: Icons.format_list_numbered,
+      color: ThemeColors().blue,
       onPressed: () {
         Sounds().clickSound();
         Navigator.of(context).push(
@@ -76,6 +82,7 @@ class HomePage extends StatelessWidget {
         textPosition: ButtonWithTextOutsidePosition.right,
         title: 'Jogar',
         icon: Icons.play_arrow_rounded,
+        color: ThemeColors().blue,
         onPressed: () {
           Sounds().clickSound();
           Navigator.of(context).push(
@@ -109,6 +116,7 @@ Widget _helpButton(BuildContext context) {
     textPosition: ButtonWithTextOutsidePosition.bottom,
     title: 'Ajuda',
     icon: Icons.help,
+    color: ThemeColors().pink,
     onPressed: () {
       Sounds().clickSound();
       Navigator.of(context).push(
@@ -125,6 +133,7 @@ Widget _accountButton(BuildContext context) {
     textPosition: ButtonWithTextOutsidePosition.bottom,
     title: 'Conta',
     icon: Icons.account_circle_rounded,
+    color: ThemeColors().pink,
     onPressed: () {
       Sounds().clickSound();
       showDialog(
@@ -143,6 +152,7 @@ Widget _exitButton() {
     textPosition: ButtonWithTextOutsidePosition.top,
     title: 'Sair',
     icon: Icons.exit_to_app_rounded,
+    color: ThemeColors().green,
     onPressed: () {
       Sounds().clickSound();
       SystemNavigator.pop();
@@ -155,6 +165,7 @@ Widget _creditsButton(BuildContext context) {
     textPosition: ButtonWithTextOutsidePosition.top,
     title: 'Créditos',
     icon: Icons.feedback,
+    color: ThemeColors().green,
     onPressed: () {
       Sounds().clickSound();
       Navigator.of(context).push(

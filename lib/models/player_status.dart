@@ -21,7 +21,6 @@ class PlayerStatus extends ChangeNotifier {
       this.quest++;
       this.stage++;
     }
-    print('Quest: ${this.quest}, Stage: ${this.stage}');
     notifyListeners();
   }
 

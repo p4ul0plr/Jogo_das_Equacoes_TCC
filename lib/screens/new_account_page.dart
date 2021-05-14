@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/custom_dropdownbuttom.dart';
 import 'package:jogo_das_equacoes/components/custom_textfild.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
+import 'package:jogo_das_equacoes/models/colors.dart';
 import 'package:jogo_das_equacoes/models/player.dart';
 
 const List<String> grades = [
@@ -42,6 +43,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
     return Scaffold(
       appBar: AppBar(
         title: CustomTitle(title: 'Conta'),
+        backgroundColor: ThemeColors().pink,
         centerTitle: true,
         actions: <Widget>[
           IconButton(
@@ -58,7 +60,6 @@ class _NewAccountPageState extends State<NewAccountPage> {
                   school: _selectedSchool,
                   /* playerStatus: new PlayerStatus(), */
                 );
-                print(user);
               }
             },
           ),

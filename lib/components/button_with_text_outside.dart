@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jogo_das_equacoes/components/custom_boxshadow.dart';
 
 enum ButtonWithTextOutsidePosition {
   top,
@@ -11,6 +12,7 @@ class ButtonWithTextOutside extends StatelessWidget {
   final ButtonWithTextOutsidePosition textPosition;
   final String title;
   final IconData icon;
+  final Color color;
   final void Function() onPressed;
 
   const ButtonWithTextOutside({
@@ -18,6 +20,7 @@ class ButtonWithTextOutside extends StatelessWidget {
     @required this.title,
     @required this.icon,
     @required this.onPressed,
+    @required this.color,
   });
 
   @override
@@ -31,6 +34,7 @@ class ButtonWithTextOutside extends StatelessWidget {
             ),
             _CustomButton(
               icon: icon,
+              color: color,
               onPressed: onPressed,
             ),
           ],
@@ -41,6 +45,7 @@ class ButtonWithTextOutside extends StatelessWidget {
           children: [
             _CustomButton(
               icon: icon,
+              color: color,
               onPressed: onPressed,
               padding: EdgeInsets.symmetric(horizontal: 16.0),
             ),
@@ -56,6 +61,7 @@ class ButtonWithTextOutside extends StatelessWidget {
           children: [
             _CustomButton(
               icon: icon,
+              color: color,
               onPressed: onPressed,
               padding: EdgeInsets.only(left: 16.0),
             ),
@@ -77,6 +83,7 @@ class ButtonWithTextOutside extends StatelessWidget {
             ),
             _CustomButton(
               icon: icon,
+              color: color,
               onPressed: onPressed,
               padding: EdgeInsets.only(right: 16.0),
             ),
@@ -92,29 +99,49 @@ class ButtonWithTextOutside extends StatelessWidget {
 class _CustomButton extends StatelessWidget {
   final EdgeInsets padding;
   final IconData icon;
+  final Color color;
   final void Function() onPressed;
 
   _CustomButton({
     @required this.icon,
     @required this.onPressed,
     this.padding = EdgeInsets.zero,
+    this.color,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: padding,
-      child: Ink(
+      child: ClipOval(
+        child: Material(
+          color: color,
+          child: InkWell(
+            splashColor: Theme.of(context).accentColor, // inkwell color
+            child: SizedBox(
+              width: 50,
+              height: 50,
+              child: Icon(
+                icon,
+                color: Colors.white,
+              ),
+            ),
+            onTap: onPressed,
+          ),
+        ),
+      ),
+      /* Ink(
         decoration: ShapeDecoration(
-          color: Theme.of(context).primaryColor,
+          color: color,
           shape: CircleBorder(),
+          shadows: [CustomBoxShadow()],
         ),
         child: IconButton(
           icon: Icon(icon),
           color: Colors.white,
           onPressed: onPressed,
         ),
-      ),
+      ), */
     );
   }
 }

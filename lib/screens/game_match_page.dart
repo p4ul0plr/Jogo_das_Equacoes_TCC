@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/custom_alert_dialog.dart';
+import 'package:jogo_das_equacoes/components/custom_boxshadow.dart';
 import 'package:jogo_das_equacoes/components/custom_timer.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
 import 'package:jogo_das_equacoes/components/equation_widget.dart';
+import 'package:jogo_das_equacoes/models/colors.dart';
 import 'package:jogo_das_equacoes/models/consts.dart';
 import 'package:jogo_das_equacoes/models/equations/equation_abstract.dart';
 import 'package:jogo_das_equacoes/models/equations/equation_x_division_negative.dart';
@@ -29,19 +31,22 @@ const int WEIGHT_OF_TIME = 10;
 
 int _currentTime;
 int _currentQuest;
+int _currentStage;
 
 // ignore: must_be_immutable
 class GameMatchPage extends StatefulWidget {
   final String quest;
+  final int currentStage;
   Equation _equationInstance;
   List _equation;
   int _result;
 
-  GameMatchPage({this.quest}) {
+  GameMatchPage({this.quest, this.currentStage}) {
     _equationInstance = _getEquationInstance(quest);
     _equation = _equationInstance.getEquations();
     _result = _equationInstance.getResultOfTheEquation();
     _currentQuest = int.parse(quest);
+    _currentStage = this.currentStage;
   }
 
   @override
@@ -104,6 +109,7 @@ class _GameMatchPageState extends State<GameMatchPage> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: Theme.of(context).accentColor,
+        boxShadow: [CustomBoxShadow()],
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -136,6 +142,7 @@ class _GameMatchPageState extends State<GameMatchPage> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: Theme.of(context).accentColor,
+        boxShadow: [CustomBoxShadow()],
       ),
       child: EquationWidget(equations: equation),
       /* child: Center(
@@ -161,7 +168,10 @@ class _GameMatchPageState extends State<GameMatchPage> {
       barrierDismissible: true,
       context: context,
       builder: (context) {
-        return CustomAlertDialog(quest: _currentQuest);
+        return CustomAlertDialog(
+          quest: _currentQuest,
+          currentStage: _currentStage,
+        );
       },
     );
   }
@@ -275,7 +285,10 @@ class AlternativeButton extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: ElevatedButton(
-        style: ButtonStyle(),
+        style: ElevatedButton.styleFrom(
+          primary: ThemeColors().blue, // background
+          onPrimary: Colors.white, // foreground
+        ),
         child: Text(
           alternative.toString(),
           style: TextStyle(fontSize: 20.0),
@@ -313,7 +326,11 @@ class AlternativeButton extends StatelessWidget {
       barrierDismissible: true,
       context: context,
       builder: (context) {
-        return CustomAlertDialog(score: _score, quest: _currentQuest);
+        return CustomAlertDialog(
+          score: _score,
+          quest: _currentQuest,
+          currentStage: _currentStage,
+        );
       },
     );
   }
@@ -326,7 +343,11 @@ class AlternativeButton extends StatelessWidget {
       barrierDismissible: true,
       context: context,
       builder: (context) {
-        return CustomAlertDialog(score: _score, quest: _currentQuest);
+        return CustomAlertDialog(
+          score: _score,
+          quest: _currentQuest,
+          currentStage: _currentStage,
+        );
       },
     );
   }
@@ -343,7 +364,10 @@ class AlternativeButton extends StatelessWidget {
         barrierDismissible: true,
         context: context,
         builder: (context) {
-          return CustomAlertDialog(quest: _currentQuest);
+          return CustomAlertDialog(
+            quest: _currentQuest,
+            currentStage: _currentStage,
+          );
         },
       );
     }
@@ -401,7 +425,7 @@ class IconHeartWithBorder extends StatelessWidget {
     return Icon(
       Icons.favorite_border,
       size: 32.0,
-      color: Colors.red[200],
+      color: ThemeColors().pink,
     );
   }
 }
@@ -412,7 +436,7 @@ class IconHeart extends StatelessWidget {
     return Icon(
       Icons.favorite,
       size: 32.0,
-      color: Colors.red[200],
+      color: ThemeColors().pink,
     );
   }
 }

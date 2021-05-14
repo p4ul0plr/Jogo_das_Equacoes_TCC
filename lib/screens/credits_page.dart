@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
+import 'package:jogo_das_equacoes/models/colors.dart';
 
 const String mainText =
     'Trabalho apresentado à Universidade Federal do Vale do São Francisco - UNIVASF, Campus Juazeiro, como requisito para obtenção do título de Bacharel em Engenharia da Computação.';
@@ -17,6 +18,7 @@ class Credits extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: CustomTitle(title: 'Crétitos'),
+        backgroundColor: ThemeColors().green,
         centerTitle: true,
       ),
       body: Center(

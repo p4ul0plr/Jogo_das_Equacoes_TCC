@@ -12,6 +12,7 @@ const String LOSERS_SUBTITLE = 'Você está quase lá, Tente novamente!';
 const String FINISHED_THE_GAME_SUBTITLE = 'Você completou o jogo!';
 
 int _currentQuest;
+int _currentStage;
 
 // ignore: must_be_immutable
 class CustomAlertDialog extends StatelessWidget {
@@ -21,12 +22,15 @@ class CustomAlertDialog extends StatelessWidget {
   List<Widget> _stars = [];
   final int score;
   final int quest;
+  final currentStage;
   bool _lastQuest;
 
   CustomAlertDialog({
     this.score = 0,
     @required this.quest,
+    @required this.currentStage,
   }) {
+    _currentStage = this.currentStage;
     _currentQuest = this.quest;
     _lastQuest =
         _currentQuest == NUMBER_OF_STAGES * NUMBER_OF_QUESTS_IN_EACH_STAGE;
@@ -156,12 +160,13 @@ class CustomRoundButton extends StatelessWidget {
         child: InkWell(
           splashColor: Theme.of(context).accentColor, // inkwell color
           child: SizedBox(
-              width: 40,
-              height: 40,
-              child: Icon(
-                icon,
-                color: Colors.white,
-              )),
+            width: 40,
+            height: 40,
+            child: Icon(
+              icon,
+              color: Colors.white,
+            ),
+          ),
           onTap: () {
             Sounds().clickSound();
             var _playerStatusProvider =
@@ -169,12 +174,13 @@ class CustomRoundButton extends StatelessWidget {
             int _stage = _playerStatusProvider.getStage();
             bool _lastQuestOfStage =
                 (_currentQuest % NUMBER_OF_QUESTS_IN_EACH_STAGE == 0);
-            print('_stage: $_stage, _lastQuestOfStage: $_lastQuestOfStage');
-            if (_stage <= NUMBER_OF_STAGES && _lastQuestOfStage) {
+            if (_stage <= NUMBER_OF_STAGES &&
+                _lastQuestOfStage &&
+                _currentStage + 1 <= NUMBER_OF_STAGES) {
               //O pushReplacement destroi a tela e vai para a pŕoxima
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => QuestsPage(stage: _stage),
+                  builder: (context) => QuestsPage(stage: _currentStage + 1),
                 ),
               );
             } else {

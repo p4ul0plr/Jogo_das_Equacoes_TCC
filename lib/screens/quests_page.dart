@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/quest.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
 import 'package:jogo_das_equacoes/components/score.dart';
+import 'package:jogo_das_equacoes/models/colors.dart';
 import 'package:jogo_das_equacoes/models/consts.dart';
 import 'package:jogo_das_equacoes/models/sounds.dart';
 import 'package:jogo_das_equacoes/providers/player_status.dart';
@@ -62,7 +63,7 @@ class QuestsPage extends StatelessWidget {
             alignment: Alignment.bottomRight,
             child: FloatingActionButton(
               heroTag: 'help button',
-              backgroundColor: Theme.of(context).primaryColor,
+              backgroundColor: ThemeColors().pink,
               child: Icon(
                 Icons.help,
                 size: 40,
@@ -95,6 +96,7 @@ List<Widget> _getQuests(
         Consumer<PlayerStatusProvider>(
           builder: (context, playerStatus, child) {
             return Quest(
+              currentStage: stage,
               isEnable: title <= playerStatus.getQuest() ? true : false,
               title: '$title',
               width: (MediaQuery.of(context).size.longestSide -

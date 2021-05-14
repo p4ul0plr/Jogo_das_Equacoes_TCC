@@ -2,38 +2,49 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 class Sounds {
-  AudioCache audioCache = AudioCache(fixedPlayer: new AudioPlayer());
+  AudioPlayer audioPlayer;
+  AudioCache audioCache;
 
-  void clearCache() {
-    audioCache.clearCache();
-  }
-
-  void clickSound() {
-    audioCache.play(
+  void clickSound() async {
+    initState();
+    await audioCache.play(
       'audio/click.mp3',
       volume: 0.1,
     );
   }
 
-  void successSound() {
-    audioCache.play(
+  void successSound() async {
+    initState();
+    await audioCache.play(
       'audio/success.wav',
       mode: PlayerMode.LOW_LATENCY,
     );
   }
 
-  void failureSound() {
-    audioCache.play(
+  void failureSound() async {
+    initState();
+    await audioCache.play(
       'audio/failure.wav',
       mode: PlayerMode.LOW_LATENCY,
     );
   }
 
-  void tictacSound() {
-    audioCache.play(
+  void tictacSound() async {
+    initState();
+    await audioCache.play(
       'audio/tictac.wav',
       volume: 0.02,
     );
-    audioCache.clear('audio/tictac.wav');
+  }
+
+  void initState() {
+    audioPlayer = AudioPlayer();
+    audioCache = AudioCache(fixedPlayer: audioPlayer);
+  }
+
+  void dispose() {
+    audioPlayer.release();
+    audioPlayer.dispose();
+    audioCache.clearCache();
   }
 }
