@@ -56,6 +56,7 @@ flutter:
     - assets/images/
     - assets/images/fruits/
     - assets/images/screens/
+    - assets/images/screens/quests/
     - assets/audio/
 
   # An image asset can refer to one or more resolution-specific "variants", see

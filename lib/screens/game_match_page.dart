@@ -258,12 +258,16 @@ Equation _getEquationInstance(String quest) {
     //24 ... 26 = (ex: x/2-4=6)
     _equationInstance = EquationXdivisionNegative();
   } else if (_quest > 26 && _quest <= 30) {
+    //27 ... 30 = (ex: x/2+4=-6)
     _equationInstance = EquationXdivisionPositiveNegative();
   } else if (_quest > 30 && _quest <= 33) {
+    //31 ... 33 = (ex: y=10;x+y=2)
     _equationInstance = EquationXYpositive();
   } else if (_quest > 33 && _quest <= 36) {
+    //34 ... 36 = (ex: y=10;x-y=2)
     _equationInstance = EquationXYnegative();
   } else if (_quest > 36 && _quest <= 40) {
+    //37 ... 40 = (ex: y=-10;x-y=-2)
     _equationInstance = EquationXYpositiveNegative();
   }
   return _equationInstance;

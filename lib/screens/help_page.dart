@@ -36,8 +36,8 @@ class HelpPage extends StatelessWidget {
     return InfoCard(
       color: ThemeColors().lightPink,
       text: [
-        'A pontuação adquirida durante o jogo será usada para a construção do pódio onde você poderá comparar a sua pontuação com os colegas e amigos.',
-        'Para participar do pódio é necessário acesso a internet e a criação da conta com as informações do usuário.'
+        'A pontuação adquirida durante o jogo será usada para a construção do pódio onde você poderá comparar a sua pontuação com os colegas e amigos',
+        'Para participar do pódio é necessário acesso a internet e a criação da conta com as informações do usuário'
       ],
       imagePath: 'assets/images/screens/podium.jpg',
       infoCardPosition: InfoCardPosition.textRightImageLeft,
@@ -48,7 +48,7 @@ class HelpPage extends StatelessWidget {
     return InfoCard(
       color: ThemeColors().lightPink,
       text: [
-        'Mas se você não conseguir passar na missão não se preocupe, você pode reiniciar a missão e tentar quantas vezes quiser.'
+        'Mas se você não conseguir passar na missão não se preocupe, você pode reiniciar a missão e tentar quantas vezes quiser'
       ],
       imagePath: 'assets/images/screens/lose.jpg',
       infoCardPosition: InfoCardPosition.textLeftImageRight,
@@ -59,8 +59,8 @@ class HelpPage extends StatelessWidget {
     return InfoCard(
       color: ThemeColors().lightPink,
       text: [
-        'A cada missão concluída, você receberá uma pontuação condizente com o seu desempenho.',
-        'Essa pontuação será incrementada e formará a sua pontuação total.',
+        'A cada missão concluída, você receberá uma pontuação condizente com o seu desempenho',
+        'Essa pontuação será incrementada e formará a sua pontuação total',
       ],
       imagePath: 'assets/images/screens/win.jpg',
       infoCardPosition: InfoCardPosition.textRightImageLeft,
@@ -71,9 +71,9 @@ class HelpPage extends StatelessWidget {
     return InfoCard(
       color: ThemeColors().lightPink,
       text: [
-        'A cada missão você receberá uma equação diferente para resolver.',
-        'Você terá 1 minuto para escolher a resposta correta.',
-        'Você terá 3 chances para acertar a resposta dentre as alternativas.',
+        'A cada missão você receberá uma equação diferente para resolver',
+        'Você terá 1 minuto para escolher a resposta correta',
+        'Você terá 3 chances para acertar a resposta dentre as alternativas',
       ],
       imagePath: 'assets/images/screens/game-match.jpg',
       infoCardPosition: InfoCardPosition.textLeftImageRight,
@@ -84,7 +84,7 @@ class HelpPage extends StatelessWidget {
     return InfoCard(
       color: ThemeColors().lightPink,
       text: [
-        'Cada fase contém 10 missões diferentes.',
+        'Cada fase contém 10 missões diferentes',
         'A cada missão concluida, a seguinte será desbloqueada',
       ],
       imagePath: 'assets/images/screens/quests.jpg',
@@ -105,7 +105,7 @@ class HelpPage extends StatelessWidget {
     return CustomCard(
       color: ThemeColors().lightPink,
       child: Text(
-        'O “Jogo das Equações”, é um jogo que auxilia no processo de aprendizagem de equações do 1º grau.',
+        'O “Jogo das Equações”, é um jogo que auxilia no processo de aprendizagem de equações do 1º grau',
         style: TextStyle(
           fontSize: 24.0,
           fontWeight: FontWeight.bold,

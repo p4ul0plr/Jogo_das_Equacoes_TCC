@@ -28,7 +28,7 @@ class EquationXmultiplicationPositiveNegative extends Equation {
       ),
     );
     _equation1.add(_firstNumber.abs().toString());
-    _equation1.add('.');
+    _equation1.add('·');
     _equation1.add('x');
     _equation1.add(
       random.mathematicalSign(
