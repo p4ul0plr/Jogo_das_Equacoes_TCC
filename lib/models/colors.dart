@@ -6,4 +6,5 @@ class ThemeColors {
   final Color yellow = Color(0xFFffea60);
   final Color blue = Color(0xFF66e0f7);
   final Color lightBlue = Color(0xFFd3f8ff);
+  final Color lightPink = Color(0xFFffedf1);
 }
