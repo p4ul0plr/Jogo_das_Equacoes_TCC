@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/custom_textfild.dart';
+import 'package:jogo_das_equacoes/models/colors.dart';
 import 'package:jogo_das_equacoes/models/player.dart';
 import 'package:jogo_das_equacoes/screens/new_account_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -59,6 +60,10 @@ class _LoginPageState extends State<LoginPage> {
                   width: 200,
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: ThemeColors().pink, // background
+                      onPrimary: Colors.white, // foreground
+                    ),
                     child: Text('Entrar'),
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
@@ -97,7 +102,10 @@ class _LoginPageState extends State<LoginPage> {
                     TextButton(
                       child: Text(
                         'Cancelar',
-                        style: TextStyle(fontSize: 12.0),
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: ThemeColors().pink,
+                        ),
                       ),
                       onPressed: () {
                         Navigator.of(context).pop();
@@ -106,7 +114,10 @@ class _LoginPageState extends State<LoginPage> {
                     TextButton(
                       child: Text(
                         'Criar Conta',
-                        style: TextStyle(fontSize: 12.0),
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: ThemeColors().pink,
+                        ),
                       ),
                       onPressed: () {
                         Navigator.of(context).push(
