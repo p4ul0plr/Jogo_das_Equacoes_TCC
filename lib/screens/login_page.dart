@@ -1,10 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/custom_textfild.dart';
+import 'package:jogo_das_equacoes/database/authentication_service.dart';
 import 'package:jogo_das_equacoes/models/colors.dart';
 import 'package:jogo_das_equacoes/models/player.dart';
 import 'package:jogo_das_equacoes/screens/new_account_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -68,7 +70,19 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
                         _formKey.currentState.save();
-                        Player user = new Player(
+                        String result =
+                            await context.read<AuthenticationService>().signIn(
+                                  email: _emailController.text.trim(),
+                                  password: _passwordController.text.trim(),
+                                );
+                        if (result == 'Signed In') {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => NewAccountPage(),
+                            ),
+                          );
+                        }
+                        /* Player user = new Player(
                           email: _emailController.text,
                           password: _passwordController.text,
                         );
@@ -79,8 +93,15 @@ class _LoginPageState extends State<LoginPage> {
                               content: Text('$user'),
                             );
                           },
-                        );
-                        try {
+                        ); */
+
+                        /* await _register();
+                        print(_success == null
+                            ? ''
+                            : (_success
+                                ? 'Successfully registered $_userEmail'
+                                : 'Registration failed')); */
+                        /* try {
                           await Firebase.initializeApp();
                           UserCredential firebaseUser = await FirebaseAuth
                               .instance
@@ -91,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                           print(firebaseUser);
                         } on Exception catch (e) {
                           print('Error: $e');
-                        }
+                        } */
                       }
                     },
                   ),
@@ -136,6 +157,22 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+/*   Future<void> _register() async {
+    final User user = (await _auth.createUserWithEmailAndPassword(
+      email: _emailController.text,
+      password: _passwordController.text,
+    ))
+        .user;
+    if (user != null) {
+      setState(() {
+        _success = true;
+        _userEmail = user.email;
+      });
+    } else {
+      _success = false;
+    }
+  } */
 
   String _validateEmail(String value) {
     String pattern =

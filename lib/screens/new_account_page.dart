@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/custom_dropdownbuttom.dart';
 import 'package:jogo_das_equacoes/components/custom_textfild.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
+import 'package:jogo_das_equacoes/database/authentication_service.dart';
 import 'package:jogo_das_equacoes/models/colors.dart';
 import 'package:jogo_das_equacoes/models/player.dart';
+import 'package:provider/provider.dart';
 
 const List<String> grades = [
   '1º ano',
@@ -48,10 +51,10 @@ class _NewAccountPageState extends State<NewAccountPage> {
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.save),
-            onPressed: () {
+            onPressed: () async {
               if (_formKey.currentState.validate()) {
                 // Process data.
-                Player user = new Player(
+                /* Player user = new Player(
                   name: _nameController.text,
                   gender: _selectedGender,
                   email: _emailController.text,
@@ -60,13 +63,28 @@ class _NewAccountPageState extends State<NewAccountPage> {
                   school: _selectedSchool,
                   /* playerStatus: new PlayerStatus(), */
                 );
-                print(user);
+                print(user); */
+                User user =
+                    await context.read<AuthenticationService>().register(
+                          email: _emailController.text.trim(),
+                          password: _passwordController.text.trim(),
+                        );
+                print(user.uid);
               }
             },
           ),
           IconButton(
             icon: const Icon(Icons.delete),
-            onPressed: () {},
+            onPressed: () async {
+              await context.read<AuthenticationService>().delete();
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.exit_to_app),
+            onPressed: () {
+              context.read<AuthenticationService>().signOut();
+              Navigator.of(context).pop();
+            },
           ),
         ],
       ),

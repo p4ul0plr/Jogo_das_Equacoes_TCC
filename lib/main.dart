@@ -1,14 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:jogo_das_equacoes/database/authentication_service.dart';
 import 'package:jogo_das_equacoes/models/colors.dart';
 import 'package:jogo_das_equacoes/models/player_status.dart';
 import 'package:jogo_das_equacoes/providers/game_match.dart';
 import 'package:jogo_das_equacoes/providers/player_status.dart';
+import 'package:jogo_das_equacoes/screens/authentication_wrapper.dart';
 import 'package:jogo_das_equacoes/screens/home_page.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   //Esconder a barra de navegação e a StatusBar
   SystemChrome.setEnabledSystemUIOverlays([]);
   //Esconder a barra de navegação
@@ -28,6 +33,14 @@ void main() {
           ),
           ChangeNotifierProvider(
             create: (context) => GameMatchProvider(),
+          ),
+          Provider<AuthenticationService>(
+            create: (_) => AuthenticationService(FirebaseAuth.instance),
+          ),
+          StreamProvider(
+            create: (context) =>
+                context.read<AuthenticationService>().authStateChanges,
+            initialData: null,
           ),
         ],
         child: MyApp(),

@@ -1,15 +1,47 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jogo_das_equacoes/components/button_with_text_outside.dart';
+import 'package:jogo_das_equacoes/database/authentication_service.dart';
 import 'package:jogo_das_equacoes/models/colors.dart';
 import 'package:jogo_das_equacoes/models/sounds.dart';
 import 'package:jogo_das_equacoes/screens/credits_page.dart';
 import 'package:jogo_das_equacoes/screens/help_page.dart';
 import 'package:jogo_das_equacoes/screens/login_page.dart';
+import 'package:jogo_das_equacoes/screens/new_account_page.dart';
 import 'package:jogo_das_equacoes/screens/podium_page.dart';
 import 'package:jogo_das_equacoes/screens/stages_page.dart';
+import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    //authenticationWrapper();
+    super.initState();
+  }
+
+  void authenticationWrapper() {
+    final firebaseUser = Provider.of<User>(context, listen: false);
+    if (firebaseUser == null) {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) {
+          showDialog(
+            barrierDismissible: true,
+            context: context,
+            builder: (context) {
+              return LoginPage();
+            },
+          );
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -137,13 +169,23 @@ Widget _accountButton(BuildContext context) {
     color: ThemeColors().pink,
     onPressed: () {
       Sounds().clickSound();
-      showDialog(
-        barrierDismissible: true,
-        context: context,
-        builder: (context) {
-          return LoginPage();
-        },
-      );
+      final firebaseUser = Provider.of<User>(context, listen: false);
+      print(firebaseUser);
+      if (firebaseUser == null) {
+        showDialog(
+          barrierDismissible: true,
+          context: context,
+          builder: (context) {
+            return LoginPage();
+          },
+        );
+      } else {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => NewAccountPage(),
+          ),
+        );
+      }
     },
   );
 }
