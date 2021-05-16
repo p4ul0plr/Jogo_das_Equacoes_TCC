@@ -4,8 +4,10 @@ import 'package:jogo_das_equacoes/components/custom_dropdownbuttom.dart';
 import 'package:jogo_das_equacoes/components/custom_textfild.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
 import 'package:jogo_das_equacoes/database/authentication_service.dart';
+import 'package:jogo_das_equacoes/database/dao/player_dao.dart';
 import 'package:jogo_das_equacoes/models/colors.dart';
 import 'package:jogo_das_equacoes/models/player.dart';
+import 'package:jogo_das_equacoes/providers/player.dart';
 import 'package:provider/provider.dart';
 
 const List<String> grades = [
@@ -33,9 +35,9 @@ class NewAccountPage extends StatefulWidget {
 class _NewAccountPageState extends State<NewAccountPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
   String _selectedSchool;
   String _selectedGrade;
@@ -54,29 +56,105 @@ class _NewAccountPageState extends State<NewAccountPage> {
             onPressed: () async {
               if (_formKey.currentState.validate()) {
                 // Process data.
-                /* Player user = new Player(
-                  name: _nameController.text,
-                  gender: _selectedGender,
-                  email: _emailController.text,
-                  password: _passwordController.text,
-                  grade: _selectedGrade,
-                  school: _selectedSchool,
-                  /* playerStatus: new PlayerStatus(), */
-                );
-                print(user); */
-                User user =
+                dynamic _result =
                     await context.read<AuthenticationService>().register(
                           email: _emailController.text.trim(),
                           password: _passwordController.text.trim(),
                         );
-                print(user.uid);
+                await context.read<AuthenticationService>().signIn(
+                      email: _emailController.text.trim(),
+                      password: _passwordController.text.trim(),
+                    );
+                try {
+                  Player user = Player(
+                    id: _result.uid,
+                    name: _nameController.text,
+                    gender: _selectedGender,
+                    email: _emailController.text,
+                    password: _passwordController.text,
+                    grade: _selectedGrade,
+                    school: _selectedSchool,
+                    /* playerStatus: new PlayerStatus(), */
+                  );
+                  print(user);
+                  final PlayerDao _playerDao = PlayerDao();
+                  _playerDao.create(user);
+                  _showSnackBar(
+                    context: context,
+                    text: 'Conta criada com sucesso!',
+                    success: true,
+                  );
+                } catch (e) {
+                  _showSnackBar(
+                    context: context,
+                    text: _result,
+                    success: false,
+                  );
+                }
               }
             },
           ),
           IconButton(
             icon: const Icon(Icons.delete),
             onPressed: () async {
-              await context.read<AuthenticationService>().delete();
+              showDialog(
+                barrierDismissible: true,
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    ),
+                    title: Text(
+                      'Deseja realmente deletar esse usuário?',
+                      style: TextStyle(
+                        fontSize: 24.0,
+                        fontFamily: 'Schoolbell',
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    actions: [
+                      TextButton(
+                        child: Text(
+                          'Cancelar',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color: ThemeColors().pink,
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: Text(
+                          'Confirmar',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color: ThemeColors().pink,
+                          ),
+                        ),
+                        onPressed: () async {
+                          dynamic _result = await context
+                              .read<AuthenticationService>()
+                              .delete();
+                          if (_result == 'Deleted') {
+                            _showSnackBar(
+                                context: context, text: _result, success: true);
+                            await Future.delayed(Duration(seconds: 6));
+                            Navigator.of(context).pop();
+                          } else {
+                            _showSnackBar(
+                                context: context,
+                                text: _result,
+                                success: false);
+                          }
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
             },
           ),
           IconButton(
@@ -253,6 +331,22 @@ class _NewAccountPageState extends State<NewAccountPage> {
     );
   }
 
+  void _showSnackBar({String text, BuildContext context, bool success}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          text,
+          style: TextStyle(
+            fontFamily: 'Schoolbell',
+            fontSize: 16.0,
+          ),
+        ),
+        backgroundColor: success ? ThemeColors().blue : ThemeColors().pink,
+        duration: Duration(seconds: 5),
+      ),
+    );
+  }
+
   String _validateName(String value) {
     String patttern = r'(^[a-zA-Z ]*$)';
     RegExp regExp = new RegExp(patttern);
@@ -289,5 +383,16 @@ class _NewAccountPageState extends State<NewAccountPage> {
       return 'Informe o campo';
     }
     return null;
+  }
+
+  void _resetForm() {
+    setState(() {
+      _emailController.clear();
+      _nameController.clear();
+      _passwordController.clear();
+      _selectedGender = '';
+      _selectedGrade = '';
+      _selectedSchool = '';
+    });
   }
 }

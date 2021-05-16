@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:jogo_das_equacoes/database/firebase-message.dart';
 
 class AuthenticationService {
   final FirebaseAuth _firebaseAuth;
@@ -13,10 +14,13 @@ class AuthenticationService {
 
   Future<String> delete() async {
     try {
-      await _firebaseAuth.currentUser.delete();
-      return 'Deleted';
+      if (_firebaseAuth.currentUser != null) {
+        await _firebaseAuth.currentUser.delete();
+        return 'Deleted';
+      }
+      return 'Erro: O usuário já foi excluido ou não está logado!';
     } on FirebaseAuthException catch (e) {
-      return (e.message);
+      return (FirebaseMessage().verifyErroCode(e.code));
     }
   }
 
@@ -29,11 +33,11 @@ class AuthenticationService {
           .user;
       return user;
     } on FirebaseAuthException catch (e) {
-      return (e.message);
+      return (FirebaseMessage().verifyErroCode(e.code));
     }
   }
 
-  Future<String> signIn({String email, String password}) async {
+  Future<dynamic> signIn({String email, String password}) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
@@ -41,7 +45,7 @@ class AuthenticationService {
       );
       return 'Signed In';
     } on FirebaseAuthException catch (e) {
-      return (e.message);
+      return (FirebaseMessage().verifyErroCode(e.code));
     }
   }
 
@@ -53,7 +57,7 @@ class AuthenticationService {
       );
       return 'Signed Op';
     } on FirebaseAuthException catch (e) {
-      return (e.message);
+      return (FirebaseMessage().verifyErroCode(e.code));
     }
   }
 }

@@ -163,7 +163,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Text(
             'Cancelar',
             style: TextStyle(
-              fontSize: 12.0,
+              fontSize: 14.0,
               color: ThemeColors().pink,
             ),
           ),
@@ -175,7 +175,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Text(
             'Criar Conta',
             style: TextStyle(
-              fontSize: 12.0,
+              fontSize: 14.0,
               color: ThemeColors().pink,
             ),
           ),
