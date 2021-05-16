@@ -16,11 +16,11 @@ class AuthenticationService {
       await _firebaseAuth.currentUser.delete();
       return 'Deleted';
     } on FirebaseAuthException catch (e) {
-      return e.message;
+      return (e.message);
     }
   }
 
-  Future<User> register({String email, String password}) async {
+  Future<dynamic> register({String email, String password}) async {
     try {
       final User user = (await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
@@ -29,7 +29,7 @@ class AuthenticationService {
           .user;
       return user;
     } on FirebaseAuthException catch (e) {
-      /* return e.message; */
+      return (e.message);
     }
   }
 
@@ -41,7 +41,7 @@ class AuthenticationService {
       );
       return 'Signed In';
     } on FirebaseAuthException catch (e) {
-      return e.message;
+      return (e.message);
     }
   }
 
@@ -53,7 +53,7 @@ class AuthenticationService {
       );
       return 'Signed Op';
     } on FirebaseAuthException catch (e) {
-      return e.message;
+      return (e.message);
     }
   }
 }

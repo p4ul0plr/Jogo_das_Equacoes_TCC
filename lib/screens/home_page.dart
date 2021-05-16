@@ -101,11 +101,41 @@ class _HomePageState extends State<HomePage> {
       color: ThemeColors().blue,
       onPressed: () {
         Sounds().clickSound();
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => PodiumPage(),
-          ),
-        );
+        final firebaseUser = Provider.of<User>(context, listen: false);
+        print('Pódio: $firebaseUser');
+        if (firebaseUser != null) {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => PodiumPage(),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Para acessar o Pódio é necessário efetuar o login com a sua conta!',
+                style: TextStyle(
+                  fontFamily: 'Schoolbell',
+                  fontSize: 16.0,
+                ),
+              ),
+              backgroundColor: ThemeColors().pink,
+              duration: Duration(seconds: 5),
+              action: SnackBarAction(
+                label: 'Fazer Login',
+                onPressed: () {
+                  showDialog(
+                    barrierDismissible: true,
+                    context: context,
+                    builder: (context) {
+                      return LoginPage();
+                    },
+                  );
+                },
+              ),
+            ),
+          );
+        }
       },
     );
   }
@@ -170,7 +200,7 @@ Widget _accountButton(BuildContext context) {
     onPressed: () {
       Sounds().clickSound();
       final firebaseUser = Provider.of<User>(context, listen: false);
-      print(firebaseUser);
+      print('Conta: $firebaseUser');
       if (firebaseUser == null) {
         showDialog(
           barrierDismissible: true,

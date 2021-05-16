@@ -21,23 +21,15 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: AlertDialog(
-        title: Container(
-          alignment: Alignment.center,
-          padding: EdgeInsets.only(bottom: 8.0),
-          child: Text(
-            'Login',
-            style: TextStyle(
-              fontSize: 40,
-              fontFamily: 'Schoolbell',
-            ),
-          ),
-        ),
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: AlertDialog(
+        scrollable: true,
+        title: _showTitle(),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
         ),
-        contentPadding: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 16.0),
+        contentPadding: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
         content: Container(
           width: 350,
           child: Form(
@@ -45,111 +37,10 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                CustomTextField(
-                  controlador: _emailController,
-                  labelText: 'E-mail',
-                  validator: _validateEmail,
-                ),
-                CustomTextField(
-                  controlador: _passwordController,
-                  labelText: 'Senha',
-                  lengthLimitingTextInputFormatter: 8,
-                  obscureText: true,
-                  validator: _validatePassword,
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 16.0),
-                  width: 200,
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: ThemeColors().pink, // background
-                      onPrimary: Colors.white, // foreground
-                    ),
-                    child: Text('Entrar'),
-                    onPressed: () async {
-                      if (_formKey.currentState.validate()) {
-                        _formKey.currentState.save();
-                        String result =
-                            await context.read<AuthenticationService>().signIn(
-                                  email: _emailController.text.trim(),
-                                  password: _passwordController.text.trim(),
-                                );
-                        if (result == 'Signed In') {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => NewAccountPage(),
-                            ),
-                          );
-                        }
-                        /* Player user = new Player(
-                          email: _emailController.text,
-                          password: _passwordController.text,
-                        );
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              content: Text('$user'),
-                            );
-                          },
-                        ); */
-
-                        /* await _register();
-                        print(_success == null
-                            ? ''
-                            : (_success
-                                ? 'Successfully registered $_userEmail'
-                                : 'Registration failed')); */
-                        /* try {
-                          await Firebase.initializeApp();
-                          UserCredential firebaseUser = await FirebaseAuth
-                              .instance
-                              .signInWithEmailAndPassword(
-                            email: _emailController.text,
-                            password: _passwordController.text,
-                          );
-                          print(firebaseUser);
-                        } on Exception catch (e) {
-                          print('Error: $e');
-                        } */
-                      }
-                    },
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
-                      child: Text(
-                        'Cancelar',
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          color: ThemeColors().pink,
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                    TextButton(
-                      child: Text(
-                        'Criar Conta',
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          color: ThemeColors().pink,
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => NewAccountPage(),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
+                _showInputEmail(),
+                _showInputPassword(),
+                _showmainButton(context),
+                _showSecondaryButtons(context),
               ],
             ),
           ),
@@ -158,21 +49,49 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-/*   Future<void> _register() async {
-    final User user = (await _auth.createUserWithEmailAndPassword(
-      email: _emailController.text,
-      password: _passwordController.text,
-    ))
-        .user;
-    if (user != null) {
-      setState(() {
-        _success = true;
-        _userEmail = user.email;
-      });
-    } else {
-      _success = false;
-    }
-  } */
+  Text _showTitle() {
+    return Text(
+      'Login',
+      style: TextStyle(
+        fontSize: 40,
+        fontFamily: 'Schoolbell',
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  CustomTextField _showInputPassword() {
+    return CustomTextField(
+      controlador: _passwordController,
+      labelText: 'Senha',
+      lengthLimitingTextInputFormatter: 8,
+      obscureText: true,
+      validator: _validatePassword,
+    );
+  }
+
+  CustomTextField _showInputEmail() {
+    return CustomTextField(
+      controlador: _emailController,
+      labelText: 'E-mail',
+      validator: _validateEmail,
+    );
+  }
+
+  Future<String> _signIn(BuildContext context) async {
+    return await context.read<AuthenticationService>().signIn(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        );
+  }
+
+  void _showSuccessScreen(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => NewAccountPage(),
+      ),
+    );
+  }
 
   String _validateEmail(String value) {
     String pattern =
@@ -192,5 +111,83 @@ class _LoginPageState extends State<LoginPage> {
       return 'Precisa de 8 dígitos';
     }
     return null;
+  }
+
+  void _showErrorMessage({String text}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          text,
+          style: TextStyle(
+            fontFamily: 'Schoolbell',
+            fontSize: 16.0,
+          ),
+        ),
+        backgroundColor: ThemeColors().pink,
+        duration: Duration(seconds: 5),
+      ),
+    );
+  }
+
+  Widget _showmainButton(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 4.0),
+      width: 200,
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: ThemeColors().pink, // background
+          onPrimary: Colors.white, // foreground
+        ),
+        child: Text('Entrar'),
+        onPressed: () async {
+          if (_formKey.currentState.validate()) {
+            _formKey.currentState.save();
+            String result = await _signIn(context);
+            if (result == 'Signed In') {
+              _showSuccessScreen(context);
+            } else {
+              _showErrorMessage(text: result);
+            }
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _showSecondaryButtons(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        TextButton(
+          child: Text(
+            'Cancelar',
+            style: TextStyle(
+              fontSize: 12.0,
+              color: ThemeColors().pink,
+            ),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        TextButton(
+          child: Text(
+            'Criar Conta',
+            style: TextStyle(
+              fontSize: 12.0,
+              color: ThemeColors().pink,
+            ),
+          ),
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => NewAccountPage(),
+              ),
+            );
+          },
+        ),
+      ],
+    );
   }
 }
