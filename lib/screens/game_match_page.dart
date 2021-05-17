@@ -4,6 +4,7 @@ import 'package:jogo_das_equacoes/components/custom_boxshadow.dart';
 import 'package:jogo_das_equacoes/components/custom_timer.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
 import 'package:jogo_das_equacoes/components/equation_widget.dart';
+import 'package:jogo_das_equacoes/database/dao/player_dao.dart';
 import 'package:jogo_das_equacoes/models/colors.dart';
 import 'package:jogo_das_equacoes/models/consts.dart';
 import 'package:jogo_das_equacoes/models/equations/equation_abstract.dart';
@@ -19,9 +20,12 @@ import 'package:jogo_das_equacoes/models/equations/equation_x_positive_negative.
 import 'package:jogo_das_equacoes/models/equations/equation_xy_negative.dart';
 import 'package:jogo_das_equacoes/models/equations/equation_xy_positive.dart';
 import 'package:jogo_das_equacoes/models/equations/equation_xy_positive_negative.dart';
+import 'package:jogo_das_equacoes/models/player.dart';
+import 'package:jogo_das_equacoes/models/player_status.dart';
 import 'package:jogo_das_equacoes/models/randon_numbers.dart';
 import 'package:jogo_das_equacoes/models/sounds.dart';
 import 'package:jogo_das_equacoes/providers/game_match.dart';
+import 'package:jogo_das_equacoes/providers/player.dart';
 import 'package:jogo_das_equacoes/providers/player_status.dart';
 import 'package:provider/provider.dart';
 
@@ -227,6 +231,13 @@ int _calculateTheScore(BuildContext context) {
       break;
   }
   _playerStatusProvider.incrementScore(_calculatedScore);
+  Provider.of<PlayerProvider>(context, listen: false)
+      .player
+      .playerStatus
+      .incrementScore(_calculatedScore);
+  var player = Provider.of<PlayerProvider>(context, listen: false).player;
+  PlayerDao()
+      .update({'playerStatus.score': player.playerStatus.score}, player.id);
   return _calculatedScore;
 }
 

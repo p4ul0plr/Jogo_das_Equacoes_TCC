@@ -26,9 +26,9 @@ Future<void> main() async {
     (value) => runApp(
       MultiProvider(
         providers: [
-          ChangeNotifierProvider(
+          /* ChangeNotifierProvider(
             create: (context) => PlayerStatus(),
-          ),
+          ), */
           ChangeNotifierProvider(
             create: (context) => PlayerStatusProvider(),
           ),

@@ -9,6 +9,7 @@ import 'package:jogo_das_equacoes/database/authentication_service.dart';
 import 'package:jogo_das_equacoes/database/dao/player_dao.dart';
 import 'package:jogo_das_equacoes/models/colors.dart';
 import 'package:jogo_das_equacoes/models/player.dart';
+import 'package:jogo_das_equacoes/models/player_status.dart';
 import 'package:jogo_das_equacoes/providers/player.dart';
 import 'package:jogo_das_equacoes/screens/home_page.dart';
 import 'package:provider/provider.dart';
@@ -259,6 +260,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
           password: _passwordController.text,
           grade: _selectedGrade,
           school: _selectedSchool,
+          playerStatus: PlayerStatus(),
         );
         PlayerDao().create(user);
         Provider.of<PlayerProvider>(context, listen: false).signIn(user);

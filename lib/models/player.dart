@@ -29,7 +29,7 @@ class Player {
         password = json['password'],
         grade = json['grade'],
         school = json['school'],
-        playerStatus = json['playerStatus'];
+        playerStatus = PlayerStatus.fromJson(json['playerStatus']);
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -39,7 +39,7 @@ class Player {
         'password': password,
         'grade': grade,
         'school': school,
-        'playerStatus': playerStatus,
+        'playerStatus': playerStatus.toJson(),
       };
 
   @override

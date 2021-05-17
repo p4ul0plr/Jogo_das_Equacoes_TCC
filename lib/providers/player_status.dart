@@ -110,4 +110,15 @@ class PlayerStatusProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  PlayerStatusProvider.fromJson(Map<String, dynamic> json)
+      : _score = json['score'],
+        _stage = json['stage'],
+        _quest = json['quest'];
+
+  Map<String, dynamic> toJson() => {
+        'score': _score,
+        'stage': _stage,
+        'quest': _quest,
+      };
 }

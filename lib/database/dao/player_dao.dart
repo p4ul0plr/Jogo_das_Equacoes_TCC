@@ -61,4 +61,12 @@ class PlayerDao {
       print(FirebaseMessage().verifyErroCode(e.message));
     }
   }
+
+  void update(Map<String, Object> data, String id) {
+    try {
+      _players.doc(id).update(data);
+    } on FirebaseException catch (e) {
+      print(FirebaseMessage().verifyErroCode(e.message));
+    }
+  }
 }
