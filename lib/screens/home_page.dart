@@ -2,12 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jogo_das_equacoes/components/button_with_text_outside.dart';
+import 'package:jogo_das_equacoes/components/custom_scaffold_messenger.dart';
 import 'package:jogo_das_equacoes/database/authentication_service.dart';
+import 'package:jogo_das_equacoes/database/dao/player_dao.dart';
 import 'package:jogo_das_equacoes/models/colors.dart';
+import 'package:jogo_das_equacoes/models/player.dart';
 import 'package:jogo_das_equacoes/models/sounds.dart';
+import 'package:jogo_das_equacoes/providers/player.dart';
 import 'package:jogo_das_equacoes/screens/credits_page.dart';
 import 'package:jogo_das_equacoes/screens/help_page.dart';
-import 'package:jogo_das_equacoes/screens/login_page.dart';
+import 'package:jogo_das_equacoes/components/login_alert_dialog.dart';
 import 'package:jogo_das_equacoes/screens/new_account_page.dart';
 import 'package:jogo_das_equacoes/screens/podium_page.dart';
 import 'package:jogo_das_equacoes/screens/stages_page.dart';
@@ -21,8 +25,18 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    //authenticationWrapper();
+    _initialLoad();
     super.initState();
+  }
+
+  void _initialLoad() async {
+    User firebaseUser = context.read<AuthenticationService>().currentUser;
+    if (firebaseUser != null) {
+      var player = await PlayerDao().read(firebaseUser.uid);
+      var playerProvider = Provider.of<PlayerProvider>(context, listen: false);
+      playerProvider.signIn(player);
+      print(Provider.of<PlayerProvider>(context, listen: false).player);
+    }
   }
 
   void authenticationWrapper() {
@@ -34,12 +48,12 @@ class _HomePageState extends State<HomePage> {
             barrierDismissible: true,
             context: context,
             builder: (context) {
-              return LoginPage();
+              return LoginAlertDialog();
             },
           );
         },
       );
-    }
+    } else {}
   }
 
   @override
@@ -101,38 +115,31 @@ class _HomePageState extends State<HomePage> {
       color: ThemeColors().blue,
       onPressed: () {
         Sounds().clickSound();
-        final firebaseUser = Provider.of<User>(context, listen: false);
-        print('Pódio: $firebaseUser');
-        if (firebaseUser != null) {
+        final player =
+            Provider.of<PlayerProvider>(context, listen: false).player;
+        if (player != null) {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => PodiumPage(),
             ),
           );
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
+          customScaffoldMessenger(
+            context: context,
+            text:
                 'Para acessar o Pódio é necessário efetuar o login com a sua conta!',
-                style: TextStyle(
-                  fontFamily: 'Schoolbell',
-                  fontSize: 16.0,
-                ),
-              ),
-              backgroundColor: ThemeColors().pink,
-              duration: Duration(seconds: 5),
-              action: SnackBarAction(
-                label: 'Fazer Login',
-                onPressed: () {
-                  showDialog(
-                    barrierDismissible: true,
-                    context: context,
-                    builder: (context) {
-                      return LoginPage();
-                    },
-                  );
-                },
-              ),
+            success: false,
+            action: SnackBarAction(
+              label: 'Fazer Login',
+              onPressed: () {
+                showDialog(
+                  barrierDismissible: true,
+                  context: context,
+                  builder: (context) {
+                    return LoginAlertDialog();
+                  },
+                );
+              },
             ),
           );
         }
@@ -199,14 +206,13 @@ Widget _accountButton(BuildContext context) {
     color: ThemeColors().pink,
     onPressed: () {
       Sounds().clickSound();
-      final firebaseUser = Provider.of<User>(context, listen: false);
-      print('Conta: $firebaseUser');
-      if (firebaseUser == null) {
+      final player = Provider.of<PlayerProvider>(context, listen: false).player;
+      if (player == null) {
         showDialog(
           barrierDismissible: true,
           context: context,
           builder: (context) {
-            return LoginPage();
+            return LoginAlertDialog();
           },
         );
       } else {

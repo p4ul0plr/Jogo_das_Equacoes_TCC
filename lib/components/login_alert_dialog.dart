@@ -1,23 +1,42 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:jogo_das_equacoes/components/custom_scaffold_messenger.dart';
 import 'package:jogo_das_equacoes/components/custom_textfild.dart';
 import 'package:jogo_das_equacoes/database/authentication_service.dart';
+import 'package:jogo_das_equacoes/database/dao/player_dao.dart';
 import 'package:jogo_das_equacoes/models/colors.dart';
 import 'package:jogo_das_equacoes/models/player.dart';
+import 'package:jogo_das_equacoes/providers/player.dart';
 import 'package:jogo_das_equacoes/screens/new_account_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginAlertDialog extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _LoginAlertDialogState createState() => _LoginAlertDialogState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginAlertDialogState extends State<LoginAlertDialog> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    _initialLoad();
+    super.initState();
+  }
+
+  void _initialLoad() async {
+    User firebaseUser = context.read<AuthenticationService>().currentUser;
+    if (firebaseUser != null) {
+      var player = await PlayerDao().read(firebaseUser.uid);
+      var playerProvider = Provider.of<PlayerProvider>(context, listen: false);
+      playerProvider.signIn(player);
+      print(Provider.of<PlayerProvider>(context, listen: false).player);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +93,7 @@ class _LoginPageState extends State<LoginPage> {
     return CustomTextField(
       controlador: _emailController,
       labelText: 'E-mail',
+      keyboardType: TextInputType.emailAddress,
       validator: _validateEmail,
     );
   }
@@ -86,7 +106,12 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _showSuccessScreen(BuildContext context) {
-    Navigator.of(context).push(
+    customScaffoldMessenger(
+      context: context,
+      success: true,
+      text: 'Login efetuado com sucesso!',
+    );
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => NewAccountPage(),
       ),
@@ -145,6 +170,11 @@ class _LoginPageState extends State<LoginPage> {
             _formKey.currentState.save();
             String result = await _signIn(context);
             if (result == 'Signed In') {
+              User _currentUser =
+                  context.read<AuthenticationService>().currentUser;
+              Player _newPlayer = await PlayerDao().read(_currentUser.uid);
+              Provider.of<PlayerProvider>(context, listen: false)
+                  .signIn(_newPlayer);
               _showSuccessScreen(context);
             } else {
               _showErrorMessage(text: result);

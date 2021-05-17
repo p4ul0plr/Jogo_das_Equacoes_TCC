@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:jogo_das_equacoes/database/dao/player_dao.dart';
 import 'package:jogo_das_equacoes/database/firebase-message.dart';
 
 class AuthenticationService {
@@ -8,6 +9,8 @@ class AuthenticationService {
 
   Stream<User> get authStateChanges => _firebaseAuth.authStateChanges();
 
+  User get currentUser => _firebaseAuth.currentUser;
+
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
   }
@@ -16,7 +19,7 @@ class AuthenticationService {
     try {
       if (_firebaseAuth.currentUser != null) {
         await _firebaseAuth.currentUser.delete();
-        return 'Deleted';
+        return 'O usuário foi excluído com sucesso!';
       }
       return 'Erro: O usuário já foi excluido ou não está logado!';
     } on FirebaseAuthException catch (e) {

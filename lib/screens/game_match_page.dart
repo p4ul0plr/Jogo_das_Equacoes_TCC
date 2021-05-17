@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jogo_das_equacoes/components/custom_alert_dialog.dart';
+import 'package:jogo_das_equacoes/components/match_result_alert_dialog.dart';
 import 'package:jogo_das_equacoes/components/custom_boxshadow.dart';
 import 'package:jogo_das_equacoes/components/custom_timer.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
@@ -168,7 +168,7 @@ class _GameMatchPageState extends State<GameMatchPage> {
       barrierDismissible: true,
       context: context,
       builder: (context) {
-        return CustomAlertDialog(
+        return MatchResultAlertDialog(
           quest: _currentQuest,
           currentStage: _currentStage,
         );
@@ -330,7 +330,7 @@ class AlternativeButton extends StatelessWidget {
       barrierDismissible: true,
       context: context,
       builder: (context) {
-        return CustomAlertDialog(
+        return MatchResultAlertDialog(
           score: _score,
           quest: _currentQuest,
           currentStage: _currentStage,
@@ -347,7 +347,7 @@ class AlternativeButton extends StatelessWidget {
       barrierDismissible: true,
       context: context,
       builder: (context) {
-        return CustomAlertDialog(
+        return MatchResultAlertDialog(
           score: _score,
           quest: _currentQuest,
           currentStage: _currentStage,
@@ -368,7 +368,7 @@ class AlternativeButton extends StatelessWidget {
         barrierDismissible: true,
         context: context,
         builder: (context) {
-          return CustomAlertDialog(
+          return MatchResultAlertDialog(
             quest: _currentQuest,
             currentStage: _currentStage,
           );

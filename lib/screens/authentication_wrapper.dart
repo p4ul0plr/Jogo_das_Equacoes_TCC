@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/screens/home_page.dart';
-import 'package:jogo_das_equacoes/screens/login_page.dart';
+import 'package:jogo_das_equacoes/components/login_alert_dialog.dart';
 import 'package:provider/provider.dart';
 
 class AuthenticationWrapper extends StatelessWidget {
@@ -12,6 +12,6 @@ class AuthenticationWrapper extends StatelessWidget {
     if (firebaseUser != null) {
       return HomePage();
     }
-    return LoginPage();
+    return LoginAlertDialog();
   }
 }
