@@ -13,7 +13,6 @@ class PodiumPage extends StatefulWidget {
 class _PodiumPageState extends State<PodiumPage> {
   @override
   void initState() {
-    print(PlayerDao().readAll());
     super.initState();
   }
 
@@ -24,16 +23,34 @@ class _PodiumPageState extends State<PodiumPage> {
         title: CustomTitle(title: 'Pódio'),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          _firstPlaced(),
-          _lastPlaced(),
-        ],
+      body: StreamBuilder(
+        stream: PlayerDao().readAll(),
+        builder: (context, snapshot) {
+          List<Player> listPlayers = _getPlayers(context, snapshot);
+          return Column(
+            children: [
+              _firstPlacedCard(listPlayers),
+            ],
+          );
+        },
       ),
     );
   }
 
-  Widget _firstPlaced() {
+  _getPlayers(BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+    if (snapshot.hasData) {
+      List<Player> listPlayers = snapshot.data;
+      listPlayers.sort(
+        (a, b) => b.playerStatus.score.compareTo(a.playerStatus.score),
+      );
+      listPlayers.forEach((element) {
+        print(element.playerStatus.score);
+      });
+      return listPlayers;
+    }
+  }
+
+  Widget _firstPlacedCard(List<Player> listPlayers) {
     return Expanded(
       flex: 1,
       child: Container(
@@ -41,47 +58,75 @@ class _PodiumPageState extends State<PodiumPage> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Expanded(
-              child: CustomCard(
-                color: ThemeColors().blue,
-                child: Text(
-                  '2º Lugar',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'Schoolbell',
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
+            _getPlacement(listPlayers: listPlayers, playerPlacement: 2),
+            _getPlacement(listPlayers: listPlayers, playerPlacement: 1),
+            _getPlacement(listPlayers: listPlayers, playerPlacement: 3),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _getPlacement({List<Player> listPlayers, int playerPlacement}) {
+    Player player;
+    String name = 'Sem dados';
+    String score = 'Sem dados';
+    Color cardColor;
+    if (listPlayers.length >= playerPlacement) {
+      player = listPlayers[playerPlacement - 1];
+      name = player.name;
+      score = player.playerStatus.score.toString();
+    }
+    switch (playerPlacement) {
+      case 1:
+        cardColor = ThemeColors().yellow;
+        break;
+      case 2:
+        cardColor = ThemeColors().blue;
+        break;
+      case 3:
+        cardColor = ThemeColors().green;
+        break;
+      default:
+        cardColor = ThemeColors().lightBlue;
+        break;
+    }
+    return Expanded(
+      child: CustomCard(
+        color: cardColor,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            playerPlacement == 1
+                ? Text(
+                    '$playerPlacementº\nLugar',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Schoolbell',
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                      height: 1.2,
+                    ),
+                  )
+                : Text(
+                    '$playerPlacementº Lugar',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Schoolbell',
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              ),
-            ),
-            Expanded(
-              child: CustomCard(
-                color: ThemeColors().yellow,
-                child: Text(
-                  '1º\nLugar',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'Schoolbell',
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                    height: 1.2,
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              child: CustomCard(
-                color: ThemeColors().green,
-                child: Text(
-                  '3º Lugar',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'Schoolbell',
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+            Container(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text('Nome: $name'),
+                  Text('Pontos: $score'),
+                ],
               ),
             ),
           ],

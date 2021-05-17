@@ -5,6 +5,7 @@ import 'package:jogo_das_equacoes/database/authentication_service.dart';
 import 'package:jogo_das_equacoes/database/firebase-message.dart';
 import 'package:jogo_das_equacoes/models/player.dart';
 import 'package:provider/provider.dart';
+import 'dart:async';
 
 class PlayerDao {
   FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -38,12 +39,13 @@ class PlayerDao {
 
   Stream<List<Player>> readAll() {
     try {
-      var players =
-          _players.snapshots().map((snapshots) => snapshots.docs.map((doc) {
-                print(Player.fromJson(doc.data()));
-                return Player.fromJson(doc.data());
-              }).toList());
-      return players;
+      var listPlayers = [];
+      var stremListPlayers = _players.snapshots().map((snapshots) =>
+          snapshots.docs.map((doc) => Player.fromJson(doc.data())).toList());
+      stremListPlayers
+          .asBroadcastStream()
+          .listen((event) => listPlayers = event);
+      return stremListPlayers;
     } on FirebaseException catch (e) {
       print(FirebaseMessage().verifyErroCode(e.message));
       return null;
