@@ -43,6 +43,12 @@ class PlayerStatus {
     }
   }
 
+  void resetScore() {
+    if (this.score != null) {
+      this.score = 0;
+    }
+  }
+
   /* increaseStage() {
     if (this.stage < 4) {
       this.stage++;

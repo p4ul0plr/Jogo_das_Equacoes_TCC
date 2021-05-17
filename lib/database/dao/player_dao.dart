@@ -36,6 +36,20 @@ class PlayerDao {
     }
   }
 
+  Stream<List<Player>> readAll() {
+    try {
+      var players =
+          _players.snapshots().map((snapshots) => snapshots.docs.map((doc) {
+                print(Player.fromJson(doc.data()));
+                return Player.fromJson(doc.data());
+              }).toList());
+      return players;
+    } on FirebaseException catch (e) {
+      print(FirebaseMessage().verifyErroCode(e.message));
+      return null;
+    }
+  }
+
   void newCreate(Player player, BuildContext context) async {
     User _currentUser;
     await context.read<AuthenticationService>().register(

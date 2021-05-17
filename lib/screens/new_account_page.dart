@@ -101,7 +101,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
 
   Widget _formUser() {
     return Expanded(
-      flex: 5,
+      flex: 7,
       child: Form(
         key: _formKey,
         child: Container(
@@ -160,7 +160,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
               Row(
                 children: [
                   Flexible(
-                    flex: 1,
+                    flex: 3,
                     child: CustomDropdownButtom(
                       hint: _selectedSchool,
                       items: schools,
@@ -184,7 +184,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
       flex: 3,
       child: Padding(
         padding: const EdgeInsets.only(
-            top: 16.0, left: 16.0, bottom: 16.0, right: 32.0),
+            top: 16.0, left: 16.0, bottom: 16.0, right: 8.0),
         child: Image.asset(
           'assets/images/children.png',
           height:
@@ -269,6 +269,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
           text: 'Conta criada com sucesso!',
           success: true,
         );
+        Navigator.of(context).pop();
       } catch (e) {
         customScaffoldMessenger(
           context: context,
@@ -301,7 +302,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
                 text: _result,
                 success: true,
               );
-              await Future.delayed(Duration(seconds: 5));
+              //await Future.delayed(Duration(seconds: 5));
               Navigator.of(context).pop();
             } else {
               customScaffoldMessenger(

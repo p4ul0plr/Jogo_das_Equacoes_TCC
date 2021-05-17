@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/custom_card.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
+import 'package:jogo_das_equacoes/database/dao/player_dao.dart';
 import 'package:jogo_das_equacoes/models/colors.dart';
+import 'package:jogo_das_equacoes/models/player.dart';
 
-class PodiumPage extends StatelessWidget {
+class PodiumPage extends StatefulWidget {
+  @override
+  _PodiumPageState createState() => _PodiumPageState();
+}
+
+class _PodiumPageState extends State<PodiumPage> {
+  @override
+  void initState() {
+    print(PlayerDao().readAll());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
