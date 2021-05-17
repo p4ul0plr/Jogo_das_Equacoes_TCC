@@ -323,9 +323,13 @@ class _NewAccountPageState extends State<NewAccountPage> {
         confirmOnPressed: () {
           context.read<AuthenticationService>().signOut();
           Provider.of<PlayerProvider>(context, listen: false).signOut();
-          Navigator.of(newContext).pushReplacement(MaterialPageRoute(
-            builder: (newContext) => HomePage(),
-          ));
+          Navigator.of(context).pop();
+          Navigator.of(newContext).pop();
+          /* Navigator.of(newContext).pushReplacement(
+            MaterialPageRoute(
+              builder: (newContext) => HomePage(),
+            ),
+          ); */
         },
         text: 'Tem certeza que deseja mesmo sair?',
       ),
