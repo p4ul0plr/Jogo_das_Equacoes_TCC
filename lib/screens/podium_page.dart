@@ -4,6 +4,8 @@ import 'package:jogo_das_equacoes/components/custom_title.dart';
 import 'package:jogo_das_equacoes/database/dao/player_dao.dart';
 import 'package:jogo_das_equacoes/models/colors.dart';
 import 'package:jogo_das_equacoes/models/player.dart';
+import 'package:jogo_das_equacoes/providers/player.dart';
+import 'package:provider/provider.dart';
 
 class PodiumPage extends StatefulWidget {
   @override
@@ -11,8 +13,11 @@ class PodiumPage extends StatefulWidget {
 }
 
 class _PodiumPageState extends State<PodiumPage> {
+  Player currentPlayer;
+
   @override
   void initState() {
+    currentPlayer = Provider.of<PlayerProvider>(context, listen: false).player;
     super.initState();
   }
 
@@ -30,6 +35,7 @@ class _PodiumPageState extends State<PodiumPage> {
           return Column(
             children: [
               _firstPlacedCard(listPlayers),
+              _lastPlaced(listPlayers),
             ],
           );
         },
@@ -37,7 +43,10 @@ class _PodiumPageState extends State<PodiumPage> {
     );
   }
 
-  _getPlayers(BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+  List<Player> _getPlayers(
+    BuildContext context,
+    AsyncSnapshot<dynamic> snapshot,
+  ) {
     if (snapshot.hasData) {
       List<Player> listPlayers = snapshot.data;
       listPlayers.sort(
@@ -48,6 +57,7 @@ class _PodiumPageState extends State<PodiumPage> {
       });
       return listPlayers;
     }
+    return [];
   }
 
   Widget _firstPlacedCard(List<Player> listPlayers) {
@@ -72,7 +82,11 @@ class _PodiumPageState extends State<PodiumPage> {
     String name = 'Sem dados';
     String score = 'Sem dados';
     Color cardColor;
-    if (listPlayers.length >= playerPlacement) {
+    int listPlayersLength = 0;
+    listPlayers.forEach((element) {
+      listPlayersLength++;
+    });
+    if (listPlayersLength >= playerPlacement) {
       player = listPlayers[playerPlacement - 1];
       name = player.name;
       score = player.playerStatus.score.toString();
@@ -135,7 +149,7 @@ class _PodiumPageState extends State<PodiumPage> {
     );
   }
 
-  Widget _lastPlaced() {
+  Widget _lastPlaced(List<Player> listPlayers) {
     List<Widget> _placedListRow = [];
     List<Widget> _placedListColumn = [];
     Widget _placedRow;
