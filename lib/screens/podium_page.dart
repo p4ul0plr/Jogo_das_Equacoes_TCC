@@ -1,26 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/custom_card.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
+import 'package:jogo_das_equacoes/database/authentication_service.dart';
 import 'package:jogo_das_equacoes/database/dao/player_dao.dart';
 import 'package:jogo_das_equacoes/models/colors.dart';
 import 'package:jogo_das_equacoes/models/player.dart';
 import 'package:jogo_das_equacoes/providers/player.dart';
 import 'package:provider/provider.dart';
 
-class PodiumPage extends StatefulWidget {
-  @override
-  _PodiumPageState createState() => _PodiumPageState();
-}
-
-class _PodiumPageState extends State<PodiumPage> {
-  Player currentPlayer;
-
-  @override
-  void initState() {
-    currentPlayer = Provider.of<PlayerProvider>(context, listen: false).player;
-    super.initState();
-  }
-
+class PodiumPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,13 +35,11 @@ class _PodiumPageState extends State<PodiumPage> {
     BuildContext context,
     AsyncSnapshot<dynamic> snapshot,
   ) {
-    Player currentPlayer =
-        Provider.of<PlayerProvider>(context, listen: false).player;
-    print(currentPlayer);
     List<Player> listPlayers = [];
     if (snapshot.hasData) {
       listPlayers = snapshot.data;
     }
+    int placed = _getPlaced(listPlayers, context);
     return Expanded(
       flex: 1,
       child: Container(
@@ -61,16 +47,44 @@ class _PodiumPageState extends State<PodiumPage> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            _getPlacement(listPlayers: listPlayers, playerPlacement: 2),
-            _getPlacement(listPlayers: listPlayers, playerPlacement: 1),
-            _getPlacement(listPlayers: listPlayers, playerPlacement: 3),
+            _getPlacement(
+              listPlayers: listPlayers,
+              playerPlacement: 2,
+              currentPlayer: placed,
+            ),
+            _getPlacement(
+              listPlayers: listPlayers,
+              playerPlacement: 1,
+              currentPlayer: placed,
+            ),
+            _getPlacement(
+              listPlayers: listPlayers,
+              playerPlacement: 3,
+              currentPlayer: placed,
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _getPlacement({List<Player> listPlayers, int playerPlacement}) {
+  int _getPlaced(List<Player> listPlayers, BuildContext context) {
+    var currentPlayer =
+        Provider.of<PlayerProvider>(context, listen: false).player;
+    int placed = 0;
+    for (var i = 0; i < listPlayers.length; i++) {
+      if (listPlayers[i].id == currentPlayer.id) {
+        placed = i + 1;
+      }
+    }
+    return placed;
+  }
+
+  Widget _getPlacement({
+    List<Player> listPlayers,
+    int playerPlacement,
+    int currentPlayer,
+  }) {
     Player player;
     String name = 'Sem dados';
     String score = 'Sem dados';
@@ -99,6 +113,7 @@ class _PodiumPageState extends State<PodiumPage> {
     }
     return Expanded(
       child: CustomCard(
+        currentPlayer: playerPlacement == currentPlayer,
         padding: 8.0,
         color: cardColor,
         child: Row(
@@ -172,8 +187,11 @@ class _PodiumPageState extends State<PodiumPage> {
     String name = 'Sem dados';
     String score = 'Sem dados';
     List<Player> listPlayers = [];
+    int placed;
+    print(placed);
     if (snapshot.hasData) {
       listPlayers = snapshot.data;
+      placed = _getPlaced(listPlayers, context);
       for (var j = 0; j < 3; j++) {
         _placedListRow = [];
         for (var i = 0; i < 3; i++) {
@@ -188,6 +206,7 @@ class _PodiumPageState extends State<PodiumPage> {
           _placedListRow.add(
             Expanded(
               child: CustomCard(
+                currentPlayer: placed == playerPlacement,
                 padding: 4.0,
                 color: ThemeColors().lightBlue,
                 child: Column(

@@ -35,7 +35,6 @@ class _HomePageState extends State<HomePage> {
       var player = await PlayerDao().read(firebaseUser.uid);
       var playerProvider = Provider.of<PlayerProvider>(context, listen: false);
       playerProvider.signIn(player);
-      print(Provider.of<PlayerProvider>(context, listen: false).player);
     }
   }
 
