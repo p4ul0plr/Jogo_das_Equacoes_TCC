@@ -28,39 +28,32 @@ class _PodiumPageState extends State<PodiumPage> {
         title: CustomTitle(title: 'Pódio'),
         centerTitle: true,
       ),
-      body: StreamBuilder(
-        stream: PlayerDao().readAll(),
-        builder: (context, snapshot) {
-          List<Player> listPlayers = _getPlayers(context, snapshot);
-          return Column(
-            children: [
-              _firstPlacedCard(listPlayers),
-              _lastPlaced(listPlayers),
-            ],
-          );
-        },
+      body: Column(
+        children: [
+          StreamBuilder(
+            stream: PlayerDao().readfirstPlaced(),
+            builder: (context, snapshot) => _firstPlaced(context, snapshot),
+          ),
+          StreamBuilder(
+            stream: PlayerDao().readlastPlaced(),
+            builder: (context, snapshot) => _lastPlaced(context, snapshot),
+          ),
+        ],
       ),
     );
   }
 
-  List<Player> _getPlayers(
+  Widget _firstPlaced(
     BuildContext context,
     AsyncSnapshot<dynamic> snapshot,
   ) {
+    Player currentPlayer =
+        Provider.of<PlayerProvider>(context, listen: false).player;
+    print(currentPlayer);
+    List<Player> listPlayers = [];
     if (snapshot.hasData) {
-      List<Player> listPlayers = snapshot.data;
-      listPlayers.sort(
-        (a, b) => b.playerStatus.score.compareTo(a.playerStatus.score),
-      );
-      listPlayers.forEach((element) {
-        print(element.playerStatus.score);
-      });
-      return listPlayers;
+      listPlayers = snapshot.data;
     }
-    return [];
-  }
-
-  Widget _firstPlacedCard(List<Player> listPlayers) {
     return Expanded(
       flex: 1,
       child: Container(
@@ -82,14 +75,13 @@ class _PodiumPageState extends State<PodiumPage> {
     String name = 'Sem dados';
     String score = 'Sem dados';
     Color cardColor;
-    int listPlayersLength = 0;
-    listPlayers.forEach((element) {
-      listPlayersLength++;
-    });
-    if (listPlayersLength >= playerPlacement) {
+    if (listPlayers.length >= playerPlacement) {
       player = listPlayers[playerPlacement - 1];
-      name = player.name;
       score = player.playerStatus.score.toString();
+      name = player.name;
+      if (name.length > 15) {
+        name = name.substring(0, 15) + '...';
+      }
     }
     switch (playerPlacement) {
       case 1:
@@ -107,30 +99,42 @@ class _PodiumPageState extends State<PodiumPage> {
     }
     return Expanded(
       child: CustomCard(
+        padding: 8.0,
         color: cardColor,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             playerPlacement == 1
-                ? Text(
-                    '$playerPlacementº\nLugar',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Schoolbell',
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                      height: 1.2,
-                    ),
+                ? Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '$playerPlacementº\nLugar',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Schoolbell',
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          height: 1.2,
+                        ),
+                      ),
+                    ],
                   )
-                : Text(
-                    '$playerPlacementº Lugar',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Schoolbell',
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+                : Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        '$playerPlacementº Lugar',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Schoolbell',
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
             Container(
               child: Column(
@@ -138,8 +142,15 @@ class _PodiumPageState extends State<PodiumPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text('Nome: $name'),
-                  Text('Pontos: $score'),
+                  Text(
+                    'Nome: $name\nPontos: $score',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Schoolbell',
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -149,36 +160,84 @@ class _PodiumPageState extends State<PodiumPage> {
     );
   }
 
-  Widget _lastPlaced(List<Player> listPlayers) {
+  Widget _lastPlaced(
+    BuildContext context,
+    AsyncSnapshot<dynamic> snapshot,
+  ) {
     List<Widget> _placedListRow = [];
     List<Widget> _placedListColumn = [];
     Widget _placedRow;
     Widget _placedColumn;
-    for (var j = 0; j < 3; j++) {
-      _placedListRow = [];
-      for (var i = 0; i < 3; i++) {
-        _placedListRow.add(
-          Expanded(
-            child: CustomCard(
-              color: ThemeColors().lightBlue,
-              child: Text(
-                '${i + 4 + (j * 3)}º Lugar',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'Schoolbell',
-                  fontWeight: FontWeight.bold,
+    int playerPlacement;
+    String name = 'Sem dados';
+    String score = 'Sem dados';
+    List<Player> listPlayers = [];
+    if (snapshot.hasData) {
+      listPlayers = snapshot.data;
+      for (var j = 0; j < 3; j++) {
+        _placedListRow = [];
+        for (var i = 0; i < 3; i++) {
+          playerPlacement = i + 4 + (j * 3);
+          name = listPlayers[playerPlacement - 1].name;
+          if (name.length > 10) {
+            name =
+                listPlayers[playerPlacement - 1].name.substring(0, 10) + '...';
+          }
+          score =
+              listPlayers[playerPlacement - 1].playerStatus.score.toString();
+          _placedListRow.add(
+            Expanded(
+              child: CustomCard(
+                padding: 4.0,
+                color: ThemeColors().lightBlue,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          '$playerPlacementº Lugar',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'Schoolbell',
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          'Nome: $name',
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontFamily: 'Schoolbell',
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Text(
+                          'Pontos: $score',
+                          style: TextStyle(
+                            fontFamily: 'Schoolbell',
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
+          );
+        }
+        _placedRow = Expanded(
+          child: Row(
+            children: _placedListRow,
           ),
         );
+        _placedListColumn.add(_placedRow);
       }
-      _placedRow = Expanded(
-        child: Row(
-          children: _placedListRow,
-        ),
-      );
-      _placedListColumn.add(_placedRow);
     }
     _placedColumn = Column(
       mainAxisAlignment: MainAxisAlignment.end,

@@ -4,14 +4,24 @@ import 'package:jogo_das_equacoes/components/custom_boxshadow.dart';
 class CustomCard extends StatelessWidget {
   final Widget child;
   final Color color;
+  final double padding;
+  final double columnGap;
 
-  CustomCard({this.child, this.color});
+  CustomCard({
+    this.child,
+    this.color,
+    this.padding = 16.0,
+    this.columnGap = 16.0,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16.0),
-      margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: EdgeInsets.all(padding),
+      margin: EdgeInsets.symmetric(
+        horizontal: columnGap,
+        vertical: columnGap / 2,
+      ),
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(10),

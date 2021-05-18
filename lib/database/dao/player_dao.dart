@@ -37,18 +37,62 @@ class PlayerDao {
     }
   }
 
-  Stream<List<Player>> readAll() {
+  readAll() {
     try {
-      var listPlayers = [];
-      var stremListPlayers = _players.snapshots().map((snapshots) =>
-          snapshots.docs.map((doc) => Player.fromJson(doc.data())).toList());
-      stremListPlayers
-          .asBroadcastStream()
-          .listen((event) => listPlayers = event);
+      var stremListPlayers = _players
+          .orderBy('playerStatus.score', descending: true)
+          .snapshots()
+          .map(
+            (snapshots) => snapshots.docs
+                .map(
+                  (doc) => Player.fromJson(doc.data()),
+                )
+                .toList(),
+          )
+          .asBroadcastStream();
       return stremListPlayers;
     } on FirebaseException catch (e) {
       print(FirebaseMessage().verifyErroCode(e.message));
-      return null;
+    }
+  }
+
+  readfirstPlaced() {
+    try {
+      var stremListPlayers = _players
+          .orderBy('playerStatus.score', descending: true)
+          .limit(3)
+          .snapshots()
+          .map(
+            (snapshots) => snapshots.docs
+                .map(
+                  (doc) => Player.fromJson(doc.data()),
+                )
+                .toList(),
+          )
+          .asBroadcastStream();
+      return stremListPlayers;
+    } on FirebaseException catch (e) {
+      print(FirebaseMessage().verifyErroCode(e.message));
+    }
+  }
+
+  readlastPlaced() {
+    try {
+      var stremListPlayers = _players
+          .orderBy('playerStatus.score', descending: true)
+          .limit(12)
+          .snapshots()
+          .map(
+            (snapshots) => snapshots.docs
+                .map(
+                  (doc) => Player.fromJson(doc.data()),
+                )
+                .toList(),
+          )
+          .asBroadcastStream();
+      return stremListPlayers;
+    } on FirebaseException catch (e) {
+      print(FirebaseMessage().verifyErroCode(e.message));
     }
   }
 
