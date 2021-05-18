@@ -30,7 +30,7 @@ class CustomCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         border: currentPlayer
             ? Border.all(
-                color: ThemeColors().pink,
+                color: Colors.black,
                 width: 8,
               )
             : Border(),
