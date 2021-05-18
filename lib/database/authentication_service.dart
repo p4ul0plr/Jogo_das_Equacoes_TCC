@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:jogo_das_equacoes/database/dao/player_dao.dart';
 import 'package:jogo_das_equacoes/database/firebase-message.dart';
 
 class AuthenticationService {

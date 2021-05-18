@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/custom_boxshadow.dart';
-import 'package:jogo_das_equacoes/models/colors.dart';
 
 class CustomCard extends StatelessWidget {
   final Widget child;

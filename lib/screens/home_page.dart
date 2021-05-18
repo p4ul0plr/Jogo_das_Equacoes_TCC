@@ -6,7 +6,6 @@ import 'package:jogo_das_equacoes/components/custom_scaffold_messenger.dart';
 import 'package:jogo_das_equacoes/database/authentication_service.dart';
 import 'package:jogo_das_equacoes/database/dao/player_dao.dart';
 import 'package:jogo_das_equacoes/models/colors.dart';
-import 'package:jogo_das_equacoes/models/player.dart';
 import 'package:jogo_das_equacoes/models/sounds.dart';
 import 'package:jogo_das_equacoes/providers/player.dart';
 import 'package:jogo_das_equacoes/screens/credits_page.dart';
@@ -38,7 +37,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void authenticationWrapper() {
+  /* void authenticationWrapper() {
     final firebaseUser = Provider.of<User>(context, listen: false);
     if (firebaseUser == null) {
       WidgetsBinding.instance.addPostFrameCallback(
@@ -53,7 +52,7 @@ class _HomePageState extends State<HomePage> {
         },
       );
     } else {}
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -61,12 +60,7 @@ class _HomePageState extends State<HomePage> {
       resizeToAvoidBottomInset: false,
       body: Container(
         padding: const EdgeInsets.all(32.0),
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/blackboard4.png'),
-            fit: BoxFit.fill,
-          ),
-        ),
+        decoration: _backgroundImage(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -76,6 +70,15 @@ class _HomePageState extends State<HomePage> {
             _showSecondaryButtons(context),
           ],
         ),
+      ),
+    );
+  }
+
+  BoxDecoration _backgroundImage() {
+    return BoxDecoration(
+      image: DecorationImage(
+        image: AssetImage('assets/images/blackboard4.png'),
+        fit: BoxFit.fill,
       ),
     );
   }
@@ -148,18 +151,19 @@ class _HomePageState extends State<HomePage> {
 
   Widget _playButton(BuildContext context) {
     return ButtonWithTextOutside(
-        textPosition: ButtonWithTextOutsidePosition.right,
-        title: 'Jogar',
-        icon: Icons.play_arrow_rounded,
-        color: ThemeColors().blue,
-        onPressed: () {
-          Sounds().clickSound();
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => StagesPage(),
-            ),
-          );
-        });
+      textPosition: ButtonWithTextOutsidePosition.right,
+      title: 'Jogar',
+      icon: Icons.play_arrow_rounded,
+      color: ThemeColors().blue,
+      onPressed: () {
+        Sounds().clickSound();
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => StagesPage(),
+          ),
+        );
+      },
+    );
   }
 }
 

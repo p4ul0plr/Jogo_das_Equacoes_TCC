@@ -11,7 +11,6 @@ import 'package:jogo_das_equacoes/models/colors.dart';
 import 'package:jogo_das_equacoes/models/player.dart';
 import 'package:jogo_das_equacoes/models/player_status.dart';
 import 'package:jogo_das_equacoes/providers/player.dart';
-import 'package:jogo_das_equacoes/screens/home_page.dart';
 import 'package:provider/provider.dart';
 
 const List<String> grades = [

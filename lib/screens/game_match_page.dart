@@ -20,8 +20,6 @@ import 'package:jogo_das_equacoes/models/equations/equation_x_positive_negative.
 import 'package:jogo_das_equacoes/models/equations/equation_xy_negative.dart';
 import 'package:jogo_das_equacoes/models/equations/equation_xy_positive.dart';
 import 'package:jogo_das_equacoes/models/equations/equation_xy_positive_negative.dart';
-import 'package:jogo_das_equacoes/models/player.dart';
-import 'package:jogo_das_equacoes/models/player_status.dart';
 import 'package:jogo_das_equacoes/models/randon_numbers.dart';
 import 'package:jogo_das_equacoes/models/sounds.dart';
 import 'package:jogo_das_equacoes/providers/game_match.dart';
