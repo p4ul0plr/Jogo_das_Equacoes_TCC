@@ -86,10 +86,10 @@ Consumer _getStages(BuildContext context, int i) {
   var player = Provider.of<PlayerProvider>(context, listen: false).player;
   if (player != null) {
     return Consumer<PlayerProvider>(
-      builder: (context, PlayerProvider, child) {
+      builder: (context, playerProvider, child) {
         return _StageCard(
           title: i + 1,
-          isEnable: i < PlayerProvider.player.playerStatus.stage ? true : false,
+          isEnable: i < playerProvider.player.playerStatus.stage ? true : false,
         );
       },
     );

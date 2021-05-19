@@ -94,9 +94,9 @@ class PodiumPage extends StatelessWidget {
       player = listPlayers[playerPlacement - 1];
       score = player.playerStatus.score.toString();
       name = player.name;
-      if (name.length > 15) {
+      /* if (name.length > 15) {
         name = name.substring(0, 15) + '...';
-      }
+      } */
     }
     switch (playerPlacement) {
       case 1:
@@ -152,22 +152,37 @@ class PodiumPage extends StatelessWidget {
                       ),
                     ],
                   ),
-            Container(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Nome: $name\nPontos: $score',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Schoolbell',
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 2.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Nome: $name',
+                      overflow: TextOverflow.fade,
+                      maxLines: 1,
+                      softWrap: false,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Schoolbell',
+                      ),
                     ),
-                  ),
-                ],
+                    Text(
+                      'Pontos: $score',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Schoolbell',
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -197,10 +212,10 @@ class PodiumPage extends StatelessWidget {
         for (var i = 0; i < 3; i++) {
           playerPlacement = i + 4 + (j * 3);
           name = listPlayers[playerPlacement - 1].name;
-          if (name.length > 10) {
+          /* if (name.length > 10) {
             name =
                 listPlayers[playerPlacement - 1].name.substring(0, 10) + '...';
-          }
+          } */
           score =
               listPlayers[playerPlacement - 1].playerStatus.score.toString();
           _placedListRow.add(
@@ -217,29 +232,39 @@ class PodiumPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          '$playerPlacementº Lugar',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'Schoolbell',
-                            fontWeight: FontWeight.bold,
+                        Flexible(
+                          child: Text(
+                            '$playerPlacementº Lugar',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: 'Schoolbell',
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                        Text(
-                          'Nome: $name',
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontFamily: 'Schoolbell',
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.w500,
+                        Expanded(
+                          child: Text(
+                            '$name',
+                            overflow: TextOverflow.fade,
+                            maxLines: 1,
+                            softWrap: false,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: 'Schoolbell',
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
-                        Text(
-                          'Pontos: $score',
-                          style: TextStyle(
-                            fontFamily: 'Schoolbell',
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.w500,
+                        Flexible(
+                          child: Text(
+                            'Pontos: $score',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: 'Schoolbell',
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                       ],
