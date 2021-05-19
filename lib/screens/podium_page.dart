@@ -5,6 +5,7 @@ import 'package:jogo_das_equacoes/components/custom_title.dart';
 import 'package:jogo_das_equacoes/database/dao/player_dao.dart';
 import 'package:jogo_das_equacoes/models/colors.dart';
 import 'package:jogo_das_equacoes/models/player.dart';
+import 'package:jogo_das_equacoes/models/sounds.dart';
 import 'package:jogo_das_equacoes/providers/player.dart';
 import 'package:provider/provider.dart';
 
@@ -133,21 +134,24 @@ class PodiumPage extends StatelessWidget {
     }
     return Expanded(
       child: CustomCard(
-        onTap: () => showDialog(
-          context: context,
-          builder: (context) {
-            return CustomAlertDialog(
-              playerPlacement: playerPlacement.toString(),
-              name: name,
-              score: score,
-              stage: stage,
-              quest: quest,
-              gender: gender,
-              grade: grade,
-              school: school,
-            );
-          },
-        ),
+        onTap: () {
+          Sounds().clickSound();
+          return showDialog(
+            context: context,
+            builder: (context) {
+              return CustomAlertDialog(
+                playerPlacement: playerPlacement.toString(),
+                name: name,
+                score: score,
+                stage: stage,
+                quest: quest,
+                gender: gender,
+                grade: grade,
+                school: school,
+              );
+            },
+          );
+        },
         currentPlayer: playerPlacement == currentPlayer,
         padding: 8.0,
         columnGap: 8.0,
@@ -267,21 +271,24 @@ class PodiumPage extends StatelessWidget {
           _placedListRow.add(
             Expanded(
               child: CustomCard(
-                onTap: () => showDialog(
-                  context: context,
-                  builder: (context) {
-                    return CustomAlertDialog(
-                      playerPlacement: playerPlacement.toString(),
-                      name: name,
-                      score: score,
-                      stage: stage,
-                      quest: quest,
-                      gender: gender,
-                      grade: grade,
-                      school: school,
-                    );
-                  },
-                ),
+                onTap: () {
+                  Sounds().clickSound();
+                  return showDialog(
+                    context: context,
+                    builder: (context) {
+                      return CustomAlertDialog(
+                        playerPlacement: playerPlacement.toString(),
+                        name: name,
+                        score: score,
+                        stage: stage,
+                        quest: quest,
+                        gender: gender,
+                        grade: grade,
+                        school: school,
+                      );
+                    },
+                  );
+                },
                 currentPlayer: placed == playerPlacement,
                 padding: 4.0,
                 columnGap: 8.0,

@@ -22,7 +22,7 @@ class PlayerDao {
     var _player = await read(id);
     _quest = _player.playerStatus.quest;
     _stage = _player.playerStatus.stage;
-    if (_quest < NUMBER_OF_QUESTS_IN_EACH_STAGE * _stage) {
+    if (_quest <= NUMBER_OF_QUESTS_IN_EACH_STAGE * _stage) {
       _quest++;
     } else if (_stage < NUMBER_OF_STAGES) {
       _quest++;

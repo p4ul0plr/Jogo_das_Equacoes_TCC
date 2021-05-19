@@ -27,7 +27,7 @@ class PlayerStatus extends ChangeNotifier {
   }
 
   void incrementQuest() {
-    if (this.quest < NUMBER_OF_QUESTS_IN_EACH_STAGE * this.stage) {
+    if (this.quest <= NUMBER_OF_QUESTS_IN_EACH_STAGE * this.stage) {
       this.quest++;
     } else if (this.stage < NUMBER_OF_STAGES) {
       this.quest++;

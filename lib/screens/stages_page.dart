@@ -1,8 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/custom_boxshadow.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
 import 'package:jogo_das_equacoes/components/score.dart';
+import 'package:jogo_das_equacoes/database/authentication_service.dart';
+import 'package:jogo_das_equacoes/models/colors.dart';
 import 'package:jogo_das_equacoes/models/consts.dart';
+import 'package:jogo_das_equacoes/models/player.dart';
 import 'package:jogo_das_equacoes/models/sounds.dart';
 import 'package:jogo_das_equacoes/providers/player.dart';
 import 'package:jogo_das_equacoes/providers/player_status_shared.dart';
@@ -88,7 +92,7 @@ Consumer _getStages(BuildContext context, int i) {
     return Consumer<PlayerProvider>(
       builder: (context, playerProvider, child) {
         return _StageCard(
-          title: i + 1,
+          stage: i + 1,
           isEnable: i < playerProvider.player.playerStatus.stage ? true : false,
         );
       },
@@ -97,7 +101,7 @@ Consumer _getStages(BuildContext context, int i) {
     return Consumer<PlayerStatusProviderShared>(
       builder: (context, playerStatus, child) {
         return _StageCard(
-          title: i + 1,
+          stage: i + 1,
           isEnable: i < playerStatus.getStage() ? true : false,
         );
       },
@@ -106,30 +110,30 @@ Consumer _getStages(BuildContext context, int i) {
 }
 
 class _StageCard extends StatelessWidget {
-  final int title;
+  final int stage;
   final bool isEnable;
 
-  const _StageCard({this.title, this.isEnable});
+  const _StageCard({this.stage, this.isEnable});
 
   @override
   Widget build(BuildContext context) {
     if (isEnable) {
-      return _stageEnable(context);
+      return _stageEnable(context, stage);
     } else {
       return _stageDisable(context);
     }
   }
 
-  Widget _stageEnable(BuildContext context) {
+  Widget _stageEnable(BuildContext context, int stage) {
     return Material(
-      color: Theme.of(context).accentColor,
+      color: _getColor(context, stage),
       borderRadius: BorderRadius.circular(10),
       child: InkWell(
         onTap: () {
           Sounds().clickSound();
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => QuestsPage(stage: title),
+              builder: (context) => QuestsPage(stage: stage),
             ),
           );
         },
@@ -137,7 +141,7 @@ class _StageCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '$title',
+              '$stage',
               style: TextStyle(
                 fontSize: 50,
                 fontFamily: 'Schoolbell',
@@ -159,7 +163,7 @@ class _StageCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
-              '$title',
+              '$stage',
               style: TextStyle(
                 color: Colors.grey[400],
                 fontSize: 50,
@@ -175,5 +179,29 @@ class _StageCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _getColor(BuildContext context, int currentStage) {
+    User firebaseUser = context.read<AuthenticationService>().currentUser;
+    if (firebaseUser != null) {
+      Player _player = Provider.of<PlayerProvider>(
+        context,
+        listen: false,
+      ).player;
+      int _quest = _player.playerStatus.quest;
+      if (_quest < (NUMBER_OF_QUESTS_IN_EACH_STAGE * currentStage + 1)) {
+        return ThemeColors().lightBlue;
+      }
+      return ThemeColors().blue;
+    } else {
+      int _quest = Provider.of<PlayerStatusProviderShared>(
+        context,
+        listen: false,
+      ).getQuest();
+      if (_quest < (NUMBER_OF_QUESTS_IN_EACH_STAGE * currentStage + 1)) {
+        return ThemeColors().lightBlue;
+      }
+      return ThemeColors().blue;
+    }
   }
 }

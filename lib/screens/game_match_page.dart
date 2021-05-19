@@ -336,7 +336,11 @@ class AlternativeButton extends StatelessWidget {
           bool _lastQuest =
               currentQuest == NUMBER_OF_STAGES * NUMBER_OF_QUESTS_IN_EACH_STAGE;
           if (_lastQuest) {
-            _finishedTheGame(context);
+            //_finishedTheGame(context);
+            _rightAlternativeAndIncrementQuestLoggedIn(
+              _playerProvider,
+              context,
+            );
           } else {
             _rightAlternativeAndIncrementQuestLoggedIn(
               _playerProvider,
@@ -358,7 +362,11 @@ class AlternativeButton extends StatelessWidget {
           bool _lastQuest =
               currentQuest == NUMBER_OF_STAGES * NUMBER_OF_QUESTS_IN_EACH_STAGE;
           if (_lastQuest) {
-            _finishedTheGame(context);
+            //_finishedTheGame(context);
+            _rightAlternativeAndIncrementQuestLoggedOut(
+              _playerStatusProvider,
+              context,
+            );
           } else {
             _rightAlternativeAndIncrementQuestLoggedOut(
               _playerStatusProvider,

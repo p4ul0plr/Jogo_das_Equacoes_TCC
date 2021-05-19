@@ -129,7 +129,7 @@ Consumer _getQuests(
           currentStage: stage,
           isEnable:
               title <= playerProvider.player.playerStatus.quest ? true : false,
-          title: '$title',
+          quest: title,
           width:
               (MediaQuery.of(context).size.longestSide - 16 * (columns + 1)) /
                   columns,
@@ -146,7 +146,7 @@ Consumer _getQuests(
         return Quest(
           currentStage: stage,
           isEnable: title <= playerStatus.getQuest() ? true : false,
-          title: '$title',
+          quest: title,
           width:
               (MediaQuery.of(context).size.longestSide - 16 * (columns + 1)) /
                   columns,

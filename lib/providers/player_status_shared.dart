@@ -33,7 +33,7 @@ class PlayerStatusProviderShared extends ChangeNotifier {
   }
 
   void incrementQuest() {
-    if (this._quest < NUMBER_OF_QUESTS_IN_EACH_STAGE * this._stage) {
+    if (this._quest <= NUMBER_OF_QUESTS_IN_EACH_STAGE * this._stage) {
       this._quest++;
       _updateSharedPrefrencesQuest();
       notifyListeners();

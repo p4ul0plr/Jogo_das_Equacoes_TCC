@@ -78,10 +78,11 @@ class _NewAccountPageState extends State<NewAccountPage> {
         backgroundColor: ThemeColors().pink,
         centerTitle: true,
         actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.save),
-            onPressed: () => _saveUser(),
-          ),
+          if (context.read<AuthenticationService>().currentUser == null)
+            IconButton(
+              icon: const Icon(Icons.save),
+              onPressed: () => _saveUser(),
+            ),
           IconButton(
             icon: const Icon(Icons.delete),
             onPressed: () => _deleteUser(),
@@ -290,7 +291,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
       context: context,
       builder: (dialogContext) {
         return CustomAlertDialog(
-          text: 'Deseja realmente excluir esse usuário?',
+          text: 'Deseja realmente excluir sua conta?',
           cancelOnPressed: () => Navigator.of(dialogContext).pop(),
           confirmOnPressed: () async {
             Navigator.of(dialogContext).pop();
@@ -338,7 +339,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
             ),
           ); */
         },
-        text: 'Tem certeza que deseja mesmo sair?',
+        text: 'Tem certeza que deseja mesmo sair da sua conta?',
       ),
     );
   }
