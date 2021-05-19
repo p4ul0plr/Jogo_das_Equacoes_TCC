@@ -30,41 +30,43 @@ class PodiumPage extends StatelessWidget {
     );
   }
 
-  Widget _firstPlaced(
+  _firstPlaced(
     BuildContext context,
     AsyncSnapshot<dynamic> snapshot,
   ) {
     List<Player> listPlayers = [];
     if (snapshot.hasData) {
       listPlayers = snapshot.data;
-    }
-    int placed = _getPlaced(listPlayers, context);
-    return Expanded(
-      flex: 1,
-      child: Container(
-        margin: const EdgeInsets.only(top: 8.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            _getPlacement(
-              listPlayers: listPlayers,
-              playerPlacement: 2,
-              currentPlayer: placed,
-            ),
-            _getPlacement(
-              listPlayers: listPlayers,
-              playerPlacement: 1,
-              currentPlayer: placed,
-            ),
-            _getPlacement(
-              listPlayers: listPlayers,
-              playerPlacement: 3,
-              currentPlayer: placed,
-            ),
-          ],
+
+      int placed = _getPlaced(listPlayers, context);
+      return Expanded(
+        flex: 1,
+        child: Container(
+          margin: const EdgeInsets.only(top: 8.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              _getPlacement(
+                listPlayers: listPlayers,
+                playerPlacement: 2,
+                currentPlayer: placed,
+              ),
+              _getPlacement(
+                listPlayers: listPlayers,
+                playerPlacement: 1,
+                currentPlayer: placed,
+              ),
+              _getPlacement(
+                listPlayers: listPlayers,
+                playerPlacement: 3,
+                currentPlayer: placed,
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    }
+    return CircularProgressIndicator();
   }
 
   int _getPlaced(List<Player> listPlayers, BuildContext context) {
@@ -174,7 +176,7 @@ class PodiumPage extends StatelessWidget {
     );
   }
 
-  Widget _lastPlaced(
+  _lastPlaced(
     BuildContext context,
     AsyncSnapshot<dynamic> snapshot,
   ) {
@@ -255,17 +257,19 @@ class PodiumPage extends StatelessWidget {
         );
         _placedListColumn.add(_placedRow);
       }
+
+      _placedColumn = Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: _placedListColumn,
+      );
+      return Expanded(
+        flex: 2,
+        child: Container(
+          margin: const EdgeInsets.symmetric(vertical: 8.0),
+          child: _placedColumn,
+        ),
+      );
     }
-    _placedColumn = Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: _placedListColumn,
-    );
-    return Expanded(
-      flex: 2,
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 8.0),
-        child: _placedColumn,
-      ),
-    );
+    return CircularProgressIndicator();
   }
 }

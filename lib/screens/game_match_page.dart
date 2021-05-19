@@ -230,18 +230,14 @@ int _calculateTheScore(BuildContext context) {
   }
   var player = Provider.of<PlayerProvider>(context, listen: false).player;
   if (player != null) {
-    player.playerStatus.score = _calculatedScore;
+    player.playerStatus.incrementScore(_calculatedScore);
     PlayerDao().update({
       'playerStatus.score': player.playerStatus.score,
     }, player.id);
-    print('Status jo jogador: Logado');
+    print('Status do jogador: Logado');
   } else {
     _playerStatusProvider.incrementScore(_calculatedScore);
-    Provider.of<PlayerProvider>(context, listen: false)
-        .player
-        .playerStatus
-        .incrementScore(_calculatedScore);
-    print('Status jo jogador: Não Logado');
+    print('Status do jogador: Não Logado');
   }
   return _calculatedScore;
 }

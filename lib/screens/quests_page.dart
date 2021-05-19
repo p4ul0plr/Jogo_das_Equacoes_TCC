@@ -35,14 +35,16 @@ class QuestsPage extends StatelessWidget {
       ),
       floatingActionButton: Stack(
         children: [
-          /* Align(
+          Align(
             alignment: Alignment(1.0, 0.25),
             child: FloatingActionButton(
               heroTag: 'increment quest',
               child: Icon(Icons.add),
               onPressed: () {
-                Provider.of<PlayerStatusProvider>(context, listen: false)
-                    .incrementQuest();
+                Provider.of<PlayerStatusProviderShared>(
+                  context,
+                  listen: false,
+                ).incrementQuest();
               },
             ),
           ),
@@ -52,13 +54,16 @@ class QuestsPage extends StatelessWidget {
               heroTag: 'decrease quest',
               child: Icon(Icons.remove),
               onPressed: () {
-                PlayerStatusProvider _playerStatusProvider =
-                    Provider.of<PlayerStatusProvider>(context, listen: false);
+                var _playerStatusProvider =
+                    Provider.of<PlayerStatusProviderShared>(
+                  context,
+                  listen: false,
+                );
                 _playerStatusProvider.decreaseQuest();
                 _playerStatusProvider.resetScore();
               },
             ),
-          ), */
+          ),
           Align(
             alignment: Alignment.bottomRight,
             child: FloatingActionButton(

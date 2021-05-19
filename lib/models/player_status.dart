@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/models/consts.dart';
 
-class PlayerStatus {
+class PlayerStatus extends ChangeNotifier {
   int score;
   int stage;
   int quest;
@@ -21,6 +22,7 @@ class PlayerStatus {
   void incrementScore(int score) {
     if (this.score != null) {
       this.score += score;
+      notifyListeners();
     }
   }
 
@@ -31,6 +33,7 @@ class PlayerStatus {
       this.quest++;
       this.stage++;
     }
+    notifyListeners();
   }
 
   void decreaseQuest() {
@@ -41,11 +44,13 @@ class PlayerStatus {
     } else {
       this.quest--;
     }
+    notifyListeners();
   }
 
   void resetScore() {
     if (this.score != null) {
       this.score = 0;
+      notifyListeners();
     }
   }
 
