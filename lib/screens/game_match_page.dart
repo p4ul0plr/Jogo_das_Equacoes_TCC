@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/components/match_result_alert_dialog.dart';
 import 'package:jogo_das_equacoes/components/custom_boxshadow.dart';
 import 'package:jogo_das_equacoes/components/custom_timer.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
 import 'package:jogo_das_equacoes/components/equation_widget.dart';
+import 'package:jogo_das_equacoes/database/authentication_service.dart';
 import 'package:jogo_das_equacoes/database/dao/player_dao.dart';
 import 'package:jogo_das_equacoes/models/colors.dart';
 import 'package:jogo_das_equacoes/models/consts.dart';
@@ -316,31 +318,76 @@ class AlternativeButton extends StatelessWidget {
           style: TextStyle(fontSize: 20.0),
         ),
         onPressed: () {
-          var _playerStatusProvider =
-              Provider.of<PlayerStatusProviderShared>(context, listen: false);
-          int _quest = _playerStatusProvider.getQuest();
-          if (alternative != result) {
-            _wrongAlternative(context);
-          } else {
-            if (_quest == currentQuest) {
-              bool _lastQuest = currentQuest ==
-                  NUMBER_OF_STAGES * NUMBER_OF_QUESTS_IN_EACH_STAGE;
-              if (_lastQuest) {
-                _finishedTheGame(context);
-              } else {
-                _rightAlternativeAndIncrementQuest(
-                    _playerStatusProvider, context);
-              }
-            } else {
-              _rightAlternative(context);
-            }
-          }
+          _rightOrWrong(context);
         },
       ),
     );
   }
 
-  void _rightAlternativeAndIncrementQuest(
+  void _rightOrWrong(BuildContext context) {
+    var player = Provider.of<PlayerProvider>(context, listen: false).player;
+    if (player != null) {
+      var _playerProvider = Provider.of<PlayerProvider>(context, listen: false);
+      int _quest = _playerProvider.player.playerStatus.quest;
+      if (alternative != result) {
+        _wrongAlternative(context);
+      } else {
+        if (_quest == currentQuest) {
+          bool _lastQuest =
+              currentQuest == NUMBER_OF_STAGES * NUMBER_OF_QUESTS_IN_EACH_STAGE;
+          if (_lastQuest) {
+            _finishedTheGame(context);
+          } else {
+            _rightAlternativeAndIncrementQuestLoggedIn(
+              _playerProvider,
+              context,
+            );
+          }
+        } else {
+          _rightAlternative(context);
+        }
+      }
+    } else {
+      var _playerStatusProvider =
+          Provider.of<PlayerStatusProviderShared>(context, listen: false);
+      int _quest = _playerStatusProvider.getQuest();
+      if (alternative != result) {
+        _wrongAlternative(context);
+      } else {
+        if (_quest == currentQuest) {
+          bool _lastQuest =
+              currentQuest == NUMBER_OF_STAGES * NUMBER_OF_QUESTS_IN_EACH_STAGE;
+          if (_lastQuest) {
+            _finishedTheGame(context);
+          } else {
+            _rightAlternativeAndIncrementQuestLoggedOut(
+              _playerStatusProvider,
+              context,
+            );
+          }
+        } else {
+          _rightAlternative(context);
+        }
+      }
+    }
+  }
+
+  void _rightAlternativeAndIncrementQuestLoggedIn(
+    PlayerProvider playerProvider,
+    BuildContext context,
+  ) async {
+    User firebaseUser = context.read<AuthenticationService>().currentUser;
+    if (firebaseUser != null) {
+      PlayerDao().incrementQuest(firebaseUser.uid);
+      var player = await PlayerDao().read(firebaseUser.uid);
+      var playerProvider = Provider.of<PlayerProvider>(context, listen: false);
+      playerProvider.signIn(player);
+    }
+    playerProvider.player.playerStatus.incrementQuest();
+    _rightAlternative(context);
+  }
+
+  void _rightAlternativeAndIncrementQuestLoggedOut(
     PlayerStatusProviderShared playerStatusProvider,
     BuildContext context,
   ) {

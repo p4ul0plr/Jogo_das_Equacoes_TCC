@@ -5,6 +5,7 @@ import 'package:jogo_das_equacoes/components/score.dart';
 import 'package:jogo_das_equacoes/models/colors.dart';
 import 'package:jogo_das_equacoes/models/consts.dart';
 import 'package:jogo_das_equacoes/models/sounds.dart';
+import 'package:jogo_das_equacoes/providers/player.dart';
 import 'package:jogo_das_equacoes/providers/player_status_shared.dart';
 import 'package:jogo_das_equacoes/screens/stage_help_page.dart';
 import 'package:provider/provider.dart';
@@ -30,12 +31,13 @@ class QuestsPage extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: _getQuests(context, stage, numberOfRows, numberOfColumns),
+          children:
+              _getQuestsCard(context, stage, numberOfRows, numberOfColumns),
         ),
       ),
       floatingActionButton: Stack(
         children: [
-          Align(
+          /* Align(
             alignment: Alignment(1.0, 0.25),
             child: FloatingActionButton(
               heroTag: 'increment quest',
@@ -63,7 +65,7 @@ class QuestsPage extends StatelessWidget {
                 _playerStatusProvider.resetScore();
               },
             ),
-          ),
+          ), */
           Align(
             alignment: Alignment.bottomRight,
             child: FloatingActionButton(
@@ -90,30 +92,19 @@ class QuestsPage extends StatelessWidget {
   }
 }
 
-List<Widget> _getQuests(
-    BuildContext context, int stage, int rows, int columns) {
+List<Widget> _getQuestsCard(
+  BuildContext context,
+  int stage,
+  int rows,
+  int columns,
+) {
   List<Widget> listQuests = [];
   for (var row = 0; row < rows; row++) {
     List<Widget> rowQuests = [];
     for (var column = 0; column < columns; column++) {
       int title = (columns * row + column + 1) + (stage - 1) * 10;
       rowQuests.add(
-        Consumer<PlayerStatusProviderShared>(
-          builder: (context, playerStatus, child) {
-            return Quest(
-              currentStage: stage,
-              isEnable: title <= playerStatus.getQuest() ? true : false,
-              title: '$title',
-              width: (MediaQuery.of(context).size.longestSide -
-                      16 * (columns + 1)) /
-                  columns,
-              height: (MediaQuery.of(context).size.shortestSide -
-                      16 * (rows + 1) -
-                      kToolbarHeight) /
-                  rows, //kToolbarHeight é a altura da AppBar 32 é o espaço entre os elementos
-            );
-          },
-        ),
+        _getQuests(context, stage, title, columns, rows),
       );
     }
     listQuests.add(
@@ -121,4 +112,50 @@ List<Widget> _getQuests(
     );
   }
   return listQuests;
+}
+
+Consumer _getQuests(
+  BuildContext context,
+  int stage,
+  int title,
+  int columns,
+  int rows,
+) {
+  var player = Provider.of<PlayerProvider>(context, listen: false).player;
+  if (player != null) {
+    return Consumer<PlayerProvider>(
+      builder: (context, playerProvider, child) {
+        return Quest(
+          currentStage: stage,
+          isEnable:
+              title <= playerProvider.player.playerStatus.quest ? true : false,
+          title: '$title',
+          width:
+              (MediaQuery.of(context).size.longestSide - 16 * (columns + 1)) /
+                  columns,
+          height: (MediaQuery.of(context).size.shortestSide -
+                  16 * (rows + 1) -
+                  kToolbarHeight) /
+              rows, //kToolbarHeight é a altura da AppBar 32 é o espaço entre os elementos
+        );
+      },
+    );
+  } else {
+    return Consumer<PlayerStatusProviderShared>(
+      builder: (context, playerStatus, child) {
+        return Quest(
+          currentStage: stage,
+          isEnable: title <= playerStatus.getQuest() ? true : false,
+          title: '$title',
+          width:
+              (MediaQuery.of(context).size.longestSide - 16 * (columns + 1)) /
+                  columns,
+          height: (MediaQuery.of(context).size.shortestSide -
+                  16 * (rows + 1) -
+                  kToolbarHeight) /
+              rows, //kToolbarHeight é a altura da AppBar 32 é o espaço entre os elementos
+        );
+      },
+    );
+  }
 }

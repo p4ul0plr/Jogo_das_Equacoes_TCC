@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jogo_das_equacoes/database/authentication_service.dart';
 import 'package:jogo_das_equacoes/database/firebase-message.dart';
+import 'package:jogo_das_equacoes/models/consts.dart';
 import 'package:jogo_das_equacoes/models/player.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
@@ -13,6 +14,24 @@ class PlayerDao {
 
   PlayerDao() {
     _players = _db.collection('players');
+  }
+
+  void incrementQuest(String id) async {
+    int _quest;
+    int _stage;
+    var _player = await read(id);
+    _quest = _player.playerStatus.quest;
+    _stage = _player.playerStatus.stage;
+    if (_quest < NUMBER_OF_QUESTS_IN_EACH_STAGE * _stage) {
+      _quest++;
+    } else if (_stage < NUMBER_OF_STAGES) {
+      _quest++;
+      _stage++;
+    }
+    await _players.doc(id).update({
+      'playerStatus.quest': _quest,
+      'playerStatus.stage': _stage,
+    });
   }
 
   void create(Player player) {
