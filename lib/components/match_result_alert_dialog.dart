@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/models/consts.dart';
 import 'package:jogo_das_equacoes/models/sounds.dart';
-import 'package:jogo_das_equacoes/providers/player_status.dart';
+import 'package:jogo_das_equacoes/providers/player_status_shared.dart';
 import 'package:jogo_das_equacoes/screens/quests_page.dart';
 import 'package:provider/provider.dart';
 
@@ -170,7 +170,7 @@ class CustomRoundButton extends StatelessWidget {
           onTap: () {
             Sounds().clickSound();
             var _playerStatusProvider =
-                Provider.of<PlayerStatusProvider>(context, listen: false);
+                Provider.of<PlayerStatusProviderShared>(context, listen: false);
             int _stage = _playerStatusProvider.getStage();
             bool _lastQuestOfStage =
                 (_currentQuest % NUMBER_OF_QUESTS_IN_EACH_STAGE == 0);

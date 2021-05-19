@@ -5,7 +5,7 @@ import 'package:jogo_das_equacoes/components/score.dart';
 import 'package:jogo_das_equacoes/models/colors.dart';
 import 'package:jogo_das_equacoes/models/consts.dart';
 import 'package:jogo_das_equacoes/models/sounds.dart';
-import 'package:jogo_das_equacoes/providers/player_status.dart';
+import 'package:jogo_das_equacoes/providers/player_status_shared.dart';
 import 'package:jogo_das_equacoes/screens/stage_help_page.dart';
 import 'package:provider/provider.dart';
 
@@ -93,7 +93,7 @@ List<Widget> _getQuests(
     for (var column = 0; column < columns; column++) {
       int title = (columns * row + column + 1) + (stage - 1) * 10;
       rowQuests.add(
-        Consumer<PlayerStatusProvider>(
+        Consumer<PlayerStatusProviderShared>(
           builder: (context, playerStatus, child) {
             return Quest(
               currentStage: stage,

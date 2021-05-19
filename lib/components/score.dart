@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:jogo_das_equacoes/providers/player_status.dart';
+import 'package:jogo_das_equacoes/providers/player_status_shared.dart';
 import 'package:provider/provider.dart';
 
 class Score extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<PlayerStatusProvider>(
+    return Consumer<PlayerStatusProviderShared>(
       builder: (context, playerStatus, child) {
         return Center(
           child: Padding(

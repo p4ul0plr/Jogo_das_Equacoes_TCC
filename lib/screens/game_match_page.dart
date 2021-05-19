@@ -24,7 +24,7 @@ import 'package:jogo_das_equacoes/models/randon_numbers.dart';
 import 'package:jogo_das_equacoes/models/sounds.dart';
 import 'package:jogo_das_equacoes/providers/game_match.dart';
 import 'package:jogo_das_equacoes/providers/player.dart';
-import 'package:jogo_das_equacoes/providers/player_status.dart';
+import 'package:jogo_das_equacoes/providers/player_status_shared.dart';
 import 'package:provider/provider.dart';
 
 const int NUMBER_OF_ALTERNATIVES = 4;
@@ -208,8 +208,8 @@ class _GameMatchPageState extends State<GameMatchPage> {
 int _calculateTheScore(BuildContext context) {
   GameMatchProvider _gamematchProvider =
       Provider.of<GameMatchProvider>(context, listen: false);
-  PlayerStatusProvider _playerStatusProvider =
-      Provider.of<PlayerStatusProvider>(context, listen: false);
+  PlayerStatusProviderShared _playerStatusProvider =
+      Provider.of<PlayerStatusProviderShared>(context, listen: false);
   int _gameAttempt = _gamematchProvider.getMatchAttempts();
   int _calculatedScore;
   int _weightingTime =
@@ -228,14 +228,21 @@ int _calculateTheScore(BuildContext context) {
       _calculatedScore = 0;
       break;
   }
-  _playerStatusProvider.incrementScore(_calculatedScore);
-  Provider.of<PlayerProvider>(context, listen: false)
-      .player
-      .playerStatus
-      .incrementScore(_calculatedScore);
   var player = Provider.of<PlayerProvider>(context, listen: false).player;
-  PlayerDao()
-      .update({'playerStatus.score': player.playerStatus.score}, player.id);
+  if (player != null) {
+    player.playerStatus.score = _calculatedScore;
+    PlayerDao().update({
+      'playerStatus.score': player.playerStatus.score,
+    }, player.id);
+    print('Status jo jogador: Logado');
+  } else {
+    _playerStatusProvider.incrementScore(_calculatedScore);
+    Provider.of<PlayerProvider>(context, listen: false)
+        .player
+        .playerStatus
+        .incrementScore(_calculatedScore);
+    print('Status jo jogador: Não Logado');
+  }
   return _calculatedScore;
 }
 
@@ -308,7 +315,7 @@ class AlternativeButton extends StatelessWidget {
         ),
         onPressed: () {
           var _playerStatusProvider =
-              Provider.of<PlayerStatusProvider>(context, listen: false);
+              Provider.of<PlayerStatusProviderShared>(context, listen: false);
           int _quest = _playerStatusProvider.getQuest();
           if (alternative != result) {
             _wrongAlternative(context);
@@ -319,8 +326,8 @@ class AlternativeButton extends StatelessWidget {
               if (_lastQuest) {
                 _finishedTheGame(context);
               } else {
-                _playerStatusProvider.incrementQuest();
-                _rightAlternative(context);
+                _rightAlternativeAndIncrementQuest(
+                    _playerStatusProvider, context);
               }
             } else {
               _rightAlternative(context);
@@ -329,6 +336,14 @@ class AlternativeButton extends StatelessWidget {
         },
       ),
     );
+  }
+
+  void _rightAlternativeAndIncrementQuest(
+    PlayerStatusProviderShared playerStatusProvider,
+    BuildContext context,
+  ) {
+    playerStatusProvider.incrementQuest();
+    _rightAlternative(context);
   }
 
   void _finishedTheGame(BuildContext context) {

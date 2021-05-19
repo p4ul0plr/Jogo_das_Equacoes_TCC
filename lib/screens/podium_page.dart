@@ -187,7 +187,6 @@ class PodiumPage extends StatelessWidget {
     String score = 'Sem dados';
     List<Player> listPlayers = [];
     int placed;
-    print(placed);
     if (snapshot.hasData) {
       listPlayers = snapshot.data;
       placed = _getPlaced(listPlayers, context);

@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:jogo_das_equacoes/models/consts.dart';
+import 'package:jogo_das_equacoes/models/player_status.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class PlayerStatusProvider extends ChangeNotifier {
+class PlayerStatusProviderShared extends ChangeNotifier {
   int _score;
   int _quest;
   int _stage;
 
-  PlayerStatusProvider() {
+  PlayerStatusProviderShared() {
     _initialState();
+  }
+
+  PlayerStatus getPlayerStatus() {
+    return PlayerStatus(
+      score: _score,
+      quest: _quest,
+      stage: _stage,
+    );
   }
 
   void _initialState() {
@@ -111,7 +120,7 @@ class PlayerStatusProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  PlayerStatusProvider.fromJson(Map<String, dynamic> json)
+  PlayerStatusProviderShared.fromJson(Map<String, dynamic> json)
       : _score = json['score'],
         _stage = json['stage'],
         _quest = json['quest'];

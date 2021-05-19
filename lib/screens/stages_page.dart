@@ -4,11 +4,38 @@ import 'package:jogo_das_equacoes/components/custom_title.dart';
 import 'package:jogo_das_equacoes/components/score.dart';
 import 'package:jogo_das_equacoes/models/consts.dart';
 import 'package:jogo_das_equacoes/models/sounds.dart';
-import 'package:jogo_das_equacoes/providers/player_status.dart';
+import 'package:jogo_das_equacoes/providers/player.dart';
+import 'package:jogo_das_equacoes/providers/player_status_shared.dart';
 import 'package:jogo_das_equacoes/screens/quests_page.dart';
 import 'package:provider/provider.dart';
 
-class StagesPage extends StatelessWidget {
+class StagesPage extends StatefulWidget {
+  @override
+  _StagesPageState createState() => _StagesPageState();
+}
+
+class _StagesPageState extends State<StagesPage> {
+  @override
+  void dispose() {
+    print('Tela de fases fechada');
+    super.dispose();
+  }
+
+  @override
+  void setState(fn) {
+    _initialLoad();
+    super.setState(fn);
+  }
+
+  void _initialLoad() {
+    var playerProvider = Provider.of<PlayerProvider>(context, listen: false);
+    var playerStatus = Provider.of<PlayerStatusProviderShared>(
+      context,
+      listen: false,
+    ).getPlayerStatus();
+    playerProvider.player.playerStatus = playerStatus;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +86,7 @@ List<Widget> _getStages(BuildContext context, int numberOfStages) {
           width:
               (MediaQuery.of(context).size.longestSide - _externalPadding * 5) /
                   4,
-          child: Consumer<PlayerStatusProvider>(
+          child: Consumer<PlayerStatusProviderShared>(
             builder: (context, playerStatus, child) {
               return _StageCard(
                 title: i + 1,

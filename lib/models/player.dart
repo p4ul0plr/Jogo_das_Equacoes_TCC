@@ -8,7 +8,7 @@ class Player {
   final String password;
   final String grade;
   final String school;
-  final PlayerStatus playerStatus;
+  PlayerStatus playerStatus;
 
   Player({
     this.id,

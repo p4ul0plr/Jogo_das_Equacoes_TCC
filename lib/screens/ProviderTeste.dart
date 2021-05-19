@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jogo_das_equacoes/providers/player_status.dart';
+import 'package:jogo_das_equacoes/providers/player_status_shared.dart';
 import 'package:provider/provider.dart';
 
 class ProviderTeste extends StatelessWidget {
@@ -9,7 +9,7 @@ class ProviderTeste extends StatelessWidget {
       appBar: AppBar(
         title: Text('Privider Teste'),
       ),
-      body: Consumer<PlayerStatusProvider>(
+      body: Consumer<PlayerStatusProviderShared>(
         builder: (context, playerStatus, child) {
           return Container(
             alignment: Alignment.center,
@@ -20,16 +20,16 @@ class ProviderTeste extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          Provider.of<PlayerStatusProvider>(context, listen: false)
+          Provider.of<PlayerStatusProviderShared>(context, listen: false)
               .incrementScore(100);
-          Provider.of<PlayerStatusProvider>(context, listen: false)
+          Provider.of<PlayerStatusProviderShared>(context, listen: false)
               .incrementQuest();
         },
       ),
     );
   }
 
-  Column returnTexts(PlayerStatusProvider playerStatus) {
+  Column returnTexts(PlayerStatusProviderShared playerStatus) {
     if (playerStatus.getScore() < 1000) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,

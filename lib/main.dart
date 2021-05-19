@@ -6,7 +6,7 @@ import 'package:jogo_das_equacoes/database/authentication_service.dart';
 import 'package:jogo_das_equacoes/models/colors.dart';
 import 'package:jogo_das_equacoes/providers/game_match.dart';
 import 'package:jogo_das_equacoes/providers/player.dart';
-import 'package:jogo_das_equacoes/providers/player_status.dart';
+import 'package:jogo_das_equacoes/providers/player_status_shared.dart';
 import 'package:jogo_das_equacoes/screens/home_page.dart';
 import 'package:provider/provider.dart';
 
@@ -28,7 +28,7 @@ Future<void> main() async {
             create: (context) => PlayerStatus(),
           ), */
           ChangeNotifierProvider(
-            create: (context) => PlayerStatusProvider(),
+            create: (context) => PlayerStatusProviderShared(),
           ),
           ChangeNotifierProvider(
             create: (context) => GameMatchProvider(),
