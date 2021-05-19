@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jogo_das_equacoes/components/custom_alert_dialog.dart';
 import 'package:jogo_das_equacoes/components/custom_card.dart';
 import 'package:jogo_das_equacoes/components/custom_title.dart';
 import 'package:jogo_das_equacoes/database/dao/player_dao.dart';
@@ -15,17 +16,20 @@ class PodiumPage extends StatelessWidget {
         title: CustomTitle(title: 'Pódio'),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          StreamBuilder(
-            stream: PlayerDao().readfirstPlaced(),
-            builder: (context, snapshot) => _firstPlaced(context, snapshot),
-          ),
-          StreamBuilder(
-            stream: PlayerDao().readlastPlaced(),
-            builder: (context, snapshot) => _lastPlaced(context, snapshot),
-          ),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+        child: Column(
+          children: [
+            StreamBuilder(
+              stream: PlayerDao().readfirstPlaced(),
+              builder: (context, snapshot) => _firstPlaced(context, snapshot),
+            ),
+            StreamBuilder(
+              stream: PlayerDao().readlastPlaced(),
+              builder: (context, snapshot) => _lastPlaced(context, snapshot),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -47,16 +51,19 @@ class PodiumPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               _getPlacement(
+                context: context,
                 listPlayers: listPlayers,
                 playerPlacement: 2,
                 currentPlayer: placed,
               ),
               _getPlacement(
+                context: context,
                 listPlayers: listPlayers,
                 playerPlacement: 1,
                 currentPlayer: placed,
               ),
               _getPlacement(
+                context: context,
                 listPlayers: listPlayers,
                 playerPlacement: 3,
                 currentPlayer: placed,
@@ -82,6 +89,7 @@ class PodiumPage extends StatelessWidget {
   }
 
   Widget _getPlacement({
+    BuildContext context,
     List<Player> listPlayers,
     int playerPlacement,
     int currentPlayer,
@@ -89,11 +97,22 @@ class PodiumPage extends StatelessWidget {
     Player player;
     String name = 'Sem dados';
     String score = 'Sem dados';
+    String quest = 'Sem dados';
+    String stage = 'Sem dados';
+    String gender = 'Sem dados';
+    String grade = 'Sem dados';
+    String school = 'Sem dados';
+
     Color cardColor;
     if (listPlayers.length >= playerPlacement) {
       player = listPlayers[playerPlacement - 1];
       score = player.playerStatus.score.toString();
+      quest = player.playerStatus.quest.toString();
+      stage = player.playerStatus.stage.toString();
       name = player.name;
+      gender = player.gender;
+      grade = player.grade;
+      school = player.school;
       /* if (name.length > 15) {
         name = name.substring(0, 15) + '...';
       } */
@@ -114,8 +133,24 @@ class PodiumPage extends StatelessWidget {
     }
     return Expanded(
       child: CustomCard(
+        onTap: () => showDialog(
+          context: context,
+          builder: (context) {
+            return CustomAlertDialog(
+              playerPlacement: playerPlacement.toString(),
+              name: name,
+              score: score,
+              stage: stage,
+              quest: quest,
+              gender: gender,
+              grade: grade,
+              school: school,
+            );
+          },
+        ),
         currentPlayer: playerPlacement == currentPlayer,
         padding: 8.0,
+        columnGap: 8.0,
         color: cardColor,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -154,14 +189,14 @@ class PodiumPage extends StatelessWidget {
                   ),
             Expanded(
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 2.0),
+                padding: EdgeInsets.only(left: 4.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      'Nome: $name',
+                      '$name',
                       overflow: TextOverflow.fade,
                       maxLines: 1,
                       softWrap: false,
@@ -173,7 +208,7 @@ class PodiumPage extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Pontos: $score',
+                      '$score pontos',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16.0,
@@ -202,6 +237,11 @@ class PodiumPage extends StatelessWidget {
     int playerPlacement;
     String name = 'Sem dados';
     String score = 'Sem dados';
+    String quest = 'Sem dados';
+    String stage = 'Sem dados';
+    String gender = 'Sem dados';
+    String grade = 'Sem dados';
+    String school = 'Sem dados';
     List<Player> listPlayers = [];
     int placed;
     if (snapshot.hasData) {
@@ -211,18 +251,40 @@ class PodiumPage extends StatelessWidget {
         _placedListRow = [];
         for (var i = 0; i < 3; i++) {
           playerPlacement = i + 4 + (j * 3);
-          name = listPlayers[playerPlacement - 1].name;
+          Player player = listPlayers[playerPlacement - 1];
+          name = player.name;
+          quest = player.playerStatus.quest.toString();
+          stage = player.playerStatus.stage.toString();
+          name = player.name;
+          gender = player.gender;
+          grade = player.grade;
+          school = player.school;
           /* if (name.length > 10) {
             name =
                 listPlayers[playerPlacement - 1].name.substring(0, 10) + '...';
           } */
-          score =
-              listPlayers[playerPlacement - 1].playerStatus.score.toString();
+          score = player.playerStatus.score.toString();
           _placedListRow.add(
             Expanded(
               child: CustomCard(
+                onTap: () => showDialog(
+                  context: context,
+                  builder: (context) {
+                    return CustomAlertDialog(
+                      playerPlacement: playerPlacement.toString(),
+                      name: name,
+                      score: score,
+                      stage: stage,
+                      quest: quest,
+                      gender: gender,
+                      grade: grade,
+                      school: school,
+                    );
+                  },
+                ),
                 currentPlayer: placed == playerPlacement,
                 padding: 4.0,
+                columnGap: 8.0,
                 color: ThemeColors().lightBlue,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
@@ -243,27 +305,35 @@ class PodiumPage extends StatelessWidget {
                           ),
                         ),
                         Expanded(
-                          child: Text(
-                            '$name',
-                            overflow: TextOverflow.fade,
-                            maxLines: 1,
-                            softWrap: false,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: 'Schoolbell',
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.w500,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 2.0,
+                            ),
+                            child: Text(
+                              '$name',
+                              overflow: TextOverflow.fade,
+                              maxLines: 1,
+                              softWrap: false,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: 'Schoolbell',
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ),
                         Flexible(
-                          child: Text(
-                            'Pontos: $score',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: 'Schoolbell',
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.w500,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 2.0),
+                            child: Text(
+                              '$score pontos',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: 'Schoolbell',
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ),
@@ -296,5 +366,190 @@ class PodiumPage extends StatelessWidget {
       );
     }
     return CircularProgressIndicator();
+  }
+}
+
+class CustomAlertDialog extends StatelessWidget {
+  const CustomAlertDialog({
+    Key key,
+    @required this.name,
+    @required this.score,
+    @required this.stage,
+    @required this.quest,
+    @required this.gender,
+    @required this.grade,
+    @required this.school,
+    @required this.playerPlacement,
+  }) : super(key: key);
+
+  final String name;
+  final String score;
+  final String stage;
+  final String quest;
+  final String gender;
+  final String grade;
+  final String school;
+  final String playerPlacement;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+      ),
+      title: Column(
+        children: [
+          Text(
+            '$playerPlacementº lugar - $name',
+            style: TextStyle(
+              fontSize: 24.0,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Schoolbell',
+            ),
+            overflow: TextOverflow.fade,
+            maxLines: 1,
+            softWrap: false,
+            textAlign: TextAlign.center,
+          ),
+          Text(
+            '$score pontos',
+            style: TextStyle(
+              fontSize: 20.0,
+              fontFamily: 'Schoolbell',
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+      content: SingleChildScrollView(
+        child: CustomDataTable(
+          stage: stage,
+          quest: quest,
+          gender: gender,
+          grade: grade,
+          school: school,
+        ),
+      ),
+    );
+  }
+}
+
+class CustomDataTable extends StatelessWidget {
+  const CustomDataTable({
+    Key key,
+    @required this.quest,
+    @required this.gender,
+    @required this.grade,
+    @required this.school,
+    @required this.stage,
+  }) : super(key: key);
+
+  final String quest;
+  final String stage;
+  final String gender;
+  final String grade;
+  final String school;
+
+  @override
+  Widget build(BuildContext context) {
+    return DataTable(
+      columns: [
+        DataColumn(label: CustomDataColumnLabel(text: 'Informações')),
+        DataColumn(label: CustomDataColumnLabel(text: 'Dados')),
+      ],
+      rows: [
+        DataRow(
+          cells: [
+            DataCell(
+              CustomDataCellText(text: 'Missões'),
+            ),
+            DataCell(
+              CustomDataCellText(text: '$quest'),
+            ),
+          ],
+        ),
+        DataRow(
+          cells: [
+            DataCell(
+              CustomDataCellText(text: 'Fases'),
+            ),
+            DataCell(
+              CustomDataCellText(text: '$stage'),
+            ),
+          ],
+        ),
+        DataRow(
+          cells: [
+            DataCell(
+              CustomDataCellText(text: 'Sexo'),
+            ),
+            DataCell(
+              CustomDataCellText(text: '$gender'),
+            ),
+          ],
+        ),
+        DataRow(
+          cells: [
+            DataCell(
+              CustomDataCellText(text: 'Série'),
+            ),
+            DataCell(
+              CustomDataCellText(text: '$grade'),
+            ),
+          ],
+        ),
+        DataRow(
+          cells: [
+            DataCell(
+              CustomDataCellText(text: 'Escola'),
+            ),
+            DataCell(
+              CustomDataCellText(text: '$school'),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class CustomDataCellText extends StatelessWidget {
+  final String text;
+  const CustomDataCellText({
+    Key key,
+    this.text,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        text,
+      ),
+    );
+  }
+}
+
+class CustomDataColumnLabel extends StatelessWidget {
+  final String text;
+  const CustomDataColumnLabel({
+    Key key,
+    this.text,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Center(
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
   }
 }

@@ -17,7 +17,7 @@ class Credits extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: CustomTitle(title: 'Crétitos'),
+        title: CustomTitle(title: 'Créditos'),
         backgroundColor: ThemeColors().green,
         centerTitle: true,
       ),

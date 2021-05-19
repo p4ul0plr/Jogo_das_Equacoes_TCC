@@ -22,12 +22,17 @@ const List<String> grades = [
   '6º ano',
   '7º ano',
   '8º ano',
-  '9º ano'
+  '9º ano',
+  '1ª série',
+  '2ª série',
+  '3ª série',
+  'Outra'
 ];
 
 const List<String> schools = [
   'CEMAS - Colégio Estadual Misael Aguilar Silva',
   'Colégio Estadual Antonilio Da Franca Cardoso',
+  'Outra'
 ];
 
 const List<String> gender = ['Masculino', 'Feminino', 'Outro'];

@@ -7,6 +7,7 @@ class CustomCard extends StatelessWidget {
   final double padding;
   final double columnGap;
   final bool currentPlayer;
+  final void Function() onTap;
 
   CustomCard({
     this.child,
@@ -14,6 +15,7 @@ class CustomCard extends StatelessWidget {
     this.padding = 16.0,
     this.columnGap = 16.0,
     this.currentPlayer = false,
+    this.onTap,
   });
 
   @override
@@ -37,7 +39,13 @@ class CustomCard extends StatelessWidget {
           CustomBoxShadow(),
         ],
       ),
-      child: child,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          child: child,
+          onTap: onTap,
+        ),
+      ),
     );
   }
 }

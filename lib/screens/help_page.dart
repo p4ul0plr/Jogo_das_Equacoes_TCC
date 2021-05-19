@@ -38,7 +38,7 @@ class HelpPage extends StatelessWidget {
     return CustomCard(
       color: ThemeColors().lightPink,
       child: Text(
-        'O “Jogo das Equações”, é um jogo que auxilia no processo de aprendizagem de equações do 1º grau',
+        'O “Jogo das Equações” é um jogo que auxilia no processo de aprendizagem de equações do 1º grau',
         style: TextStyle(
           fontSize: 24.0,
           fontWeight: FontWeight.bold,
@@ -63,7 +63,7 @@ class HelpPage extends StatelessWidget {
       color: ThemeColors().lightPink,
       text: [
         'Cada fase contém 10 missões diferentes.',
-        'A cada missão concluida, a seguinte será desbloqueada.',
+        'A cada missão concluída, a seguinte será desbloqueada.',
       ],
       imagePath: 'assets/images/screens/quests.jpg',
       infoCardPosition: InfoCardPosition.textRightImageLeft,
@@ -121,8 +121,8 @@ class HelpPage extends StatelessWidget {
     return InfoCard(
       color: ThemeColors().lightPink,
       text: [
-        'Depois de ter a sua conta criada basta efetuar o login. Com o login feito é possível acessar o pódio e competir com seus amigos.',
-        'Para logar com sua conta é necessário acesso a internet.',
+        'Depois de ter a sua conta criada, basta efetuar o login. Com o login feito, é possível acessar o pódio e competir com seus amigos',
+        'Para logar com a sua conta é necessário acesso à internet',
       ],
       imagePath: 'assets/images/screens/login.jpg',
       infoCardPosition: InfoCardPosition.textRightImageLeft,
@@ -133,7 +133,7 @@ class HelpPage extends StatelessWidget {
     return InfoCard(
       color: ThemeColors().lightPink,
       text: [
-        'Para participar do pódio é necessário acesso a internet e a criação da conta com as informações do usuário.',
+        'para participar do pódio é necessário ter acesso à internet, bem como criar conta com as informações do usuário.',
       ],
       imagePath: 'assets/images/screens/account.jpg',
       infoCardPosition: InfoCardPosition.textLeftImageRight,

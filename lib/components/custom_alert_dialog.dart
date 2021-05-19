@@ -27,26 +27,28 @@ class CustomAlertDialog extends StatelessWidget {
         textAlign: TextAlign.center,
       ),
       actions: [
-        TextButton(
-          child: Text(
-            'Cancelar',
-            style: TextStyle(
-              fontSize: 14.0,
-              color: ThemeColors().pink,
+        if (cancelOnPressed != null)
+          TextButton(
+            child: Text(
+              'Cancelar',
+              style: TextStyle(
+                fontSize: 14.0,
+                color: ThemeColors().pink,
+              ),
             ),
+            onPressed: cancelOnPressed,
           ),
-          onPressed: cancelOnPressed,
-        ),
-        TextButton(
-          child: Text(
-            'Confirmar',
-            style: TextStyle(
-              fontSize: 14.0,
-              color: ThemeColors().pink,
+        if (confirmOnPressed != null)
+          TextButton(
+            child: Text(
+              'Confirmar',
+              style: TextStyle(
+                fontSize: 14.0,
+                color: ThemeColors().pink,
+              ),
             ),
+            onPressed: confirmOnPressed,
           ),
-          onPressed: confirmOnPressed,
-        ),
       ],
     );
   }
