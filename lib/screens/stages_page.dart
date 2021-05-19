@@ -37,7 +37,7 @@ class StagesPage extends StatelessWidget {
       ),
       body: ListView(
         scrollDirection: Axis.horizontal,
-        children: _getStages(context, NUMBER_OF_STAGES),
+        children: _getStagesCards(context, NUMBER_OF_STAGES),
       ),
 
       /* floatingActionButton: Center(
@@ -54,38 +54,55 @@ class StagesPage extends StatelessWidget {
   }
 }
 
-List<Widget> _getStages(BuildContext context, int numberOfStages) {
+List<Widget> _getStagesCards(BuildContext context, int numberOfStages) {
   List<Widget> listStages = [];
   double _externalPadding = 16.0;
 
   for (var i = 0; i < numberOfStages; i++) {
     listStages.add(
       Container(
-          decoration: BoxDecoration(
-            boxShadow: [
-              CustomBoxShadow(),
-            ],
-          ),
-          margin: EdgeInsets.only(
-            top: _externalPadding,
-            left: _externalPadding,
-            bottom: _externalPadding,
-            right: i == (numberOfStages - 1) ? _externalPadding : 0,
-          ),
-          width:
-              (MediaQuery.of(context).size.longestSide - _externalPadding * 5) /
-                  4,
-          child: Consumer<PlayerStatusProviderShared>(
-            builder: (context, playerStatus, child) {
-              return _StageCard(
-                title: i + 1,
-                isEnable: i < playerStatus.getStage() ? true : false,
-              );
-            },
-          )),
+        decoration: BoxDecoration(
+          boxShadow: [
+            CustomBoxShadow(),
+          ],
+        ),
+        margin: EdgeInsets.only(
+          top: _externalPadding,
+          left: _externalPadding,
+          bottom: _externalPadding,
+          right: i == (numberOfStages - 1) ? _externalPadding : 0,
+        ),
+        width:
+            (MediaQuery.of(context).size.longestSide - _externalPadding * 5) /
+                4,
+        child: _getStages(context, i),
+      ),
     );
   }
   return listStages;
+}
+
+Consumer _getStages(BuildContext context, int i) {
+  var player = Provider.of<PlayerProvider>(context, listen: false).player;
+  if (player != null) {
+    return Consumer<PlayerProvider>(
+      builder: (context, PlayerProvider, child) {
+        return _StageCard(
+          title: i + 1,
+          isEnable: i < PlayerProvider.player.playerStatus.stage ? true : false,
+        );
+      },
+    );
+  } else {
+    return Consumer<PlayerStatusProviderShared>(
+      builder: (context, playerStatus, child) {
+        return _StageCard(
+          title: i + 1,
+          isEnable: i < playerStatus.getStage() ? true : false,
+        );
+      },
+    );
+  }
 }
 
 class _StageCard extends StatelessWidget {
