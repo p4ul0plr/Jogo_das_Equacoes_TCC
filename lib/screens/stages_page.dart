@@ -9,19 +9,8 @@ import 'package:jogo_das_equacoes/providers/player_status_shared.dart';
 import 'package:jogo_das_equacoes/screens/quests_page.dart';
 import 'package:provider/provider.dart';
 
-class StagesPage extends StatefulWidget {
-  @override
-  _StagesPageState createState() => _StagesPageState();
-}
-
-class _StagesPageState extends State<StagesPage> {
-  @override
-  void dispose() {
-    print('Tela de fases fechada');
-    super.dispose();
-  }
-
-  @override
+class StagesPage extends StatelessWidget {
+  /* @override
   void setState(fn) {
     _initialLoad();
     super.setState(fn);
@@ -34,7 +23,7 @@ class _StagesPageState extends State<StagesPage> {
       listen: false,
     ).getPlayerStatus();
     playerProvider.player.playerStatus = playerStatus;
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {

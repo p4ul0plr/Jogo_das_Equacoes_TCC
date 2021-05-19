@@ -228,18 +228,24 @@ int _calculateTheScore(BuildContext context) {
       _calculatedScore = 0;
       break;
   }
+  _incrementScore(context, _calculatedScore, _playerStatusProvider);
+  return _calculatedScore;
+}
+
+void _incrementScore(
+  BuildContext context,
+  int _calculatedScore,
+  PlayerStatusProviderShared _playerStatusProvider,
+) {
   var player = Provider.of<PlayerProvider>(context, listen: false).player;
   if (player != null) {
     player.playerStatus.incrementScore(_calculatedScore);
     PlayerDao().update({
       'playerStatus.score': player.playerStatus.score,
     }, player.id);
-    print('Status do jogador: Logado');
   } else {
     _playerStatusProvider.incrementScore(_calculatedScore);
-    print('Status do jogador: Não Logado');
   }
-  return _calculatedScore;
 }
 
 Equation _getEquationInstance(String quest) {
